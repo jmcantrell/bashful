@@ -127,7 +127,7 @@ profile_load() #{{{1
 
     profile_clear
 
-    eval "$PROFILE_DEFAULT"; . $PROFILE_FILE
+    eval "$PROFILE_DEFAULT"; source $PROFILE_FILE
 
     local var
     for var in $(profile_variables_required); do
@@ -135,6 +135,11 @@ profile_load() #{{{1
             error "Variable '$var' is not set for profile '$profile'."
             return 1
         fi
+    done
+
+    export PROFILE
+    for var in $(profile_variables); do
+        export $var
     done
 }
 
