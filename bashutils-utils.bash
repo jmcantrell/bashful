@@ -50,7 +50,6 @@ first() #{{{1
 named() #{{{1
 {
     # Get the value of the variable named by the given value.
-
     echo "${!1}"
 }
 
@@ -75,7 +74,6 @@ truth() #{{{1
 truth_value() #{{{1
 {
     # Gets a value that represents the "truthiness" of the given value.
-
     truth $1 && echo 1 || echo 0
 }
 
@@ -150,4 +148,22 @@ sleep_until() #{{{1
 
     local secs=$(($(date -d "$1" +%s) - $(date +%s)))
     (( secs > 0 )) && sleep $secs
+}
+
+variables() #{{{1
+{
+    # Pulls all variable names from the input.
+
+    if (( $# > 0 )); then
+        variables <<<"$@"
+    else
+        sed 's/[[:space:];]/\n/g' |
+        egrep '^[a-zA-Z0-9_]+=' |
+        awk -F= '{print $1}'
+    fi
+}
+
+editor() #{{{1
+{
+    $(first "$VISUAL" "$EDITOR" "vi")
 }

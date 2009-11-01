@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. terminfo
-. utils
+source bashutils-terminfo
+source bashutils-utils
 
 usage() #{{{1
 {
@@ -134,4 +134,3 @@ warn() #{{{1
         info "${term_fg_yellow}${term_bold}WARNING: ${msg}${term_reset}"
     fi
 }
-

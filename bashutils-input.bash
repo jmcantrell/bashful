@@ -1,8 +1,8 @@
 #!/bin/bash
 
-. messages
-. modes
-. utils
+source bashutils-messages
+source bashutils-modes
+source bashutils-utils
 
 input() #{{{1
 {
@@ -150,4 +150,3 @@ choice() #{{{1
         done
     fi
 }
-

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. utils
+source bashutils-utils
 
 gui() #{{{1
 {
@@ -10,11 +10,11 @@ gui() #{{{1
 
     if (( $# == 0 )); then
         if [[ $DISPLAY ]]; then
-            truth $SCRIPT_GUI && return 0
+            truth $GUI && return 0
         fi
         return 1
     fi
-    export SCRIPT_GUI=$(truth_value $1)
+    export GUI=$(truth_value $1)
 }
 
 interactive() #{{{1
@@ -23,10 +23,10 @@ interactive() #{{{1
     # With one argument, set interactive mode to given value.
 
     if (( $# == 0 )); then
-        truth $SCRIPT_INTERACTIVE && return 0
+        truth $INTERACTIVE && return 0
         return 1
     fi
-    export SCRIPT_INTERACTIVE=$(truth_value $1)
+    export INTERACTIVE=$(truth_value $1)
 }
 
 verbose() #{{{1
@@ -35,10 +35,10 @@ verbose() #{{{1
     # With one argument, set verbose mode to given value.
 
     if (( $# == 0 )); then
-        truth $SCRIPT_VERBOSE && return 0
+        truth $VERBOSE && return 0
         return 1
     fi
-    export SCRIPT_VERBOSE=$(truth_value $1)
+    export VERBOSE=$(truth_value $1)
 }
 
 verbose_execute() #{{{1
