@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source bashutils-modes
 source bashutils-terminfo
 source bashutils-utils
 
