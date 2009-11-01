@@ -36,7 +36,7 @@ usage() #{{{1
                 echo
                 echo "APPLICATION OPTIONS"
                 echo
-                squeeze_lines "$SCRIPT_OPTIONS" | sed 's/^/    /'
+                sed 's/^/    /' <<<"$SCRIPT_OPTIONS" | squeeze_lines
             fi
         } >&2
     fi

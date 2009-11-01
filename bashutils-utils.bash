@@ -83,33 +83,20 @@ squeeze() #{{{1
     # whitespace into a single space.
     #
     # Usage examples:
-    #     squeeze "  foo  bar   baz  "
     #     echo    "  foo  bar   baz  " | squeeze
     #
-    # Both commands will produce the string:
+    # This command will produce the string:
     #     "foo bar baz"
 
-    if (( $# > 0 )); then
-        squeeze <<<"$*"
-    else
-        read value
-        while [[ $value =~ "  " ]]; do
-            value=${value//  / }
-        done
-        trim "$value"
-    fi
+    local char=${1:-[[:space:]]}
+    sed "s:${char//:/\:}+:${char//:/\:}:g" | trim "$char"
 }
 
 squeeze_lines() #{{{1
 {
     # Removes all leading/trailing blank lines and condenses all other
     # consecutive blank lines into a single blank line.
-
-    if (( $# > 0 )); then
-        squeeze_lines <<<"$@"
-    else
-        sed '/^[[:space:]]+$/s/.*//g' | cat -s | trim_lines
-    fi
+    sed '/^[[:space:]]+$/s/.*//g' | cat -s | trim_lines
 }
 
 trim() #{{{1
@@ -117,28 +104,19 @@ trim() #{{{1
     # Removes all leading/trailing whitespace
     #
     # Usage examples:
-    #     trim "  foo  bar baz "
     #     echo "  foo  bar baz " | trim
     #
-    # Both commands will produce the string:
+    # This command will produce the string:
     #     "foo  bar baz"
 
-    if (( $# > 0 )); then
-        trim <<<"$@"
-    else
-        sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
-    fi
+    local char=${1:-[[:space:]]}
+    sed "s:^${char//:/\\:}*::;s:${char//:/\\:}*$::"
 }
 
 trim_lines() #{{{1
 {
     # Removes all leading/trailing blank lines.
-
-    if (( $# > 0 )); then
-        trim_lines <<<"$@"
-    else
-        sed ':a;$!{N;ba;};s/^[[:space:]]*\n//;s/\n[[:space:]]*$//'
-    fi
+    sed ':a;$!{N;ba;};s/^[[:space:]]*\n//;s/\n[[:space:]]*$//'
 }
 
 sleep_until() #{{{1
@@ -166,4 +144,53 @@ variables() #{{{1
 editor() #{{{1
 {
     $(first "$VISUAL" "$EDITOR" "vi")
+}
+
+commonpath() #{{{1
+{
+    [[ $1 == /* ]] || return 1
+    [[ $2 == /* ]] || return 1
+
+    OIFS=$IFS; IFS=/
+    local dst=($(squeeze "/" <<<"$1"))
+    local src=($(squeeze "/" <<<"$2"))
+    IFS=$OIFS
+
+    local tokens=()
+
+    for i in "${!dst[@]}"; do
+        [[ ${dst[$i]} != ${src[$i]} ]] && break
+        tokens=("${tokens[@]}" "${dst[$i]}")
+    done
+
+    OIFS=$IFS; IFS=/
+    echo "/${tokens[*]}"
+    IFS=$OIFS
+}
+
+relpath() #{{{1
+{
+    dst=/$(squeeze "/" <<<"${1:-$PWD}")
+    src=/$(squeeze "/" <<<"${2:-$PWD}")
+
+    common=$(commonpath "$dst" "$src")
+
+    dst=${dst#$common}; dst=${dst#/}
+    src=${src#$common}; src=${src#/}
+
+    OIFS=$IFS; IFS=/
+    src=($src)
+    IFS=$OIFS
+
+    rel=
+    for i in "${!src[@]}"; do
+        rel+=../
+    done
+
+    rel=${rel}${dst}
+
+    [[ $rel ]] || rel=.
+    [[ $rel == / ]] || rel=${rel%/}
+
+    echo "$rel"
 }
