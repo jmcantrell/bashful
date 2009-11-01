@@ -207,7 +207,7 @@ profile_edit() #{{{1
 
 profile_view() #{{{1
 {
-    [[ $PROFILE ]] && eval "$(profile_load)"
+    [[ $PROFILE ]] && profile_load
     echo "$(named "$1")"
 }
 
