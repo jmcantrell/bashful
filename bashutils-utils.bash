@@ -3,6 +3,21 @@
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
 
+lower() #{{{1
+{
+    tr '[:upper:]' '[:lower:]'
+}
+
+upper() #{{{1
+{
+    tr '[:lower:]' '[:upper:]'
+}
+
+title() #{{{1
+{
+    sed 's/\<./\u&/g'
+}
+
 extname() #{{{1
 {
     # Get the extension of the given filename.
