@@ -2,6 +2,9 @@
 
 source bashutils-utils
 
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_MODES_LOADED ]] && return
+
 gui() #{{{1
 {
     # With no arguments, test if gui mode is enabled.
@@ -52,3 +55,7 @@ verbose_execute() #{{{1
         "$@" &>/dev/null
     fi
 }
+
+#}}}1
+
+BASHUTILS_MODES_LOADED=1

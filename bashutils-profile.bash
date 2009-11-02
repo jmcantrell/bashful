@@ -5,6 +5,9 @@ source bashutils-messages
 source bashutils-modes
 source bashutils-utils
 
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_PROFILE_LOADED ]] && return
+
 # DOCUMENTATION {{{1
 #
 # There are some pieces of info needed for profile to work well.  The most
@@ -225,3 +228,6 @@ profile_actions() #{{{1
     sort
 }
 
+#}}}1
+
+BASHUTILS_PROFILE_LOADED=1

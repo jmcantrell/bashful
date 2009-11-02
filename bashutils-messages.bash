@@ -4,6 +4,9 @@ source bashutils-modes
 source bashutils-terminfo
 source bashutils-utils
 
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_MESSAGES_LOADED ]] && return
+
 usage() #{{{1
 {
     # Display usage information.
@@ -135,3 +138,7 @@ warn() #{{{1
         info "${term_fg_yellow}${term_bold}WARNING: ${msg}${term_reset}"
     fi
 }
+
+#}}}1
+
+BASHUTILS_MESSAGES_LOADED=1

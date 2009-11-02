@@ -1,5 +1,8 @@
 #!/bin/bash
 
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_UTILS_LOADED ]] && return
+
 extname() #{{{1
 {
     # Get the extension of the given filename.
@@ -194,3 +197,7 @@ relpath() #{{{1
 
     echo "$rel"
 }
+
+#}}}1
+
+BASHUTILS_UTILS_LOADED=1

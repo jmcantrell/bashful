@@ -3,6 +3,9 @@
 # Sets a bunch of terminal strings for things like color, bold, italics,
 # underline, and blinking.
 
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_TERMINFO_LOADED ]] && return
+
 term_reset=$(tput sgr0 2>/dev/null)
 term_bold=$(tput bold 2>/dev/null)
 term_italics=$(tput sitm 2>/dev/null)
@@ -29,3 +32,5 @@ if (( $(tput colors) >= 8 )); then
     term_bg_cyan=$(tput setbf 6 2>/dev/null)
     term_bg_white=$(tput setbf 7 2>/dev/null)
 fi
+
+BASHUTILS_TERMINFO_LOADED=1

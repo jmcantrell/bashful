@@ -4,6 +4,9 @@ source bashutils-messages
 source bashutils-modes
 source bashutils-utils
 
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_INPUT_LOADED ]] && return
+
 input() #{{{1
 {
     # Prompts the user to input text.
@@ -150,3 +153,7 @@ choice() #{{{1
         done
     fi
 }
+
+#}}}1
+
+BASHUTILS_INPUT_LOADED=1
