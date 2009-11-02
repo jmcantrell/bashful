@@ -161,7 +161,7 @@ variables() #{{{1
 
 editor() #{{{1
 {
-    $(first "$VISUAL" "$EDITOR" "vi")
+    $(first "$VISUAL" "$EDITOR" "vi") "$@"
 }
 
 commonpath() #{{{1
