@@ -1,0 +1,18 @@
+#!/bin/bash
+
+SRC_DIR=$(dirname "$(readlink -f "$0")")
+DST_DIR=${1:-$HOME/bin}
+
+source $SRC_DIR/bashutils-utils.bash
+
+mkdir -p "$DST_DIR"
+
+OPWD=$PWD; cd "$DST_DIR"
+
+SRC_DIR=$(relpath "$SRC_DIR")
+
+for script in "$SRC_DIR"/*.bash; do
+    ln -sfvn "$script" "$(basename "$script" .bash)"
+done
+
+cd "$OPWD"
