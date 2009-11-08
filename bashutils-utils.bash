@@ -242,6 +242,14 @@ mimetype() #{{{1
     file -ib "$1" | awk -F";" '{print $1}'
 }
 
+execute_in() #{{{1
+{
+    local OPWD=$PWD; cd "$1"; shift
+    "$@"; error=$?
+    cd "$OPWD"
+    return $error
+}
+
 #}}}1
 
 BASHUTILS_UTILS_LOADED=1
