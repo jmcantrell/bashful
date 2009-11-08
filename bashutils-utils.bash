@@ -213,6 +213,35 @@ relpath() #{{{1
     echo "$rel"
 }
 
+increment_file() #{{{1
+{
+    local file=$1
+    local count=1
+
+    while [[ -e $file ]]; do
+        local file="$1 ($((count++)))"
+    done
+
+    echo "$file"
+}
+
+listdir() #{{{1
+{
+    local dir=$1; shift
+    find "$dir" -maxdepth 1 -mindepth 1 "$@"
+}
+
+mounted() #{{{1
+{
+    mount | awk '{print $3}' | grep -q "^${1:-/}$"
+}
+
+
+mimetype() #{{{1
+{
+    file -ib "$1" | awk -F";" '{print $1}'
+}
+
 #}}}1
 
 BASHUTILS_UTILS_LOADED=1

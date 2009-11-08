@@ -32,6 +32,20 @@ interactive() #{{{1
     export INTERACTIVE=$(truth_value $1)
 }
 
+interactive_echo() #{{{1
+{
+    if interactive; then
+        echo "$1"
+    else
+        echo "$2"
+    fi
+}
+
+interactive_option() #{{{1
+{
+    interactive_echo "-i" "-f"
+}
+
 verbose() #{{{1
 {
     # With no arguments, test if verbose mode is enabled.
@@ -42,6 +56,20 @@ verbose() #{{{1
         return 1
     fi
     export VERBOSE=$(truth_value $1)
+}
+
+verbose_echo() #{{{1
+{
+    if verbose; then
+        echo "-v"
+    else
+        echo "-q"
+    fi
+}
+
+verbose_option() #{{{1
+{
+    verbose_echo "-v" "-q"
 }
 
 verbose_execute() #{{{1
