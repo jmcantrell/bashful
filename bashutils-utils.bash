@@ -49,6 +49,16 @@ extname() #{{{1
     echo "${exts##.}"
 }
 
+filename() #{{{1
+{
+    local ext=$(extname "$1")
+    if [[ $ext ]]; then
+        basename "$1" .$ext
+    else
+        basename "$1"
+    fi
+}
+
 first() #{{{1
 {
     # Get the first value that is non-empty.
