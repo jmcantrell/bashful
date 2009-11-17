@@ -1,12 +1,9 @@
 #!/bin/bash
 
-source bashutils-input
-source bashutils-messages
-source bashutils-modes
-source bashutils-utils
-
-[[ $BASH_LINENO ]] || exit 1
-[[ $BASHUTILS_PROFILE_LOADED ]] && return
+# Filename:      bashutils-profile.bash
+# Description:   Utilities for using script profiles.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Tue 2009-11-17 00:02:02 (-0500)
 
 # DOCUMENTATION {{{1
 #
@@ -51,16 +48,31 @@ source bashutils-utils
 #
 #}}}1
 
+source bashutils-input
+source bashutils-messages
+source bashutils-modes
+source bashutils-utils
+
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_PROFILE_LOADED ]] && return
+
 profile_init() #{{{1
 {
+    # This function should be called in the script before any other
+    # functionality is used.
+
+    # If prefix was set, use that.
+    # Otherwise use a prefix appropriate for the user's permissions.
     if (( EUID == 0 )); then
         PREFIX=${PREFIX:-/usr/local}
     else
         PREFIX=${PREFIX:-$HOME}
     fi
 
+    # If profile name isn't set, default to script name.
     PROFILE_NAME=${PROFILE_NAME:-$SCRIPT_NAME}
 
+    # If neither was set, you're doing it wrong.
     if [[ ! $PROFILE_NAME ]]; then
         error "PROFILE_NAME/SCRIPT_NAME not set."
         return 1
@@ -81,6 +93,8 @@ profile_init() #{{{1
 
 profile_file() #{{{1
 {
+    # Make sure the profile file is set before continuing.
+
     if [[ ! $PROFILE ]]; then
         PROFILE=$(profile_choose) || return 1
     fi
@@ -95,6 +109,8 @@ profile_file() #{{{1
 
 profile_verify() #{{{1
 {
+    # Make sure the profile file exists before continuing.
+
     profile_file || return 1
 
     if [[ ! -f $PROFILE_FILE ]]; then
@@ -105,6 +121,10 @@ profile_verify() #{{{1
 
 profile_choose() #{{{1
 {
+    # Prompt user for a profile.
+    # If interactive mode is not enabled, you better have already set the
+    # profile or it's errors for everyone.
+
     if (( $(profile_list | wc -l) == 0 )); then
         error "No profiles available."
         return 0
@@ -126,12 +146,23 @@ profile_choose() #{{{1
 
 profile_load() #{{{1
 {
+    # Load a profile.
+    #
+    # If a profile default is set, any missing settings will fallback to it.
+    # Any previous profile settings will be cleared first based on what is
+    # defined in the default profile. This is to be sure that you're not using
+    # settings from different profiles.
+    #
+    # The uncommented default profile settings are considered required, and
+    # uncommented settings are considered optional.
+
     profile_verify || return 1
 
     profile_clear
 
     eval "$PROFILE_DEFAULT"; source $PROFILE_FILE
 
+    # If any required setting is unset, you're getting an error.
     local var
     for var in $(profile_variables_required); do
         if [[ ! ${!var} ]]; then
@@ -167,10 +198,8 @@ profile_variables_required() #{{{1
 profile_delete() #{{{1
 {
     profile_verify || return 1
-
     question -c -p "Are you sure you want to delete '$PROFILE'?" || return 1
     info -c "Deleting profile '$PROFILE'..."
-
     rm -f "$PROFILE_FILE"
 }
 

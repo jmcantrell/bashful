@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Sets a bunch of terminal strings for things like color, bold, italics,
-# underline, and blinking.
+# Filename:      bashutils-terminfo.bash
+# Description:   Sets terminal strings for things like color, bold, etc.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Tue 2009-11-17 00:03:55 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_TERMINFO_LOADED ]] && return
