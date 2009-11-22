@@ -3,7 +3,7 @@
 # Filename:      bashutils-profile.bash
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2009-11-17 00:02:02 (-0500)
+# Last Modified: Sun 2009-11-22 00:00:52 (-0500)
 
 # DOCUMENTATION {{{1
 #
@@ -33,9 +33,9 @@
 # You can override the default config directory by setting CONFIG_DIR.
 # Otherwise, this value will be set to one of the following:
 #
-#     Run as user:       ~/.$SCRIPT_NAME
-#     Run as root:       /usr/local/etc/$SCRIPT_NAME
-#     If PREFIX is set:  $PREFIX/$SCRIPT_NAME
+#     Run as user:    ~/.$SCRIPT_NAME
+#     Run as root:    /usr/local/etc/$SCRIPT_NAME
+#     PREFIX is set:  $PREFIX/$SCRIPT_NAME
 #
 # In summary, before any functionality can be used, you must do the following:
 #
@@ -55,6 +55,102 @@ source bashutils-utils
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_PROFILE_LOADED ]] && return
+
+profile_actions() #{{{1
+{
+    declare -F |
+    awk '{print $NF}' |
+    grep '^profile_' |
+    sed 's/^profile_//' |
+    sort
+}
+
+profile_choose() #{{{1
+{
+    # Prompt user for a profile.
+    # If interactive mode is not enabled, you better have already set the
+    # profile or it's errors for everyone.
+
+    if (( $(profile_list | wc -l) == 0 )); then
+        error "No profiles available."
+        return 0
+    fi
+
+    local OIFS=$IFS; local IFS=$'\n'
+    local profiles=($(profile_list))
+    IFS=$OIFS
+
+    local choice=$(choice -c -p "Choose profile" "${profiles[@]}")
+
+    if [[ $choice ]]; then
+        echo "$choice"
+    else
+        error "Profile not provided."
+        return 1
+    fi
+}
+
+profile_clear() #{{{1
+{
+    local var
+    for var in $(profile_variables); do
+        unset $var
+    done
+}
+
+profile_create() #{{{1
+{
+    [[ $PROFILE ]] || PROFILE=$(input -c -p "Enter profile")
+
+    profile_file || return 1
+
+    mkdir -p "$PROFILE_DIR"
+
+    if [[ -f $PROFILE_FILE ]]; then
+        error "Profile '$PROFILE' already exists."
+        return 1
+    fi
+
+    info -c "Creating new profile '$PROFILE'..."
+
+    squeeze_lines <<<"$PROFILE_DEFAULT" >$PROFILE_FILE
+
+    if interactive; then
+        editor "$PROFILE_FILE"
+    else
+        warn -c "Profile '$PROFILE_FILE' may need to be modified."
+    fi
+}
+
+profile_delete() #{{{1
+{
+    profile_verify || return 1
+    question -c -p "Are you sure you want to delete '$PROFILE'?" || return 1
+    info -c "Deleting profile '$PROFILE'..."
+    rm -f "$PROFILE_FILE"
+}
+
+profile_edit() #{{{1
+{
+    profile_verify || return 1
+    editor "$PROFILE_FILE"
+}
+
+profile_file() #{{{1
+{
+    # Make sure the profile file is set before continuing.
+
+    if [[ ! $PROFILE ]]; then
+        PROFILE=$(profile_choose) || return 1
+    fi
+
+    if [[ ! $PROFILE ]]; then
+        error "Profile not provided."
+        return 1
+    fi
+
+    PROFILE_FILE=$PROFILE_DIR/$PROFILE
+}
 
 profile_init() #{{{1
 {
@@ -91,57 +187,13 @@ profile_init() #{{{1
     PROFILE_DIR=$CONFIG_DIR/profiles
 }
 
-profile_file() #{{{1
+profile_list() #{{{1
 {
-    # Make sure the profile file is set before continuing.
-
-    if [[ ! $PROFILE ]]; then
-        PROFILE=$(profile_choose) || return 1
-    fi
-
-    if [[ ! $PROFILE ]]; then
-        error "Profile not provided."
-        return 1
-    fi
-
-    PROFILE_FILE=$PROFILE_DIR/$PROFILE
-}
-
-profile_verify() #{{{1
-{
-    # Make sure the profile file exists before continuing.
-
-    profile_file || return 1
-
-    if [[ ! -f $PROFILE_FILE ]]; then
-        error "Profile '$PROFILE' does not exist or not a regular file."
-        return 1
-    fi
-}
-
-profile_choose() #{{{1
-{
-    # Prompt user for a profile.
-    # If interactive mode is not enabled, you better have already set the
-    # profile or it's errors for everyone.
-
-    if (( $(profile_list | wc -l) == 0 )); then
-        error "No profiles available."
-        return 0
-    fi
-
-    OIFS=$IFS; IFS=$'\n'
-    local profiles=($(profile_list))
-    IFS=$OIFS
-
-    local choice=$(choice -c -p "Choose profile" "${profiles[@]}")
-
-    if [[ $choice ]]; then
-        echo "$choice"
-    else
-        error "Profile not provided."
-        return 1
-    fi
+    find "$PROFILE_DIR" -mindepth 1 -maxdepth 1 -type f 2>/dev/null |
+    awk -F'/' '{print $NF}' |
+    grep -v '^\.' |
+    grep "${1:+^$1$}" |
+    sort
 }
 
 profile_load() #{{{1
@@ -177,14 +229,6 @@ profile_load() #{{{1
     done
 }
 
-profile_clear() #{{{1
-{
-    local var
-    for var in $(profile_variables); do
-        unset $var
-    done
-}
-
 profile_variables() #{{{1
 {
     variables <<<"$PROFILE_DEFAULT"
@@ -195,66 +239,22 @@ profile_variables_required() #{{{1
     grep -v '^[[:space:]]*#' <<<"$PROFILE_DEFAULT" | variables
 }
 
-profile_delete() #{{{1
+profile_verify() #{{{1
 {
-    profile_verify || return 1
-    question -c -p "Are you sure you want to delete '$PROFILE'?" || return 1
-    info -c "Deleting profile '$PROFILE'..."
-    rm -f "$PROFILE_FILE"
-}
-
-profile_list() #{{{1
-{
-    find "$PROFILE_DIR" -mindepth 1 -maxdepth 1 -type f 2>/dev/null |
-    awk -F'/' '{print $NF}' |
-    grep -v '^\.' |
-    grep "${1:+^$1$}" |
-    sort
-}
-
-profile_create() #{{{1
-{
-    [[ $PROFILE ]] || PROFILE=$(input -c -p "Enter profile")
+    # Make sure the profile file exists before continuing.
 
     profile_file || return 1
 
-    mkdir -p "$PROFILE_DIR"
-
-    if [[ -f $PROFILE_FILE ]]; then
-        error "Profile '$PROFILE' already exists."
+    if [[ ! -f $PROFILE_FILE ]]; then
+        error "Profile '$PROFILE' does not exist or not a regular file."
         return 1
     fi
-
-    info -c "Creating new profile '$PROFILE'..."
-
-    squeeze_lines <<<"$PROFILE_DEFAULT" >$PROFILE_FILE
-
-    if interactive; then
-        editor "$PROFILE_FILE"
-    else
-        warn -c "Profile '$PROFILE_FILE' may need to be modified."
-    fi
-}
-
-profile_edit() #{{{1
-{
-    profile_verify || return 1
-    editor "$PROFILE_FILE"
 }
 
 profile_view() #{{{1
 {
     [[ $PROFILE ]] && profile_load
     echo "$(named "$1")"
-}
-
-profile_actions() #{{{1
-{
-    declare -F |
-    awk '{print $NF}' |
-    grep '^profile_' |
-    sed 's/^profile_//' |
-    sort
 }
 
 #}}}1

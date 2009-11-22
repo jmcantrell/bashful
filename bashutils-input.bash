@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Filename:      bashutils-input.bash
+# Description:   A set of functions for interacting with the user.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Sat 2009-11-21 16:13:04 (-0500)
+
 source bashutils-messages
 source bashutils-modes
 source bashutils-utils
@@ -47,8 +52,7 @@ input() #{{{1
     fi
 
     if gui; then
-        reply=$(zenity --entry $secret --entry-text="$default" \
-            --title="$prompt" --text="$prompt:")
+        reply=$(zenity --entry $secret --entry-text="$default" --title="$prompt" --text="$prompt:")
     else
         read -ep $secret "${prompt}${default:+ [$default]}: " reply
     fi

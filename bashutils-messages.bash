@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Filename:      bashutils-messages.bash
+# Description:   A set of functions for giving the user information.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Fri 2009-11-20 15:15:57 (-0500)
+
 source bashutils-modes
 source bashutils-terminfo
 source bashutils-utils
@@ -44,11 +49,11 @@ usage() #{{{1
         } >&2
     fi
 }
+
 usage_exit() #{{{1
 {
     # Display usage information and exit with the given error code.
-    usage
-    exit ${1:-0}
+    usage; exit ${1:-0}
 }
 
 error() #{{{1
@@ -81,8 +86,7 @@ error() #{{{1
 error_exit() #{{{1
 {
     # Displays an error message and exits with the given error code.
-    error "$1"
-    exit ${2:-1}
+    error "$1"; exit ${2:-1}
 }
 
 info() #{{{1

@@ -3,14 +3,14 @@
 # Filename:      bashutils.bash
 # Description:   An interface to bashutils for non-bash scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2009-11-16 15:23:41 (-0500)
+# Last Modified: Sat 2009-11-21 15:00:16 (-0500)
 
 # This can be handy for using bashutils functionality in non-bash shell
-# scripts. It's also useful for debugging bashutils without having an existing
-# script.
+# scripts. It's also useful for testing without having an existing script.
 #
 # Usage examples:
-#     bashutils error "This is the error function from bashutils-messages"
+#     bashutils error "This is the error function."
+#     bashutils input -p "Enter something"
 
 source bashutils-input
 source bashutils-messages
