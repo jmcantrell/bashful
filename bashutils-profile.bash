@@ -3,7 +3,7 @@
 # Filename:      bashutils-profile.bash
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2009-11-22 00:00:52 (-0500)
+# Last Modified: Mon 2009-11-23 20:29:31 (-0500)
 
 # DOCUMENTATION {{{1
 #
@@ -192,7 +192,7 @@ profile_list() #{{{1
     find "$PROFILE_DIR" -mindepth 1 -maxdepth 1 -type f 2>/dev/null |
     awk -F'/' '{print $NF}' |
     grep -v '^\.' |
-    grep "${1:+^$1$}" |
+    grep "${PROFILE:+^$PROFILE$}" |
     sort
 }
 
