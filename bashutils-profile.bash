@@ -3,7 +3,7 @@
 # Filename:      bashutils-profile.bash
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2009-11-23 20:29:31 (-0500)
+# Last Modified: Thu 2009-11-26 17:28:48 (-0500)
 
 # DOCUMENTATION {{{1
 #
@@ -189,7 +189,7 @@ profile_init() #{{{1
 
 profile_list() #{{{1
 {
-    find "$PROFILE_DIR" -mindepth 1 -maxdepth 1 -type f 2>/dev/null |
+    listdir "$PROFILE_DIR" -type f |
     awk -F'/' '{print $NF}' |
     grep -v '^\.' |
     grep "${PROFILE:+^$PROFILE$}" |
@@ -249,12 +249,6 @@ profile_verify() #{{{1
         error "Profile '$PROFILE' does not exist or not a regular file."
         return 1
     fi
-}
-
-profile_view() #{{{1
-{
-    [[ $PROFILE ]] && profile_load
-    echo "$(named "$1")"
 }
 
 #}}}1
