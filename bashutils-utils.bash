@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.bash
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2009-11-21 22:13:40 (-0500)
+# Last Modified: Thu 2009-12-03 23:33:28 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -25,6 +25,32 @@ title() #{{{1
     # Convert stdin to titlecase.
     # Example: "foo bar baz" => "Foo Bar Baz"
     lower | sed 's/\<./\u&/g'
+}
+
+basename() #{{{1
+{
+    # Bash function equivalent of the basename command.
+
+    [[ $1 == -- ]] && shift
+
+    local fn=$1
+    local suffix=$2
+
+    [[ $fn ]] || return
+
+    fn=${fn%${fn##*[!/]}}
+
+    [[ $fn ]] || fn=/
+
+    fn=${fn##*/}
+
+    if [[ $fn == $suffix ]]; then
+        bn=$fn
+    else
+        bn=${fn%$suffix}
+    fi
+
+    echo "$bn"
 }
 
 extname() #{{{1
