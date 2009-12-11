@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.bash
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2009-12-03 23:33:28 (-0500)
+# Last Modified: Sun 2009-12-06 00:55:56 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -25,32 +25,6 @@ title() #{{{1
     # Convert stdin to titlecase.
     # Example: "foo bar baz" => "Foo Bar Baz"
     lower | sed 's/\<./\u&/g'
-}
-
-basename() #{{{1
-{
-    # Bash function equivalent of the basename command.
-
-    [[ $1 == -- ]] && shift
-
-    local fn=$1
-    local suffix=$2
-
-    [[ $fn ]] || return
-
-    fn=${fn%${fn##*[!/]}}
-
-    [[ $fn ]] || fn=/
-
-    fn=${fn##*/}
-
-    if [[ $fn == $suffix ]]; then
-        bn=$fn
-    else
-        bn=${fn%$suffix}
-    fi
-
-    echo "$bn"
 }
 
 extname() #{{{1
@@ -78,10 +52,10 @@ extname() #{{{1
         ext=.${fn##*.}
         exts=$ext$exts
         fn=${fn%$ext}
-        [[ $exts == .$filename ]] && return 1
+        [[ $exts == $filename ]] && return 1
     done
 
-    echo "${exts##.}"
+    echo "$exts"
 }
 
 filename() #{{{1
@@ -91,10 +65,19 @@ filename() #{{{1
     # Usage examples:
     #     filename /path/to/file.txt  #==> file
 
-    local ext=$(extname "$1")
+    local levels=1
+
+    unset OPTIND
+    while getopts ":n:" options; do
+        case $options in
+            n) levels=$OPTARG ;;
+        esac
+    done && shift $(($OPTIND - 1))
+
+    local ext=$(extname -n $levels "$1")
 
     if [[ $ext ]]; then
-        basename "$1" .$ext
+        basename "$1" $ext
     else
         basename "$1"
     fi
@@ -338,6 +321,15 @@ mounted() #{{{1
 mimetype() #{{{1
 {
     file -ibL "$1" | awk -F";" '{print $1}'
+}
+
+repeat() #{{{1
+{
+    local count=$1; shift
+    local i
+    for i in $(seq 1 $count); do
+        "$@"
+    done
 }
 
 execute_in() #{{{1
