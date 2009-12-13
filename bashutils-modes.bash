@@ -3,12 +3,12 @@
 # Filename:      bashutils-modes.bash
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2009-11-21 17:02:17 (-0500)
-
-source bashutils-utils
+# Last Modified: Sat 2009-12-12 18:50:42 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_MODES_LOADED ]] && return
+
+source bashutils-utils
 
 gui() #{{{1
 {

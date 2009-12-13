@@ -3,14 +3,14 @@
 # Filename:      bashutils-messages.bash
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Fri 2009-11-20 15:15:57 (-0500)
+# Last Modified: Sat 2009-12-12 18:51:02 (-0500)
+
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_MESSAGES_LOADED ]] && return
 
 source bashutils-modes
 source bashutils-terminfo
 source bashutils-utils
-
-[[ $BASH_LINENO ]] || exit 1
-[[ $BASHUTILS_MESSAGES_LOADED ]] && return
 
 usage() #{{{1
 {

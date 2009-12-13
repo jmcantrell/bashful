@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.bash
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2009-12-06 00:55:56 (-0500)
+# Last Modified: Sun 2009-12-13 00:35:51 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -11,12 +11,14 @@
 lower() #{{{1
 {
     # Convert stdin to lowercase.
+
     tr '[:upper:]' '[:lower:]'
 }
 
 upper() #{{{1
 {
     # Convert stdin to uppercase.
+
     tr '[:lower:]' '[:upper:]'
 }
 
@@ -24,70 +26,15 @@ title() #{{{1
 {
     # Convert stdin to titlecase.
     # Example: "foo bar baz" => "Foo Bar Baz"
+
     lower | sed 's/\<./\u&/g'
-}
-
-extname() #{{{1
-{
-    # Get the extension of the given filename.
-    #
-    # Usage examples:
-    #     extname     foo.tar.gz  #==> gz
-    #     extname -n2 foo.tar.gz  #==> tar.gz
-
-    local levels=1
-
-    unset OPTIND
-    while getopts ":n:" options; do
-        case $options in
-            n) levels=$OPTARG ;;
-        esac
-    done && shift $(($OPTIND - 1))
-
-    local filename=${1##*/}
-    local fn=$filename
-    local exts ext
-
-    for i in $(seq 1 $levels); do
-        ext=.${fn##*.}
-        exts=$ext$exts
-        fn=${fn%$ext}
-        [[ $exts == $filename ]] && return 1
-    done
-
-    echo "$exts"
-}
-
-filename() #{{{1
-{
-    # Gets the filename of the given path.
-    #
-    # Usage examples:
-    #     filename /path/to/file.txt  #==> file
-
-    local levels=1
-
-    unset OPTIND
-    while getopts ":n:" options; do
-        case $options in
-            n) levels=$OPTARG ;;
-        esac
-    done && shift $(($OPTIND - 1))
-
-    local ext=$(extname -n $levels "$1")
-
-    if [[ $ext ]]; then
-        basename "$1" $ext
-    else
-        basename "$1"
-    fi
 }
 
 first() #{{{1
 {
     # Get the first value that is non-empty.
     #
-    # Usage example:
+    # Usage examples:
     #     EDITOR=$(first "$VISUAL" "$EDITOR" vi)
 
     local value
@@ -102,6 +49,7 @@ first() #{{{1
 named() #{{{1
 {
     # Get the value of the variable named the passed argument.
+
     echo "${!1}"
 }
 
@@ -138,6 +86,7 @@ truth_echo() #{{{1
 truth_value() #{{{1
 {
     # Gets a value that represents the "truthiness" of the given value.
+
     truth_echo "$1" 1 0
 }
 
@@ -160,6 +109,7 @@ squeeze_lines() #{{{1
 {
     # Removes all leading/trailing blank lines and condenses all other
     # consecutive blank lines into a single blank line.
+
     sed '/^[[:space:]]+$/s/.*//g' | cat -s | trim_lines
 }
 
@@ -198,6 +148,7 @@ sleep_until() #{{{1
 {
     # Causes the running process to wait until the given date.
     # If the date is in the past, it immediately returns.
+
     local secs=$(($(date -d "$1" +%s) - $(date +%s)))
     (( secs > 0 )) && sleep $secs
 }
@@ -205,6 +156,7 @@ sleep_until() #{{{1
 variables() #{{{1
 {
     # Pulls all variable names from the input.
+
     sed 's/[[:space:];]/\n/g' |
     egrep '^[a-zA-Z0-9_]+=' |
     awk -F= '{print $1}'
@@ -212,119 +164,15 @@ variables() #{{{1
 
 editor() #{{{1
 {
+    # Execute the preferred editor.
+
     $(first "$VISUAL" "$EDITOR" "vi") "$@"
-}
-
-commonpath() #{{{1
-{
-    # Gets the common paths of the passed arguments.
-    #
-    # Usage examples:
-    #     commonpath /home/user /home/user/bin  #==> /home/user
-
-    [[ $1 == /* ]] || return 1
-    [[ $2 == /* ]] || return 1
-
-    local OIFS=$IFS; local IFS=/
-    local dst=($(squeeze "/" <<<"$1"))
-    local src=($(squeeze "/" <<<"$2"))
-    IFS=$OIFS
-
-    local tokens=()
-
-    local idx
-    for idx in "${!dst[@]}"; do
-        [[ ${dst[$idx]} != ${src[$idx]} ]] && break
-        tokens=("${tokens[@]}" "${dst[$idx]}")
-    done
-
-    OIFS=$IFS; IFS=/
-    echo "/${tokens[*]}"
-    IFS=$OIFS
-}
-
-relpath() #{{{1
-{
-    # Gets the relative path from src to dst.
-    # It should give the same output as the python function os.path.relpath().
-    # All arguments should be given as absolute paths.
-    # All arguments default to the current directory.
-    #
-    # Usage examples:
-    #     relpath /home/user     /home/user/bin  #==> bin
-    #     relpath /home/user/bin /home/user      #==> ..
-    #     relpath /foo/bar/baz   /               #==> ../../..
-    #     relpath /foo/bar       /baz            #==> ../../baz
-    #     relpath /home/user     /home/user      #==> .
-
-    # Make sure that any duplicate slashes are removed.
-    local dst=/$(squeeze "/" <<<"${1:-$PWD}")
-    local src=/$(squeeze "/" <<<"${2:-$PWD}")
-
-    local common=$(commonpath "$dst" "$src")
-
-    dst=${dst#$common}; dst=${dst#/}
-    src=${src#$common}; src=${src#/}
-
-    local OIFS=$IFS; local IFS=/
-    src=($src)
-    IFS=$OIFS
-
-    local rel=
-    for i in "${!src[@]}"; do
-        rel+=../
-    done
-
-    rel=${rel}${dst}
-
-    # Handle some corner cases.
-    # Arguments were the same path.
-    [[ $rel ]] || rel=.
-    # Make sure there are no trailing slashes.
-    # ...except for root.
-    [[ $rel == / ]] || rel=${rel%%/}
-
-    echo "$rel"
-}
-
-increment_file() #{{{1
-{
-    # Get the next filename in line for the given file.
-    #
-    # Usage examples:
-    #     increment_file does_not_exist  #==> does_not_exist
-    #     increment_file does_exist      #==> does_exist (1)
-
-    local file=$1
-    local count=1
-
-    while [[ -e $file ]]; do
-        file="$1 ($((count++)))"
-    done
-
-    echo "$file"
-}
-
-listdir() #{{{1
-{
-    # Get the files in the given directory (1 level deep).
-    local dir=$1; shift
-    find "$dir" -maxdepth 1 -mindepth 1 "$@"
-}
-
-mounted() #{{{1
-{
-    # Check to see if a given device is mounted.
-    mount | awk '{print $3}' | grep -q "^${1:-/}$"
-}
-
-mimetype() #{{{1
-{
-    file -ibL "$1" | awk -F";" '{print $1}'
 }
 
 repeat() #{{{1
 {
+    # Repeat a command a given number of times.
+
     local count=$1; shift
     local i
     for i in $(seq 1 $count); do
@@ -332,8 +180,17 @@ repeat() #{{{1
     done
 }
 
+lines() #{{{1
+{
+    # Get all lines except for comments and blank lines.
+
+    egrep -v '^[[:space:]]*#|^[[:space:]]*$' "$@"
+}
+
 execute_in() #{{{1
 {
+    # Execute a command in a given directory.
+
     local OPWD=$PWD; cd "$1"; shift
     "$@"; error=$?
     cd "$OPWD"

@@ -3,7 +3,7 @@
 # Filename:      bashutils-profile.bash
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2009-11-26 17:28:48 (-0500)
+# Last Modified: Sun 2009-12-13 01:21:32 (-0500)
 
 # DOCUMENTATION {{{1
 #
@@ -48,13 +48,14 @@
 #
 #}}}1
 
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_PROFILE_LOADED ]] && return
+
+source bashutils-files
 source bashutils-input
 source bashutils-messages
 source bashutils-modes
 source bashutils-utils
-
-[[ $BASH_LINENO ]] || exit 1
-[[ $BASHUTILS_PROFILE_LOADED ]] && return
 
 profile_actions() #{{{1
 {

@@ -3,14 +3,14 @@
 # Filename:      bashutils-input.bash
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2009-11-21 16:13:04 (-0500)
+# Last Modified: Sat 2009-12-12 18:34:09 (-0500)
+
+[[ $BASH_LINENO ]] || exit 1
+[[ $BASHUTILS_INPUT_LOADED ]] && return
 
 source bashutils-messages
 source bashutils-modes
 source bashutils-utils
-
-[[ $BASH_LINENO ]] || exit 1
-[[ $BASHUTILS_INPUT_LOADED ]] && return
 
 input() #{{{1
 {
