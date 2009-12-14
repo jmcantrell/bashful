@@ -3,7 +3,7 @@
 # Filename:      bashutils-input.bash
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2009-12-12 18:34:09 (-0500)
+# Last Modified: Sun 2009-12-13 15:55:00 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_INPUT_LOADED ]] && return
@@ -108,10 +108,10 @@ question() #{{{1
         else
             read -e -n1 -p "$prompt" choice
         fi
-        choice=$(first "$choice" "$default" | trim)
+        choice=$(first "$choice" "$default" | trim | lower)
         case $choice in
-            y|Y) choice=0 ;;
-            n|N) choice=1 ;;
+            y) choice=0 ;;
+            n) choice=1 ;;
             *)
                 error "Invalid choice."
                 unset choice
