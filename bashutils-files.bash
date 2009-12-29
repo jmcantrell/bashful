@@ -3,7 +3,7 @@
 # Filename:      bashutils-files.bash
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2009-12-13 01:06:01 (-0500)
+# Last Modified: Tue 2009-12-29 02:29:11 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_FILES_LOADED ]] && return
@@ -129,32 +129,60 @@ mimetype() #{{{1
     file -ibL "$1" | awk -F";" '{print $1}'
 }
 
+mount_file() #{{{1
+{
+    # Get the mount path that contains the given file.
+
+    local f=$(readlink -f "$1")
+
+    for m in $(mount | awk '{print $3}' | sort); do
+        if [[ $f == $m/* ]]; then
+            echo "$m"
+        fi
+    done | tail -n1
+}
+
 mount_path() #{{{1
 {
     # Get the mount path for the given device.
 
-    grep "^$1[[:space:]]" /etc/fstab | awk '{print $2}'
+    grep "^$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $2}'
 }
 
 mount_device() #{{{1
 {
     # Get the device for the given mount path.
 
-    grep "[[:space:]]$1[[:space:]]" /etc/fstab | awk '{print $1}'
+    grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $1}'
+}
+
+mounted_same() #{{{1
+{
+    # Determine if all given files are on the same mount path.
+
+    local prev cur
+
+    for f in "$@"; do
+        cur=$(mount_file "$f")
+        [[ $prev && $cur != $prev ]] && return 1
+        prev=$cur
+    done
+
+    return 0
 }
 
 mounted_path() #{{{1
 {
     # Check to see if a given device is mounted.
 
-    mount | awk '{print $3}' | grep -q "^${1:-/}$"
+    mount | awk '{print $3}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 mounted_device() #{{{1
 {
     # Check to see if a given device is mounted.
 
-    mount | awk '{print $1}' | grep -q "^${1:-/}$"
+    mount | awk '{print $1}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 relpath() #{{{1
@@ -199,6 +227,51 @@ relpath() #{{{1
     [[ $rel == / ]] || rel=${rel%%/}
 
     echo "$rel"
+}
+
+link() #{{{1
+{
+    # Version of ln that respects the interactive/verbose settings.
+    ln $(interactive_option) $(verbose_echo -v) "$@"
+}
+
+move() #{{{1
+{
+    # Version of mv that respects the interactive/verbose settings.
+    mv $(interactive_option) $(verbose_echo -v) "$@"
+}
+
+copy() #{{{1
+{
+    # Version of cp that respects the interactive/verbose settings.
+    cp $(interactive_option) $(verbose_echo -v) "$@"
+}
+
+remove() #{{{1
+{
+    # Version of rm that respects the interactive/verbose settings.
+    rm -r $(interactive_option) $(verbose_echo -v) "$@"
+}
+
+trash() #{{{1
+{
+    local td=$HOME/.local/share/Trash
+
+    mkdir -p "$td/info"
+    mkdir -p "$td/files"
+
+    for f in "$@"; do
+        if mounted_same "$td" "$f"; then
+            {
+                echo "[Trash Info]"
+                echo "Path=$(readlink -f "$f")"
+                echo "DeletionDate=$(date)"
+            } >$td/info/${f##*/}.trashinfo
+            move "$f" "$td/files"
+        else
+            remove "$f"
+        fi
+    done
 }
 
 truncate() #{{{1
