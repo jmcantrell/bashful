@@ -3,7 +3,7 @@
 # Filename:      bashutils-files.bash
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2009-12-29 02:29:11 (-0500)
+# Last Modified: Sat 2010-01-02 19:08:32 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_FILES_LOADED ]] && return
@@ -187,12 +187,17 @@ mounted_device() #{{{1
 
 relpath() #{{{1
 {
-    # Gets the relative path from src to dst.
-    # It should give the same output as the python function os.path.relpath().
+    # Gets the relative path from source to destination.
+    #
+    # Usage: relpath [DESTINATION] [SOURCE]
+    #
+    # Output should mirror the python function os.path.relpath().
+    #
     # All arguments should be given as absolute paths.
     # All arguments default to the current directory.
     #
     # Usage examples:
+    #
     #     relpath /home/user     /home/user/bin  #==> bin
     #     relpath /home/user/bin /home/user      #==> ..
     #     relpath /foo/bar/baz   /               #==> ../../..
@@ -255,6 +260,9 @@ remove() #{{{1
 
 trash() #{{{1
 {
+    # Will try to place files in the gnome trash if it exists.
+    # If not, remove as normal.
+
     local td=$HOME/.local/share/Trash
 
     mkdir -p "$td/info"
@@ -278,31 +286,51 @@ truncate() #{{{1
 {
     # Removes all similar unused files.
     #
-    # Usage examples:
+    # Usage: truncate PREFIX SUFFIX [EXCLUDED_PREFIX...]
     #
-    #     Given the following files/dirs:
-    #         file1
-    #         file2
-    #         file3
+    # The only assumption is that the prefix is separated from the identifier
+    # by a single hyphen (-).
     #
-    #     And the symlink:
-    #         file -> file3
+    # Given the following files:
     #
-    #     The command:
-    #         tuncate file
+    #     file.txt -> file-c.txt
+    #     file-a.txt
+    #     file-b.txt
+    #     file-c.txt
     #
-    #     Will remove the files/dirs:
-    #         file1
-    #         file2
+    # The following command:
+    #
+    #     truncate file .txt
+    #
+    # Will leave only the following files:
+    #
+    #     file.txt -> file-c.txt
+    #     file-c.txt
+    #
+    # If you have other files with similar prefixes they will be removed as
+    # well. For example, if we also had the following files:
+    #
+    #     file-foo-a.txt
+    #     file-foo-b.txt
+    #     file-bar-a.txt
+    #     file-bar-b.txt
+    #
+    # If you want to keep these files, you will have to pass exclusions like:
+    #
+    #     truncate file .txt file-foo file-bar
 
-    local name=$1
+    local prefix=$1; shift
+    local suffix=$1; shift
+    local filename=$prefix$suffix
 
-    if [[ ! -L $name ]]; then
-        error "Name not provided."
+    # There is no symlink to follow
+    if [[ ! -L $filename ]]; then
+        error "Name not provided or does not exist as a symlink."
         return 1
     fi
 
-    local target=$(readlink -f "$name")
+    # Get the file to NOT remove
+    local target=$(readlink -f "$filename")
 
     if [[ ! -e $target ]]; then
         error "Target file does not exist."
@@ -310,12 +338,17 @@ truncate() #{{{1
     fi
 
     local dir=$(dirname "$target")
-    local file
+    local file fn exclude
 
-    for file in "$dir/$(basename "$name")"*; do
+    for file in "$dir"/$(basename "$prefix")-*$suffix; do
         [[ -f $file ]] || continue
+        fn=${file##*/}
+        # Make sure file doesn't match an exclusion
+        for exclude in "$@"; do
+            [[ $fn == $exclude* ]] && continue
+        done
         if [[ $file != $target ]]; then
-            rm -r $(interactive_option) $(verbose_echo "-v") "$file"
+            remove "$file"
         fi
     done
 }
