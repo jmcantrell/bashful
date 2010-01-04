@@ -3,7 +3,7 @@
 # Filename:      bashutils-input.bash
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2009-12-13 15:55:00 (-0500)
+# Last Modified: Sun 2010-01-03 20:48:17 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_INPUT_LOADED ]] && return
@@ -15,6 +15,8 @@ source bashutils-utils
 input() #{{{1
 {
     # Prompts the user to input text.
+    #
+    # Usage: input [OPTIONS]
     #
     # Usage examples:
     #
@@ -63,6 +65,8 @@ input() #{{{1
 question() #{{{1
 {
     # Prompts the user with a yes/no question.
+    #
+    # Usage: question [OPTIONS]
     #
     # Usage examples:
     #
@@ -125,6 +129,8 @@ question() #{{{1
 choice() #{{{1
 {
     # Prompts the user to choose from a set of choices.
+    #
+    # Usage: choice [OPTIONS]
     #
     # Usage examples:
     #     choice -p "Choose your favorite color" red green blue

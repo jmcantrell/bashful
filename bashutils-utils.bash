@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.bash
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2009-12-29 00:49:38 (-0500)
+# Last Modified: Sun 2010-01-03 17:29:28 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -102,7 +102,7 @@ squeeze() #{{{1
     #     "foo bar baz"
 
     local char=${1:-[[:space:]]}
-    sed "s:${char//:/\:}+:${char//:/\:}:g" | trim "$char"
+    sed "s:${char//:/\:}\+:${char//:/\:}:g" | trim "$char"
 }
 
 squeeze_lines() #{{{1

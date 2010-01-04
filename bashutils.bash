@@ -3,7 +3,7 @@
 # Filename:      bashutils.bash
 # Description:   An interface to bashutils for non-bash scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2009-12-12 23:35:32 (-0500)
+# Last Modified: Sat 2010-01-02 23:55:12 (-0500)
 
 # This can be handy for using bashutils functionality in non-bash shell
 # scripts. It's also useful for testing without having an existing script.

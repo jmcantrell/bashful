@@ -3,7 +3,7 @@
 # Filename:      bashutils-files.bash
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-01-02 19:08:32 (-0500)
+# Last Modified: Mon 2010-01-04 00:42:27 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_FILES_LOADED ]] && return
@@ -16,23 +16,44 @@ commonpath() #{{{1
 {
     # Gets the common paths of the passed arguments.
     #
+    # Usage: commonpath [PATH...]
+    #
     # Usage examples:
     #     commonpath /home/user /home/user/bin  #==> /home/user
 
-    [[ $1 == /* ]] || return 1
-    [[ $2 == /* ]] || return 1
+    if (( $# == 0 )); then
+        echo "/"
+        return
+    fi
 
+    if (( $# == 1 )); then
+        echo "$1"
+        return
+    fi
+
+    # If called with more than two paths, call again two at a time.
+    if (( $# > 2 )); then
+        local common=$1; shift
+        for next in "$@"; do
+            common=$(commonpath "$common" "$next")
+        done
+        echo "$common"
+        return
+    fi
+
+    # Make sure paths are absolute and free of extra slashes.
     local OIFS=$IFS; local IFS=/
-    local dst=($(squeeze "/" <<<"$1"))
-    local src=($(squeeze "/" <<<"$2"))
+    local path1=($(trim "/" <<<"$(abspath "$1")"))
+    local path2=($(trim "/" <<<"$(abspath "$2")"))
     IFS=$OIFS
 
     local tokens=()
-
     local idx
-    for idx in "${!dst[@]}"; do
-        [[ ${dst[$idx]} != ${src[$idx]} ]] && break
-        tokens=("${tokens[@]}" "${dst[$idx]}")
+
+    # Collect all path elements until they differ.
+    for idx in "${!path1[@]}"; do
+        [[ ${path1[$idx]} != ${path2[$idx]} ]] && break
+        tokens=("${tokens[@]}" "${path1[$idx]}")
     done
 
     OIFS=$IFS; IFS=/
@@ -44,9 +65,11 @@ extname() #{{{1
 {
     # Get the extension of the given filename.
     #
+    # Usage: extname [OPTIONS] FILENAME
+    #
     # Usage examples:
-    #     extname     foo.tar.gz  #==> gz
-    #     extname -n2 foo.tar.gz  #==> tar.gz
+    #     extname     foo.tar.gz  #==> .gz
+    #     extname -n2 foo.tar.gz  #==> .tar.gz
 
     local levels=1
 
@@ -75,6 +98,8 @@ filename() #{{{1
 {
     # Gets the filename of the given path.
     #
+    # Usage: filename [OPTIONS] FILENAME
+    #
     # Usage examples:
     #     filename /path/to/file.txt  #==> file
 
@@ -99,6 +124,8 @@ filename() #{{{1
 increment_file() #{{{1
 {
     # Get the next filename in line for the given file.
+    #
+    # Usage: increment_file FILENAME
     #
     # Usage examples:
     #     increment_file does_not_exist  #==> does_not_exist
@@ -125,7 +152,6 @@ listdir() #{{{1
 mimetype() #{{{1
 {
     # Get the mimetype of the given file.
-
     file -ibL "$1" | awk -F";" '{print $1}'
 }
 
@@ -145,14 +171,12 @@ mount_file() #{{{1
 mount_path() #{{{1
 {
     # Get the mount path for the given device.
-
     grep "^$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $2}'
 }
 
 mount_device() #{{{1
 {
     # Get the device for the given mount path.
-
     grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $1}'
 }
 
@@ -174,15 +198,22 @@ mounted_same() #{{{1
 mounted_path() #{{{1
 {
     # Check to see if a given device is mounted.
-
     mount | awk '{print $3}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 mounted_device() #{{{1
 {
     # Check to see if a given device is mounted.
-
     mount | awk '{print $1}' | grep -q "^$(readlink -f "${1:-/}")$"
+}
+
+abspath() #{{{1
+{
+    # Gets the absolute path of the given path.
+
+    local path=${1:-$PWD}
+    [[ $path != /* ]] && path=$PWD/${path//\.\//\/}
+    echo "/$(squeeze "/" <<<"$path")"
 }
 
 relpath() #{{{1
@@ -237,31 +268,47 @@ relpath() #{{{1
 link() #{{{1
 {
     # Version of ln that respects the interactive/verbose settings.
-    ln $(interactive_option) $(verbose_echo -v) "$@"
+
+    interactive ${INTERACTIVE:-1}
+    verbose     ${VERBOSE:-1}
+
+    ln -snT $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 move() #{{{1
 {
     # Version of mv that respects the interactive/verbose settings.
-    mv $(interactive_option) $(verbose_echo -v) "$@"
+
+    interactive ${INTERACTIVE:-1}
+    verbose     ${VERBOSE:-1}
+
+    mv -T $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 copy() #{{{1
 {
     # Version of cp that respects the interactive/verbose settings.
-    cp $(interactive_option) $(verbose_echo -v) "$@"
+
+    interactive ${INTERACTIVE:-1}
+    verbose     ${VERBOSE:-1}
+
+    cp -rT $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 remove() #{{{1
 {
     # Version of rm that respects the interactive/verbose settings.
+
+    interactive ${INTERACTIVE:-1}
+    verbose     ${VERBOSE:-1}
+
     rm -r $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 trash() #{{{1
 {
-    # Will try to place files in the gnome trash if it exists.
-    # If not, remove as normal.
+    # Put files in gnome trash if it's on the same partition.
+    # If on a different partition, remove as normal.
 
     local td=$HOME/.local/share/Trash
 
