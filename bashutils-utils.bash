@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.bash
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-01-03 17:29:28 (-0500)
+# Last Modified: Thu 2010-01-07 01:50:36 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -102,7 +102,7 @@ squeeze() #{{{1
     #     "foo bar baz"
 
     local char=${1:-[[:space:]]}
-    sed "s:${char//:/\:}\+:${char//:/\:}:g" | trim "$char"
+    sed "s%${char//%/\\%}\+%${char//%/\\%}%g" | trim "$char"
 }
 
 squeeze_lines() #{{{1
@@ -121,7 +121,7 @@ trim() #{{{1
     #     echo "  foo  bar baz " | trim  #==> "foo  bar baz"
 
     local char=${1:-[[:space:]]}
-    sed "s:^${char//:/\\:}*::;s:${char//:/\\:}*$::"
+    sed "s%^${char//%/\\%}*%%;s%${char//%/\\%}*$%%"
 }
 
 trim_lines() #{{{1
@@ -185,6 +185,33 @@ lines() #{{{1
     # Get all lines except for comments and blank lines.
 
     egrep -v '^[[:space:]]*#|^[[:space:]]*$' "$@"
+}
+
+commonprefix() #{{{1
+{
+    # Gets the common prefix of the strings passed on stdin.
+
+    local i str compare prefix
+
+    if (( $# > 0 )); then
+        for str in "$@"; do
+            echo "$str"
+        done | commonprefix
+        return
+    fi
+
+    while read str; do
+        [[ $prefix ]] || prefix=$str
+        i=0
+        unset compare
+        while true; do
+            [[ ${str:$i:1} || ${prefix:$i:1} ]] || break
+            [[ ${str:$i:1} != ${prefix:$i:1} ]] && break
+            compare+=${str:$((i++)):1}
+        done
+        prefix=$compare
+        echo "$prefix"
+    done | tail -n1
 }
 
 execute_in() #{{{1

@@ -3,7 +3,7 @@
 # Filename:      bashutils-files.bash
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-01-04 00:42:27 (-0500)
+# Last Modified: Thu 2010-01-07 01:33:13 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_FILES_LOADED ]] && return
@@ -14,51 +14,38 @@ source bashutils-utils
 
 commonpath() #{{{1
 {
-    # Gets the common paths of the passed arguments.
-    #
-    # Usage: commonpath [PATH...]
-    #
-    # Usage examples:
-    #     commonpath /home/user /home/user/bin  #==> /home/user
+    # Gets the common path of the paths passed on stdin.
 
-    if (( $# == 0 )); then
-        echo "/"
+    local i path compare prefix IFS
+    local OIFS=$IFS
+
+    if (( $# > 0 )); then
+        for path in "$@"; do
+            echo "$path"
+        done | commonpath
         return
     fi
 
-    if (( $# == 1 )); then
-        echo "$1"
-        return
-    fi
-
-    # If called with more than two paths, call again two at a time.
-    if (( $# > 2 )); then
-        local common=$1; shift
-        for next in "$@"; do
-            common=$(commonpath "$common" "$next")
+    while read path; do
+        IFS=/
+        path=($(trim "/" <<<"$(abspath "$path")"))
+        IFS=$OIFS
+        if [[ ! $prefix ]]; then
+            prefix=("${path[@]}")
+            continue
+        fi
+        i=0
+        compare=()
+        while true; do
+            [[ ${path[$i]} || ${prefix[$i]} ]] || break
+            [[ ${path[$i]} != ${prefix[$i]} ]] && break
+            compare=("${compare[@]}" "${path[$((i++))]}")
         done
-        echo "$common"
-        return
-    fi
-
-    # Make sure paths are absolute and free of extra slashes.
-    local OIFS=$IFS; local IFS=/
-    local path1=($(trim "/" <<<"$(abspath "$1")"))
-    local path2=($(trim "/" <<<"$(abspath "$2")"))
-    IFS=$OIFS
-
-    local tokens=()
-    local idx
-
-    # Collect all path elements until they differ.
-    for idx in "${!path1[@]}"; do
-        [[ ${path1[$idx]} != ${path2[$idx]} ]] && break
-        tokens=("${tokens[@]}" "${path1[$idx]}")
-    done
-
-    OIFS=$IFS; IFS=/
-    echo "/${tokens[*]}"
-    IFS=$OIFS
+        prefix=("${compare[@]}")
+        IFS=/
+        echo "/${prefix[*]}"
+        IFS=$OIFS
+    done | tail -n1
 }
 
 extname() #{{{1

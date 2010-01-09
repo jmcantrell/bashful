@@ -3,7 +3,7 @@
 # Filename:      bashutils-input.bash
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-01-03 20:48:17 (-0500)
+# Last Modified: Thu 2010-01-07 01:24:49 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_INPUT_LOADED ]] && return
@@ -54,9 +54,9 @@ input() #{{{1
     fi
 
     if gui; then
-        reply=$(zenity --entry $secret --entry-text="$default" --title="$prompt" --text="$prompt:")
+        reply=$(zenity --entry $secret --entry-text="$default" --title="$prompt" --text="$prompt:") || return 1
     else
-        read -ep $secret "${prompt}${default:+ [$default]}: " reply
+        read -ep $secret "${prompt}${default:+ [$default]}: " reply || return 1
     fi
 
     echo "${reply:-$default}"
@@ -152,7 +152,7 @@ choice() #{{{1
 
     if gui; then
         printf "%s\n" "$@" |
-        zenity --list --title="$prompt" --text="$prompt:" --column="Choices"
+        zenity --list --title="$prompt" --text="$prompt:" --column="Choices" || return 1
     else
         echo "$prompt:" >&2
         select choice in "$@"; do
