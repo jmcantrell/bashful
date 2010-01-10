@@ -1,17 +1,11 @@
 #!/bin/bash
 
-SRC_DIR=$(dirname "$(readlink -f "$0")")
-DST_DIR=${1:-$HOME/bin}
+mkdir -p ~/bin
 
-source $SRC_DIR/bashutils-utils.bash
+OPWD=$PWD; cd ~/bin
 
-mkdir -p "$DST_DIR"
-
-OPWD=$PWD; cd "$DST_DIR"
-
-SRC_DIR=$(relpath "$SRC_DIR")
-
-for script in "$SRC_DIR"/*.bash; do
+for script in ../development/bash/bashutils/*.bash; do
+    [[ -f $script ]] || continue
     ln -sfvn "$script" "$(basename "$script" .bash)"
 done
 
