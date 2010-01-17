@@ -3,7 +3,7 @@
 # Filename:      bashutils-files.bash
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-01-07 01:33:13 (-0500)
+# Last Modified: Sun 2010-01-17 00:42:14 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_FILES_LOADED ]] && return
@@ -164,7 +164,8 @@ mount_path() #{{{1
 mount_device() #{{{1
 {
     # Get the device for the given mount path.
-    grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $1}'
+    grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab |
+    awk '{print $1}'
 }
 
 mounted_same() #{{{1
@@ -314,6 +315,29 @@ trash() #{{{1
             remove "$f"
         fi
     done
+}
+
+cleanup() #{{{1
+{
+    # Cleans up any temp files lying around.
+    # Intended to be used alongside tempfile().
+
+    for file in "${CLEANUP_FILES[@]}"; do
+        rm -rf "$file"
+    done
+}
+
+tempfile() #{{{1
+{
+    # Creates and keeps track of temp files/dirs.
+
+    TEMPFILE=$(mktemp "$@")
+    if [[ ! $TEMPFILE ]]; then
+        error "Could not create temp file."
+        return 1
+    fi
+    CLEANUP_FILES=("${CLEANUP_FILES[@]}" "$TEMPFILE")
+    trap cleanup INT TERM EXIT
 }
 
 truncate() #{{{1
