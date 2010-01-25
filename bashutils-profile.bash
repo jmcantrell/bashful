@@ -3,7 +3,7 @@
 # Filename:      bashutils-profile.bash
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2009-12-13 01:21:32 (-0500)
+# Last Modified: Sat 2010-01-23 18:20:37 (-0500)
 
 # DOCUMENTATION {{{1
 #

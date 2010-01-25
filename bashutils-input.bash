@@ -3,7 +3,7 @@
 # Filename:      bashutils-input.bash
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-01-07 01:24:49 (-0500)
+# Last Modified: Sat 2010-01-23 18:20:23 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_INPUT_LOADED ]] && return
