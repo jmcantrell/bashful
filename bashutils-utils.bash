@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.bash
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-01-27 13:12:26 (-0500)
+# Last Modified: Wed 2010-01-27 22:41:19 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -219,14 +219,26 @@ sort_list() #{{{1
     # Sorts a list.
     #
     # Usage examples:
-    #     echo "c b a"   | sort_list       #==> a b c
-    #     echo "c, b, a" | sort_list ", "  #==> a, b, c
+    #     echo "c b a"     | sort_list       #==> a b c
+    #     echo "c, b, a"   | sort_list ", "  #==> a, b, c
+    #     echo "c b b b a" | sort_list -u    #==> a b c
+    #     echo "c b a"     | sort_list -r    #==> c b a
+
+    local reverse unique
+
+    unset OPTIND
+    while getopts ":ur" options; do
+        case $options in
+            u) unique=-u ;;
+            r) reverse=-r ;;
+        esac
+    done && shift $(($OPTIND - 1))
 
     local delim=${1:- }
     local item list
 
     OIFS=$IFS; IFS=$'\n'
-    for item in $(sed "s%${delim//%/\%}%\n%g" | sort); do
+    for item in $(sed "s%${delim//%/\%}%\n%g" | sort $reverse $unique); do
         IFS=$OIFS
         list+="$(trim <<<"$item")$delim"
     done
