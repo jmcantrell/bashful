@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.bash
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-01-07 01:50:36 (-0500)
+# Last Modified: Wed 2010-01-27 13:12:26 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -102,7 +102,7 @@ squeeze() #{{{1
     #     "foo bar baz"
 
     local char=${1:-[[:space:]]}
-    sed "s%${char//%/\\%}\+%${char//%/\\%}%g" | trim "$char"
+    sed "s%\(${char//%/\\%}\)\+%\1%g" | trim "$char"
 }
 
 squeeze_lines() #{{{1
@@ -212,6 +212,26 @@ commonprefix() #{{{1
         prefix=$compare
         echo "$prefix"
     done | tail -n1
+}
+
+sort_list() #{{{1
+{
+    # Sorts a list.
+    #
+    # Usage examples:
+    #     echo "c b a"   | sort_list       #==> a b c
+    #     echo "c, b, a" | sort_list ", "  #==> a, b, c
+
+    local delim=${1:- }
+    local item list
+
+    OIFS=$IFS; IFS=$'\n'
+    for item in $(sed "s%${delim//%/\%}%\n%g" | sort); do
+        IFS=$OIFS
+        list+="$(trim <<<"$item")$delim"
+    done
+
+    echo "${list%%$delim}"
 }
 
 execute_in() #{{{1
