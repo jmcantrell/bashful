@@ -3,7 +3,7 @@
 # Filename:      bashutils-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-01 21:46:14 (-0500)
+# Last Modified: Tue 2010-02-02 00:01:06 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_INPUT_LOADED ]] && return
@@ -130,6 +130,7 @@ question() #{{{1
 choice() #{{{1
 {
     # Prompts the user to choose from a set of choices.
+    # If there is only one choice, it will be returned immediately.
     #
     # Usage: choice [OPTIONS]
     #
@@ -149,6 +150,11 @@ choice() #{{{1
 
     if truth $check && ! interactive; then
         return
+    fi
+
+    if (( $# <= 1 )); then
+        echo "$1"
+        exit
     fi
 
     if gui; then
