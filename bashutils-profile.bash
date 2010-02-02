@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Filename:      bashutils-profile.bash
+# Filename:      bashutils-profile.sh
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-01-23 18:20:37 (-0500)
+# Last Modified: Mon 2010-02-01 21:46:30 (-0500)
 
 # DOCUMENTATION {{{1
 #

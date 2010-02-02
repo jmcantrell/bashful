@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Filename:      bashutils-modes.bash
+# Filename:      bashutils-modes.sh
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2009-12-12 18:50:42 (-0500)
+# Last Modified: Mon 2010-02-01 21:46:25 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_MODES_LOADED ]] && return

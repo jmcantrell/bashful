@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Filename:      bashutils-messages.bash
+# Filename:      bashutils-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2009-12-12 18:51:02 (-0500)
+# Last Modified: Mon 2010-02-01 21:46:20 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_MESSAGES_LOADED ]] && return

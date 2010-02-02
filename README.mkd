@@ -1,17 +1,17 @@
 Installation
 ------------
 
-All script filenames have the ".bash" extension, but are intended to be used
+All script filenames have the ".sh" extension, but are intended to be used
 as if the extension were removed. I'm assuming that these scripts will be
 installed into ~/bin, but you can install them anywhere you prefer, as long as
 that path is in your PATH. Unless you know what you're doing, the recommended
 way to install this package is to do the following:
 
 1.  Make sure ~/bin is in your PATH.
-2.  Copy the needed scripts into ~/bin without the ".bash" extension.
+2.  Copy the needed scripts into ~/bin without the ".sh" extension.
 
 One way to copy all of the scripts would be to do this in a terminal:
 
-    for script in /path/to/this/dir/*.bash; do
-        cp $script ~/bin/$(basename $script .bash)
+    for script in /path/to/this/dir/*.sh; do
+        cp $script ~/bin/$(basename $script .sh)
     done

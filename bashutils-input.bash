@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Filename:      bashutils-input.bash
+# Filename:      bashutils-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-01-27 19:38:06 (-0500)
+# Last Modified: Mon 2010-02-01 21:46:14 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_INPUT_LOADED ]] && return

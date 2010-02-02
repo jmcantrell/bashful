@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Filename:      bashutils-files.bash
+# Filename:      bashutils-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-01-17 00:42:14 (-0500)
+# Last Modified: Mon 2010-02-01 21:46:08 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_FILES_LOADED ]] && return

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Filename:      bashutils-utils.bash
+# Filename:      bashutils-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-01-27 22:41:19 (-0500)
+# Last Modified: Mon 2010-02-01 21:46:40 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return

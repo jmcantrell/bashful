@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Filename:      bashutils-terminfo.bash
+# Filename:      bashutils-terminfo.sh
 # Description:   Sets terminal strings for things like color, bold, etc.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2009-11-17 00:03:55 (-0500)
+# Last Modified: Mon 2010-02-01 21:46:35 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_TERMINFO_LOADED ]] && return
