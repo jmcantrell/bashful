@@ -3,7 +3,7 @@
 # Filename:      bashutils-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-01 21:46:20 (-0500)
+# Last Modified: Mon 2010-02-08 00:23:08 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_MESSAGES_LOADED ]] && return
@@ -19,34 +19,47 @@ usage() #{{{1
     # interactive modes are set (either on or off).
 
     if [[ $SCRIPT_NAME ]]; then
+        local p="    "
         {
             echo "Usage: $SCRIPT_NAME [OPTIONS] $SCRIPT_ARGS"
             [[ $SCRIPT_USAGE ]] && echo "$SCRIPT_USAGE"
 
+            if [[ $SCRIPT_DESCRIPTION ]]; then
+                echo
+                echo -e "$SCRIPT_DESCRIPTION"
+            fi
+
+            if [[ $SCRIPT_EXAMPLES ]]; then
+                echo
+                echo "EXAMPLES"
+                echo
+                echo -e "$SCRIPT_EXAMPLES"
+            fi
+
             echo
             echo "GENERAL OPTIONS"
             echo
-            echo "    -h    Display this help message."
+            echo "${p}-h    Display this help message."
 
             if [[ $INTERACTIVE ]]; then
                 echo
-                echo "    -i    Interactive. Prompt for certain actions."
-                echo "    -f    Don't prompt."
+                echo "${p}-i    Interactive. Prompt for certain actions."
+                echo "${p}-f    Don't prompt."
             fi
 
             if [[ $VERBOSE ]]; then
                 echo
-                echo "    -v    Be verbose."
-                echo "    -q    Be quiet."
+                echo "${p}-v    Be verbose."
+                echo "${p}-q    Be quiet."
             fi
 
             if [[ $SCRIPT_OPTIONS ]]; then
                 echo
                 echo "APPLICATION OPTIONS"
                 echo
-                sed 's/^/    /' <<<"$SCRIPT_OPTIONS" | squeeze_lines
+                echo -e "$SCRIPT_OPTIONS" | sed "s/^/${p}/"
             fi
-        } >&2
+        } | squeeze_lines >&2
     fi
 }
 
@@ -118,8 +131,10 @@ info() #{{{1
 
 warn() #{{{1
 {
-    # Displays a colorized (if available) warning message.
-    # If used with -c, message will only display if verbose mode is enabled.
+:<<doc-warn
+Displays a colorized (if available) warning message.
+If used with -c, message will only display if verbose mode is enabled.
+doc-warn
 
     local check
 

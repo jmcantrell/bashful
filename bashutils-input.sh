@@ -3,7 +3,7 @@
 # Filename:      bashutils-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-02 00:01:06 (-0500)
+# Last Modified: Sun 2010-02-07 19:59:15 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_INPUT_LOADED ]] && return
@@ -61,6 +61,39 @@ input() #{{{1
     fi
 
     echo "${reply:-$default}"
+}
+
+input_lines() #{{{1
+{
+    # Prompts the user to input text lists.
+    #
+    # Usage: input_lines [OPTIONS]
+
+    local prompt="Enter values"
+
+    local check reply
+
+    unset OPTIND
+    while getopts ":p:cs" options; do
+        case $options in
+            p) prompt=$OPTARG ;;
+            c) check=1 ;;
+        esac
+    done && shift $(($OPTIND - 1))
+
+    if truth $check && ! interactive; then
+        echo -e "$default"
+        return
+    fi
+
+    prompt+=" (one per line)"
+
+    if gui; then
+        zenity --text-info --editable --title="$prompt"
+    else
+        echo "$prompt:" >&2
+        cat  # Accept input until EOF (ctrl-d)
+    fi
 }
 
 question() #{{{1

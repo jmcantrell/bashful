@@ -3,7 +3,7 @@
 # Filename:      bashutils-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-01 21:46:40 (-0500)
+# Last Modified: Mon 2010-02-08 00:06:31 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_UTILS_LOADED ]] && return
@@ -159,7 +159,16 @@ variables() #{{{1
 
     sed 's/[[:space:];]/\n/g' |
     egrep '^[a-zA-Z0-9_]+=' |
-    awk -F= '{print $1}'
+    sed 's/=.*$//' | sort -u
+}
+
+functions() #{{{1
+{
+    # Pulls all function names from the input.
+
+    sed 's/[[:space:];]/\n/g' |
+    egrep '^[a-zA-Z0-9_-]+\(\)' |
+    sed 's/().*$//' | sort -u
 }
 
 editor() #{{{1
@@ -244,6 +253,57 @@ sort_list() #{{{1
     done
 
     echo "${list%%$delim}"
+}
+
+split_string() #{{{1
+{
+    # Split a given string into a list.
+    #
+    # Usage examples:
+    #     echo "foo, bar, baz" | split_string         #==> foo\nbar\nbaz
+    #     echo "foo|bar|baz"   | split_string -d "|"  #==> foo\nbar\nbaz
+
+    local delim=","
+    local line str
+
+    unset OPTIND
+    while getopts ":d:" options; do
+        case $options in
+            d) delim=$OPTARG ;;
+        esac
+    done && shift $(($OPTIND - 1))
+
+    while read line; do
+        OIFS=$IFS; IFS=$delim
+        for str in $line; do
+            IFS=$OIFS
+            trim <<<"$str"
+        done
+    done
+}
+
+join_lines() #{{{1
+{
+    # Joins a list into a string.
+    #
+    # Usage examples:
+    #     echo -e "foo\nbar\nbaz" | join_lines         #==> foo, bar, baz
+    #     echo -e "foo\nbar\nbaz" | join_lines -d "|"  #==> foo|bar|baz
+
+    local delim=", "
+    local value
+
+    unset OPTIND
+    while getopts ":d:" options; do
+        case $options in
+            d) delim=$OPTARG ;;
+        esac
+    done && shift $(($OPTIND - 1))
+
+    while read value; do
+        echo -ne "${value}${delim}"
+    done | sed "s/$delim$//"
+    echo
 }
 
 execute_in() #{{{1
