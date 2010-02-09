@@ -3,9 +3,9 @@
 # Filename:      bashutils-profile.sh
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-01 21:46:30 (-0500)
+# Last Modified: Mon 2010-02-08 23:51:13 (-0500)
 
-# DOCUMENTATION {{{1
+# autodoc-begin profile {{{
 #
 # There are some pieces of info needed for profile to work well.  The most
 # important being the name of the app using it. This is provided by setting
@@ -46,7 +46,7 @@
 #
 #     profile_init  # This will return non-zero exit code on error.
 #
-#}}}1
+# autodoc-end profile }}}
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_PROFILE_LOADED ]] && return
@@ -68,9 +68,13 @@ profile_actions() #{{{1
 
 profile_choose() #{{{1
 {
+    # autodoc-begin profile_choose {{{
+    #
     # Prompt user for a profile.
     # If interactive mode is not enabled, you better have already set the
     # profile or it's errors for everyone.
+    #
+    # autodoc-end profile_choose }}}
 
     if (( $(profile_list | wc -l) == 0 )); then
         error "No profiles available."
@@ -139,7 +143,11 @@ profile_edit() #{{{1
 
 profile_file() #{{{1
 {
+    # autodoc-begin profile_file {{{
+    #
     # Make sure the profile file is set before continuing.
+    #
+    # autodoc-end profile_file }}}
 
     if [[ ! $PROFILE ]]; then
         PROFILE=$(profile_choose) || return 1
@@ -155,11 +163,16 @@ profile_file() #{{{1
 
 profile_init() #{{{1
 {
+    # autodoc-begin profile_init {{{
+    #
     # This function should be called in the script before any other
     # functionality is used.
-
+    #
     # If prefix was set, use that.
     # Otherwise use a prefix appropriate for the user's permissions.
+    #
+    # autodoc-end profile_init }}}
+
     if (( EUID == 0 )); then
         PREFIX=${PREFIX:-/usr/local}
     else
@@ -199,6 +212,8 @@ profile_list() #{{{1
 
 profile_load() #{{{1
 {
+    # autodoc-begin profile_load {{{
+    #
     # Load a profile.
     #
     # If a profile default is set, any missing settings will fallback to it.
@@ -208,6 +223,8 @@ profile_load() #{{{1
     #
     # The uncommented default profile settings are considered required, and
     # uncommented settings are considered optional.
+    #
+    # autodoc-end profile_load }}}
 
     profile_verify || return 1
 
@@ -242,7 +259,11 @@ profile_variables_required() #{{{1
 
 profile_verify() #{{{1
 {
+    # autodoc-begin profile_verify {{{
+    #
     # Make sure the profile file exists before continuing.
+    #
+    # autodoc-end profile_verify }}}
 
     profile_file || return 1
 

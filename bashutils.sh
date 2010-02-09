@@ -3,14 +3,37 @@
 # Filename:      bashutils.sh
 # Description:   An interface to bashutils for non-bash scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-08 00:25:41 (-0500)
+# Last Modified: Tue 2010-02-09 00:48:13 (-0500)
 
+# autodoc-begin bashutils {{{
+#
 # This can be handy for using bashutils functionality in non-bash shell
 # scripts. It's also useful for testing without having an existing script.
 #
-# Usage examples:
+# To get documentation:
+#
+#     bashutils help
+#     bashutils help [COMMAND]
+#
+# To get documentation for a specific library:
+#
+#     bashutils-input help
+#     bashutils-input help [COMMAND]
+#
+# Usage examples (from command line or non-bash shell):
+#
 #     bashutils error "This is the error function."
 #     bashutils input -p "Enter something"
+#
+# Usage examples (from within a bash script):
+#
+#     source bashutils-messages
+#     error "This is the error function."
+#
+#     source bashutils-input
+#     input -p "Enter something"
+#
+# autodoc-end bashutils }}}
 
 LIBS=(
     bashutils-files
@@ -22,7 +45,7 @@ LIBS=(
     bashutils-utils
     )
 
-LIB_FILES=()
+LIB_FILES=($(type -p bashutils))
 
 for lib in "${LIBS[@]}"; do
     LIB_FILES=("${LIB_FILES[@]}" "$(type -p "$lib")")
@@ -30,24 +53,18 @@ for lib in "${LIBS[@]}"; do
 done
 
 if [[ ! $1 || $1 == help ]]; then
-    if [[ ! $2 ]]; then
-        {
-            echo "Usage: $(basename "$0" .sh) [COMMAND] [ARGS...]"
-            echo "Access bashutils without sourcing individual libraries."
-            echo
-            echo "    help            To see available commands."
-            echo "    help COMMAND    To see help for COMMAND."
-            echo
-            echo "Where COMMAND is one of the following:"
-            echo
-        } >&2
-        for f in "${LIB_FILES[@]}"; do
-            lines "$f" | functions
-        done | sort -u | sed 's/^/    /'
+    if [[ $2 ]]; then
+        autodoc "$2" "${LIB_FILES[@]}" >&2
     else
-        for f in "${LIB_FILES[@]}"; do
-            sed -n "/doc-$2$/,/^doc-$2/p" "$f" | sed "/doc-$2/d"
-        done
+        {
+            autodoc bashutils "$0"
+            echo -e "\nAvailable libraries:\n"
+            OIFS=$IFS; IFS=$'\n'
+            echo "${LIBS[*]}" | sort -u | sed 's/^/    /'
+            IFS=$OIFS
+            echo -e "\nAvailable commands:\n"
+            autodoc_commands "${LIB_FILES[@]}" | sed 's/^/    /'
+        } >&2
     fi
     exit
 fi

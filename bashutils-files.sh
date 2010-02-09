@@ -3,7 +3,7 @@
 # Filename:      bashutils-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-01 21:46:08 (-0500)
+# Last Modified: Mon 2010-02-08 19:59:36 (-0500)
 
 [[ $BASH_LINENO ]] || exit 1
 [[ $BASHUTILS_FILES_LOADED ]] && return
@@ -14,9 +14,16 @@ source bashutils-utils
 
 commonpath() #{{{1
 {
+    # autodoc-begin commonpath {{{
+    #
     # Gets the common path of the paths passed on stdin.
+    #
+    # Usage examples:
+    #     echo -e "/foo/bar\n/foo/baz" | commonpath  #==> /foo
+    #
+    # autodoc-end commonpath }}}
 
-    local i path compare prefix IFS
+    local i path compare prefix
     local OIFS=$IFS
 
     if (( $# > 0 )); then
@@ -50,19 +57,23 @@ commonpath() #{{{1
 
 extname() #{{{1
 {
+    # autodoc-begin extname {{{
+    #
     # Get the extension of the given filename.
     #
-    # Usage: extname [OPTIONS] FILENAME
+    # Usage: extname [-n LEVELS] FILENAME
     #
     # Usage examples:
     #     extname     foo.tar.gz  #==> .gz
     #     extname -n2 foo.tar.gz  #==> .tar.gz
+    #
+    # autodoc-end extname }}}
 
     local levels=1
 
     unset OPTIND
-    while getopts ":n:" options; do
-        case $options in
+    while getopts ":n:" option; do
+        case $option in
             n) levels=$OPTARG ;;
         esac
     done && shift $(($OPTIND - 1))
@@ -83,18 +94,23 @@ extname() #{{{1
 
 filename() #{{{1
 {
+    # autodoc-begin filename {{{
+    #
     # Gets the filename of the given path.
     #
-    # Usage: filename [OPTIONS] FILENAME
+    # Usage: filename [-n LEVELS] FILENAME
     #
     # Usage examples:
-    #     filename /path/to/file.txt  #==> file
+    #     filename     /path/to/file.txt     #==> file
+    #     filename -n2 /path/to/file.tar.gz  #==> file
+    #
+    # autodoc-end filename }}}
 
     local levels=1
 
     unset OPTIND
-    while getopts ":n:" options; do
-        case $options in
+    while getopts ":n:" option; do
+        case $option in
             n) levels=$OPTARG ;;
         esac
     done && shift $(($OPTIND - 1))
@@ -110,6 +126,8 @@ filename() #{{{1
 
 increment_file() #{{{1
 {
+    # autodoc-begin increment_file {{{
+    #
     # Get the next filename in line for the given file.
     #
     # Usage: increment_file FILENAME
@@ -117,6 +135,8 @@ increment_file() #{{{1
     # Usage examples:
     #     increment_file does_not_exist  #==> does_not_exist
     #     increment_file does_exist      #==> does_exist (1)
+    #
+    # autodoc-end increment_file }}}
 
     local file=$1
     local count=1
@@ -130,7 +150,13 @@ increment_file() #{{{1
 
 listdir() #{{{1
 {
+    # autodoc-begin listdir {{{
+    #
     # Get the files in the given directory (1 level deep).
+    #
+    # Usage: listdir DIR [OPTIONS]
+    #
+    # autodoc-end listdir }}}
 
     local dir=$1; shift
     find "$dir" -maxdepth 1 -mindepth 1 "$@"
@@ -138,13 +164,26 @@ listdir() #{{{1
 
 mimetype() #{{{1
 {
+    # autodoc-begin mimetype {{{
+    #
     # Get the mimetype of the given file.
+    #
+    # Usage: mimetype FILE
+    #
+    # autodoc-end mimetype }}}
+
     file -ibL "$1" | awk -F";" '{print $1}'
 }
 
 mount_file() #{{{1
 {
+    # autodoc-begin mount_file {{{
+    #
     # Get the mount path that contains the given file.
+    #
+    # Usage: mount_file FILE
+    #
+    # autodoc-end mount_file }}}
 
     local f=$(readlink -f "$1")
 
@@ -157,20 +196,40 @@ mount_file() #{{{1
 
 mount_path() #{{{1
 {
+    # autodoc-begin mount_path {{{
+    #
     # Get the mount path for the given device.
+    #
+    # Usage: mount_device DEVICE
+    #
+    # autodoc-end mount_path }}}
+
     grep "^$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $2}'
 }
 
 mount_device() #{{{1
 {
+    # autodoc-begin mount_device {{{
+    #
     # Get the device for the given mount path.
+    #
+    # Usage: mount_device PATH
+    #
+    # autodoc-end mount_device }}}
+
     grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab |
     awk '{print $1}'
 }
 
 mounted_same() #{{{1
 {
+    # autodoc-begin mounted_same {{{
+    #
     # Determine if all given files are on the same mount path.
+    #
+    # Usage: mounted_same [FILE...]
+    #
+    # autodoc-end mounted_same }}}
 
     local prev cur
 
@@ -185,19 +244,39 @@ mounted_same() #{{{1
 
 mounted_path() #{{{1
 {
+    # autodoc-begin mounted_path {{{
+    #
     # Check to see if a given device is mounted.
+    #
+    # Usage: mounted_path [PATH]
+    #
+    # autodoc-end mounted_path }}}
+
     mount | awk '{print $3}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 mounted_device() #{{{1
 {
+    # autodoc-begin mounted_device {{{
+    #
     # Check to see if a given device is mounted.
+    #
+    # Usage: mounted_device DEVICE
+    #
+    # autodoc-end mounted_device }}}
+
     mount | awk '{print $1}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 abspath() #{{{1
 {
+    # autodoc-begin abspath {{{
+    #
     # Gets the absolute path of the given path.
+    #
+    # Usage: abspath PATH
+    #
+    # autodoc-end abspath }}}
 
     local path=${1:-$PWD}
     [[ $path != /* ]] && path=$PWD/${path//\.\//\/}
@@ -206,6 +285,8 @@ abspath() #{{{1
 
 relpath() #{{{1
 {
+    # autodoc-begin relpath {{{
+    #
     # Gets the relative path from source to destination.
     #
     # Usage: relpath [DESTINATION] [SOURCE]
@@ -222,6 +303,8 @@ relpath() #{{{1
     #     relpath /foo/bar/baz   /               #==> ../../..
     #     relpath /foo/bar       /baz            #==> ../../baz
     #     relpath /home/user     /home/user      #==> .
+    #
+    # autodoc-end relpath }}}
 
     # Make sure that any duplicate slashes are removed.
     local dst=/$(squeeze "/" <<<"${1:-$PWD}")
@@ -255,7 +338,12 @@ relpath() #{{{1
 
 link() #{{{1
 {
+    # autodoc-begin link {{{
+    #
     # Version of ln that respects the interactive/verbose settings.
+    # Accepts the same options/arguments as ln.
+    #
+    # autodoc-end link }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -265,7 +353,12 @@ link() #{{{1
 
 move() #{{{1
 {
+    # autodoc-begin move {{{
+    #
     # Version of mv that respects the interactive/verbose settings.
+    # Accepts the same options/arguments as mv.
+    #
+    # autodoc-end name }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -275,7 +368,12 @@ move() #{{{1
 
 copy() #{{{1
 {
+    # autodoc-begin copy {{{
+    #
     # Version of cp that respects the interactive/verbose settings.
+    # Accepts the same options/arguments as cp.
+    #
+    # autodoc-end copy }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -285,7 +383,12 @@ copy() #{{{1
 
 remove() #{{{1
 {
+    # autodoc-begin remove {{{
+    #
     # Version of rm that respects the interactive/verbose settings.
+    # Accepts the same options/arguments as rm.
+    #
+    # autodoc-end remove }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -295,8 +398,14 @@ remove() #{{{1
 
 trash() #{{{1
 {
+    # autodoc-begin trash {{{
+    #
     # Put files in gnome trash if it's on the same partition.
     # If on a different partition, remove as normal.
+    #
+    # Usage: trash [FILE...]
+    #
+    # autodoc-end trash }}}
 
     local td=$HOME/.local/share/Trash
 
@@ -304,6 +413,7 @@ trash() #{{{1
     mkdir -p "$td/files"
 
     for f in "$@"; do
+        [[ -e $f ]] || continue
         if mounted_same "$td" "$f"; then
             {
                 echo "[Trash Info]"
@@ -319,8 +429,12 @@ trash() #{{{1
 
 cleanup() #{{{1
 {
+    # autodoc-begin cleanup {{{
+    #
     # Cleans up any temp files lying around.
     # Intended to be used alongside tempfile().
+    #
+    # autodoc-end cleanup }}}
 
     for file in "${CLEANUP_FILES[@]}"; do
         rm -rf "$file"
@@ -329,7 +443,16 @@ cleanup() #{{{1
 
 tempfile() #{{{1
 {
+    # autodoc-begin tempfile {{{
+    #
     # Creates and keeps track of temp files/dirs.
+    # Accepts the same options/arguments as mktemp.
+    #
+    # Usage examples:
+    #     tempfile     # $TEMPFILE is now a regular file
+    #     tempfile -d  # $TEMPFILE is now a directory
+    #
+    # autodoc-end tempfile }}}
 
     TEMPFILE=$(mktemp "$@")
     if [[ ! $TEMPFILE ]]; then
@@ -342,6 +465,8 @@ tempfile() #{{{1
 
 truncate() #{{{1
 {
+    # autodoc-begin truncate {{{
+    #
     # Removes all similar unused files.
     #
     # Usage: truncate PREFIX SUFFIX [EXCLUDED_PREFIX...]
@@ -376,6 +501,8 @@ truncate() #{{{1
     # If you want to keep these files, you will have to pass exclusions like:
     #
     #     truncate file .txt file-foo file-bar
+    #
+    # autodoc-end truncate }}}
 
     local prefix=$1; shift
     local suffix=$1; shift
