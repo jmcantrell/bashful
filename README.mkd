@@ -1,17 +1,35 @@
-Installation
-------------
+BashUtils is a collection of libraries intended simplify writing bash scripts.
 
-All script filenames have the ".sh" extension, but are intended to be used
-as if the extension were removed. I'm assuming that these scripts will be
-installed into ~/bin, but you can install them anywhere you prefer, as long as
-that path is in your PATH. Unless you know what you're doing, the recommended
-way to install this package is to do the following:
+To install, run the 'install' script:
 
-1.  Make sure ~/bin is in your PATH.
-2.  Copy the needed scripts into ~/bin without the ".sh" extension.
+    install [DIR]
 
-One way to copy all of the scripts would be to do this in a terminal:
+This will install the scripts to DIR or to ~/bin, if not specified.
 
-    for script in /path/to/this/dir/*.sh; do
-        cp $script ~/bin/$(basename $script .sh)
-    done
+To get documentation:
+
+    bashutils help [COMMAND]
+
+This will display documentation on COMMAND. If no COMMAND is specified,
+general help and a list of all libraries/commands will be given.
+
+To get documentation for a specific library:
+
+    bashutils-input help [COMMAND]
+
+This works exactly like the previous documentation command except it is
+specific to the input library.
+
+To use within a bash script, simply source the needed library:
+
+    source bashutils-input
+
+At this point, all functions in the input library are available to the script.
+
+To test out a command or to use in a non-bash context:
+
+    bashutils COMMAND [OPTIONS] [ARGUMENTS]
+
+To minimize unnecessary loading of functions, use the library directly:
+
+    bashutils-input question -p "How are you?"
