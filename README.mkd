@@ -29,7 +29,3 @@ At this point, all functions in the input library are available to the script.
 To test out a command or to use in a non-bash context:
 
     bashutils COMMAND [OPTIONS] [ARGUMENTS]
-
-To minimize unnecessary loading of functions, use the library directly:
-
-    bashutils-input question -p "How are you?"
