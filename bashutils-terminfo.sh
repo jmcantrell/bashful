@@ -3,9 +3,32 @@
 # Filename:      bashutils-terminfo.sh
 # Description:   Sets terminal strings for things like color, bold, etc.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-01 21:46:35 (-0500)
+# Last Modified: Tue 2010-02-09 23:47:47 (-0500)
 
-[[ $BASH_LINENO ]] || exit 1
+# autodoc-begin bashutils-autodoc {{{
+#
+# The autodoc library provides a way to extract documentation from scripts.
+#
+# Normally, I would prefer to use getopts to setup a -h/--help option, but in
+# some cases it isn't practical or it can conflict with other functions. This
+# provides a nice alternative with no side-effects.
+#
+# Within the script, a section of documentation is denoted like this:
+#
+#     # autodoc-begin NAME
+#     #
+#     # DOCUMENTATION TEXT GOES HERE
+#     #
+#     # autodoc-end NAME
+#
+# autodoc-end bashutils-autodoc }}}
+
+if (( ${BASH_LINENO:-0} == 0 )); then
+    source bashutils-autodoc
+    autodoc_execute "$0" "$@"
+    exit
+fi
+
 [[ $BASHUTILS_TERMINFO_LOADED ]] && return
 
 term_reset=$(tput sgr0 2>/dev/null)

@@ -3,9 +3,41 @@
 # Filename:      bashutils-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-09 00:42:21 (-0500)
+# Last Modified: Wed 2010-02-10 00:18:32 (-0500)
 
-[[ $BASH_LINENO ]] || exit 1
+# autodoc-begin bashutils-autodoc {{{
+#
+# The autodoc library provides a way to extract documentation from scripts.
+#
+# Normally, I would prefer to use getopts to setup a -h/--help option, but in
+# some cases it isn't practical or it can conflict with other functions. This
+# provides a nice alternative with no side-effects.
+#
+# Within the script, a section of documentation is denoted like this:
+#
+#     # autodoc-begin NAME
+#     #
+#     # DOCUMENTATION TEXT GOES HERE
+#     #
+#     # autodoc-end NAME
+#
+# autodoc-end bashutils-autodoc }}}
+
+if (( ${BASH_LINENO:-0} == 0 )); then
+    source bashutils-autodoc
+    autodoc_execute "$0" "$@"
+    exit
+fi
+# If run directly, show documentation {{{
+
+if (( $BASH_LINENO == 0 )); then
+    source bashutils-autodoc
+    autodoc_help "$0" "$@"
+    exit
+fi
+
+#}}}
+
 [[ $BASHUTILS_UTILS_LOADED ]] && return
 
 lower() #{{{1
@@ -262,44 +294,6 @@ lines() #{{{1
     # autodoc-end lines }}}
 
     egrep -v '^[[:space:]]*#|^[[:space:]]*$' "$@"
-}
-
-autodoc() #{{{1
-{
-    # autodoc-begin autodoc {{{
-    #
-    # Retrieve embedded documentation from scripts.
-    #
-    # Usage: autodoc NAME [FILE...]
-    #
-    # Within the script, a section of documentation is denoted like this:
-    #
-    #     # autodoc-begin NAME
-    #     #
-    #     # DOCUMENTATION TEXT GOES HERE
-    #     #
-    #     # autodoc-end NAME
-    #
-    # autodoc-end autodoc }}}
-
-    local name=$1; shift
-    sed -n "/# autodoc-begin $name\>/,/# autodoc-end $name\>/p" "$@" |
-    sed '1d;$d' | sed 's/^[[:space:]]*# \?//' | squeeze_lines
-}
-
-autodoc_commands() #{{{1
-{
-    # autodoc-begin autodoc_commands {{{
-    #
-    # Show all autodoc tags in given files.
-    #
-    # Usage: autodoc_commands [FILE...]
-    #
-    # autodoc-end autodoc_commands }}}
-
-    local t="autodoc-begin"
-    sed -n "/^\s*#\s\+$t\s/p" "$@" |
-    sed "s/^.*\s$t\s\+\([^[:space:]]\+\).*$/\1/" | sort -u
 }
 
 commonprefix() #{{{1

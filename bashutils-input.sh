@@ -3,9 +3,28 @@
 # Filename:      bashutils-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-08 23:34:38 (-0500)
+# Last Modified: Tue 2010-02-09 22:59:21 (-0500)
 
-[[ $BASH_LINENO ]] || exit 1
+# autodoc-begin bashutils-input {{{
+#
+# The input library provides functions for taking user input.
+#
+# All functions are sensitive to the following variables:
+#
+#     GUI          # If set/true, try to use gui dialogs.
+#     INTERACTIVE  # If unset/false, the user will not be prompted.
+#
+# The INTERACTIVE variable only matters if the function is used with the
+# interactive mode check option (-c).
+#
+# autodoc-end bashutils-input }}}
+
+if (( ${BASH_LINENO:-0} == 0 )); then
+    source bashutils-autodoc
+    autodoc_execute "$0" "$@"
+    exit
+fi
+
 [[ $BASHUTILS_INPUT_LOADED ]] && return
 
 source bashutils-messages
@@ -16,9 +35,8 @@ input() #{{{1
 {
     # autodoc-begin input {{{
     #
-    # Prompts the user to input text.
-    #
     # Usage: input [-cs] [-p PROMPT] [-d DEFAULT]
+    # Prompts the user to input text.
     #
     # Usage examples:
     #
@@ -73,9 +91,8 @@ input_lines() #{{{1
 {
     # autodoc-begin input_lines {{{
     #
-    # Prompts the user to input text lists.
-    #
     # Usage: input_lines [-c] [-p PROMPT]
+    # Prompts the user to input text lists.
     #
     # autodoc-end input_lines }}}
 
@@ -83,7 +100,7 @@ input_lines() #{{{1
     local c reply
 
     unset OPTIND
-    while getopts ":p:cs" option; do
+    while getopts ":p:c" option; do
         case $option in
             p) p=$OPTARG ;;
             c) c=1 ;;
@@ -108,12 +125,10 @@ question() #{{{1
 {
     # autodoc-begin question {{{
     #
+    # Usage: question [-c] [-p PROMPT] [-d DEFAULT]
     # Prompts the user with a yes/no question.
-    #
     # The default value can be anything that evaluates to true/false.
     # See documentation for the "truth" command for more info.
-    #
-    # Usage: question [-c] [-p PROMPT] [-d DEFAULT]
     #
     # Usage examples:
     #
@@ -179,10 +194,9 @@ choice() #{{{1
 {
     # autodoc-begin choice {{{
     #
+    # Usage: choice [-c] [-p PROMPT] [CHOICE...]
     # Prompts the user to choose from a set of choices.
     # If there is only one choice, it will be returned immediately.
-    #
-    # Usage: choice [-c] [-p PROMPT] [CHOICE...]
     #
     # Usage examples:
     #     choice -p "Choose your favorite color" red green blue

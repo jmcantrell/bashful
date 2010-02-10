@@ -3,9 +3,20 @@
 # Filename:      bashutils-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-08 19:59:36 (-0500)
+# Last Modified: Tue 2010-02-09 22:42:06 (-0500)
 
-[[ $BASH_LINENO ]] || exit 1
+# autodoc-begin bashutils-files {{{
+#
+# The files library provides functions for working with files/directories.
+#
+# autodoc-end bashutils-files }}}
+
+if (( ${BASH_LINENO:-0} == 0 )); then
+    source bashutils-autodoc
+    autodoc_execute "$0" "$@"
+    exit
+fi
+
 [[ $BASHUTILS_FILES_LOADED ]] && return
 
 source bashutils-messages
@@ -16,10 +27,9 @@ commonpath() #{{{1
 {
     # autodoc-begin commonpath {{{
     #
+    # Usage: commonpath [PATH...]
     # Gets the common path of the paths passed on stdin.
-    #
-    # Usage examples:
-    #     echo -e "/foo/bar\n/foo/baz" | commonpath  #==> /foo
+    # Alternatively, paths can be passed as arguments.
     #
     # autodoc-end commonpath }}}
 
@@ -59,9 +69,8 @@ extname() #{{{1
 {
     # autodoc-begin extname {{{
     #
-    # Get the extension of the given filename.
-    #
     # Usage: extname [-n LEVELS] FILENAME
+    # Get the extension of the given filename.
     #
     # Usage examples:
     #     extname     foo.tar.gz  #==> .gz
@@ -96,9 +105,8 @@ filename() #{{{1
 {
     # autodoc-begin filename {{{
     #
-    # Gets the filename of the given path.
-    #
     # Usage: filename [-n LEVELS] FILENAME
+    # Gets the filename of the given path.
     #
     # Usage examples:
     #     filename     /path/to/file.txt     #==> file
@@ -128,9 +136,8 @@ increment_file() #{{{1
 {
     # autodoc-begin increment_file {{{
     #
-    # Get the next filename in line for the given file.
-    #
     # Usage: increment_file FILENAME
+    # Get the next filename in line for the given file.
     #
     # Usage examples:
     #     increment_file does_not_exist  #==> does_not_exist
@@ -152,9 +159,9 @@ listdir() #{{{1
 {
     # autodoc-begin listdir {{{
     #
-    # Get the files in the given directory (1 level deep).
-    #
     # Usage: listdir DIR [OPTIONS]
+    # List the files in the given directory (1 level deep).
+    # Accepts the same options as the find command.
     #
     # autodoc-end listdir }}}
 
@@ -166,9 +173,8 @@ mimetype() #{{{1
 {
     # autodoc-begin mimetype {{{
     #
-    # Get the mimetype of the given file.
-    #
     # Usage: mimetype FILE
+    # Get the mimetype of the given file.
     #
     # autodoc-end mimetype }}}
 
@@ -179,9 +185,8 @@ mount_file() #{{{1
 {
     # autodoc-begin mount_file {{{
     #
-    # Get the mount path that contains the given file.
-    #
     # Usage: mount_file FILE
+    # Get the mount path that contains the given file.
     #
     # autodoc-end mount_file }}}
 
@@ -198,9 +203,8 @@ mount_path() #{{{1
 {
     # autodoc-begin mount_path {{{
     #
-    # Get the mount path for the given device.
-    #
     # Usage: mount_device DEVICE
+    # Get the mount path for the given device.
     #
     # autodoc-end mount_path }}}
 
@@ -211,9 +215,8 @@ mount_device() #{{{1
 {
     # autodoc-begin mount_device {{{
     #
-    # Get the device for the given mount path.
-    #
     # Usage: mount_device PATH
+    # Get the device for the given mount path.
     #
     # autodoc-end mount_device }}}
 
@@ -225,9 +228,8 @@ mounted_same() #{{{1
 {
     # autodoc-begin mounted_same {{{
     #
-    # Determine if all given files are on the same mount path.
-    #
     # Usage: mounted_same [FILE...]
+    # Determine if all given files are on the same mount path.
     #
     # autodoc-end mounted_same }}}
 
@@ -246,9 +248,8 @@ mounted_path() #{{{1
 {
     # autodoc-begin mounted_path {{{
     #
-    # Check to see if a given device is mounted.
-    #
     # Usage: mounted_path [PATH]
+    # Check to see if a given path is mounted.
     #
     # autodoc-end mounted_path }}}
 
@@ -259,9 +260,8 @@ mounted_device() #{{{1
 {
     # autodoc-begin mounted_device {{{
     #
-    # Check to see if a given device is mounted.
-    #
     # Usage: mounted_device DEVICE
+    # Check to see if a given device is mounted.
     #
     # autodoc-end mounted_device }}}
 
@@ -272,32 +272,45 @@ abspath() #{{{1
 {
     # autodoc-begin abspath {{{
     #
+    # Usage: abspath [PATH]
     # Gets the absolute path of the given path.
-    #
-    # Usage: abspath PATH
+    # Will resolve paths that contain '.' and '..'.
     #
     # autodoc-end abspath }}}
 
     local path=${1:-$PWD}
-    [[ $path != /* ]] && path=$PWD/${path//\.\//\/}
-    echo "/$(squeeze "/" <<<"$path")"
+
+    [[ $path == /* ]] || path=$PWD/$path
+
+    path=$(squeeze "/" <<<"$path")
+
+    local elms=()
+    local elm
+    OIFS=$IFS; IFS="/"
+    for elm in $path; do
+        IFS=$OIFS
+        [[ $elm == . ]] && continue
+        if [[ $elm == .. ]]; then
+            elms=("${elms[@]:0:$((${#elms[@]}-1))}")
+        else
+            elms=("${elms[@]}" "$elm")
+        fi
+    done
+    IFS="/"
+    echo "/${elms[*]}"
+    IFS=$OIFS
 }
 
 relpath() #{{{1
 {
     # autodoc-begin relpath {{{
     #
-    # Gets the relative path from source to destination.
-    #
     # Usage: relpath [DESTINATION] [SOURCE]
-    #
+    # Gets the relative path from SOURCE to DESTINATION.
     # Output should mirror the python function os.path.relpath().
-    #
-    # All arguments should be given as absolute paths.
     # All arguments default to the current directory.
     #
     # Usage examples:
-    #
     #     relpath /home/user     /home/user/bin  #==> bin
     #     relpath /home/user/bin /home/user      #==> ..
     #     relpath /foo/bar/baz   /               #==> ../../..
@@ -306,9 +319,8 @@ relpath() #{{{1
     #
     # autodoc-end relpath }}}
 
-    # Make sure that any duplicate slashes are removed.
-    local dst=/$(squeeze "/" <<<"${1:-$PWD}")
-    local src=/$(squeeze "/" <<<"${2:-$PWD}")
+    local dst=$(abspath "$1")
+    local src=$(abspath "$2")
 
     local common=$(commonpath "$dst" "$src")
 
@@ -400,10 +412,9 @@ trash() #{{{1
 {
     # autodoc-begin trash {{{
     #
+    # Usage: trash [FILE...]
     # Put files in gnome trash if it's on the same partition.
     # If on a different partition, remove as normal.
-    #
-    # Usage: trash [FILE...]
     #
     # autodoc-end trash }}}
 
@@ -432,7 +443,7 @@ cleanup() #{{{1
     # autodoc-begin cleanup {{{
     #
     # Cleans up any temp files lying around.
-    # Intended to be used alongside tempfile().
+    # Intended to be used alongside tempfile() and not to be called directly.
     #
     # autodoc-end cleanup }}}
 
@@ -467,9 +478,8 @@ truncate() #{{{1
 {
     # autodoc-begin truncate {{{
     #
-    # Removes all similar unused files.
-    #
     # Usage: truncate PREFIX SUFFIX [EXCLUDED_PREFIX...]
+    # Removes all similar unused files.
     #
     # The only assumption is that the prefix is separated from the identifier
     # by a single hyphen (-).

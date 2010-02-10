@@ -3,15 +3,19 @@
 # Filename:      bashutils-profile.sh
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-08 23:51:13 (-0500)
+# Last Modified: Tue 2010-02-09 23:44:36 (-0500)
 
-# autodoc-begin profile {{{
+# autodoc-begin bashutils-profile {{{
+#
+# The profile library provides functions for using profiles in scripts.
 #
 # There are some pieces of info needed for profile to work well.  The most
 # important being the name of the app using it. This is provided by setting
 # either PROFILE_NAME or SCRIPT_NAME. If PROFILE_NAME is set, it will be
 # preferred over SCRIPT_NAME. Technically this is the only variable that is
 # required to function.
+#
+# It's recommended that you have also set verbose and interactive mode.
 #
 # If you intend to write new profiles with your script, a default profile
 # should be provided with the PROFILE_DEFAULT variable like this:
@@ -46,9 +50,14 @@
 #
 #     profile_init  # This will return non-zero exit code on error.
 #
-# autodoc-end profile }}}
+# autodoc-end bashutils-profile }}}
 
-[[ $BASH_LINENO ]] || exit 1
+if (( ${BASH_LINENO:-0} == 0 )); then
+    source bashutils-autodoc
+    autodoc_execute "$0" "$@"
+    exit
+fi
+
 [[ $BASHUTILS_PROFILE_LOADED ]] && return
 
 source bashutils-files
@@ -105,6 +114,12 @@ profile_clear() #{{{1
 
 profile_create() #{{{1
 {
+    # autodoc-begin profile_create {{{
+    #
+    # Creates a new profile.
+    #
+    # autodoc-end profile_create }}}
+
     [[ $PROFILE ]] || PROFILE=$(input -c -p "Enter profile")
 
     profile_file || return 1
@@ -129,6 +144,12 @@ profile_create() #{{{1
 
 profile_delete() #{{{1
 {
+    # autodoc-begin profile_delete {{{
+    #
+    # Deletes an existing profile.
+    #
+    # autodoc-end profile_delete }}}
+
     profile_verify || return 1
     question -c -p "Are you sure you want to delete '$PROFILE'?" || return 1
     info -c "Deleting profile '$PROFILE'..."
@@ -137,6 +158,12 @@ profile_delete() #{{{1
 
 profile_edit() #{{{1
 {
+    # autodoc-begin profile_edit {{{
+    #
+    # Edits an existing profile.
+    #
+    # autodoc-end profile_edit }}}
+
     profile_verify || return 1
     editor "$PROFILE_FILE"
 }
@@ -166,9 +193,7 @@ profile_init() #{{{1
     # autodoc-begin profile_init {{{
     #
     # This function should be called in the script before any other
-    # functionality is used.
-    #
-    # If prefix was set, use that.
+    # functionality is used. If prefix was set, use that.
     # Otherwise use a prefix appropriate for the user's permissions.
     #
     # autodoc-end profile_init }}}
@@ -203,10 +228,23 @@ profile_init() #{{{1
 
 profile_list() #{{{1
 {
+    # autodoc-begin profile_list {{{
+    #
+    # profile_list [PATTERN]
+    # List profiles.
+    # If called with no argument and PROFILE is not set, then all profiles
+    # will be listed. If PROFILE is set, then it will be used as
+    # a pattern to filter the list. If a pattern is passed, it will override
+    # anything that PROFILE is set to.
+    #
+    # autodoc-end profile_list }}}
+
+    local profile=${1:-$PROFILE}
+
     listdir "$PROFILE_DIR" -type f |
     awk -F'/' '{print $NF}' |
     grep -v '^\.' |
-    grep "${PROFILE:+^$PROFILE$}" |
+    grep "${profile:+^$profile$}" |
     sort
 }
 

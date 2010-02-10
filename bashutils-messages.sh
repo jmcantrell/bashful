@@ -3,9 +3,28 @@
 # Filename:      bashutils-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-08 23:43:18 (-0500)
+# Last Modified: Tue 2010-02-09 22:59:57 (-0500)
 
-[[ $BASH_LINENO ]] || exit 1
+# autodoc-begin bashutils-messages {{{
+#
+# The messages library provides functions for notifying the user.
+#
+# All functions are sensitive to the following variables:
+#
+#     GUI      # If set/true, try to use gui dialogs.
+#     VERBOSE  # If unset/false, the user will not see notifications.
+#
+# The VERBOSE variable only matters if the function is used with the verbose
+# mode check option (-c).
+#
+# autodoc-end bashutils-messages }}}
+
+if (( ${BASH_LINENO:-0} == 0 )); then
+    source bashutils-autodoc
+    autodoc_execute "$0" "$@"
+    exit
+fi
+
 [[ $BASHUTILS_MESSAGES_LOADED ]] && return
 
 source bashutils-modes
@@ -90,9 +109,8 @@ usage_exit() #{{{1
 {
     # autodoc-begin usage_exit {{{
     #
-    # Display usage information and exit with the given error code.
-    #
     # Usage: usage_exit [ERROR]
+    # Display usage information and exit with the given error code.
     #
     # autodoc-end usage_exit }}}
 
@@ -103,10 +121,8 @@ error() #{{{1
 {
     # autodoc-begin error {{{
     #
-    # Displays a colorized (if available) error message.
-    # If used with -c, message will only display if verbose mode is enabled.
-    #
     # Usage: error [-c] [MESSAGE]
+    # Displays a colorized (if available) error message.
     #
     # autodoc-end error }}}
 
@@ -136,9 +152,8 @@ error_exit() #{{{1
 {
     # autodoc-begin error_exit {{{
     #
-    # Displays an error message and exits with the given error code.
-    #
     # Usage: error_exit [MESSAGE] [ERROR]
+    # Displays an error message and exits with the given error code.
     #
     # autodoc-end error_exit }}}
 
@@ -149,10 +164,8 @@ info() #{{{1
 {
     # autodoc-begin info {{{
     #
-    # Displays a colorized (if available) informational message.
-    # If used with -c, message will only display if verbose mode is enabled.
-    #
     # Usage: info [-c] [MESSAGE]
+    # Displays a colorized (if available) informational message.
     #
     # autodoc-end info }}}
 
@@ -182,10 +195,8 @@ warn() #{{{1
 {
     # autodoc-begin warn {{{
     #
-    # Displays a colorized (if available) warning message.
-    # If used with -c, message will only display if verbose mode is enabled.
-    #
     # Usage: warn [-c] [MESSAGE]
+    # Displays a colorized (if available) warning message.
     #
     # autodoc-end warn }}}
 

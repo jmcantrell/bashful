@@ -3,9 +3,45 @@
 # Filename:      bashutils-modes.sh
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-08 23:49:32 (-0500)
+# Last Modified: Tue 2010-02-09 23:13:06 (-0500)
 
-[[ $BASH_LINENO ]] || exit 1
+# autodoc-begin bashutils-modes {{{
+#
+# The modes library provides functions for using getting/setting mode values.
+#
+# The modes are controlled by the following variables:
+#
+#     GUI          # If set/true, try to use gui dialogs.
+#     INTERACTIVE  # If unset/false, the user will not be prompted.
+#     VERBOSE      # If unset/false, the user will not see notifications.
+#
+# The following commands get/set these variables:
+#
+#     gui
+#     interactive
+#     verbose
+#
+# If called with no argument, it returns the state of the mode in question.
+# If called with an argument, The mode is set to the value of the argument.
+#
+# The most common way that a mode would be set:
+#
+#     verbose ${VERBOSE:-1}
+#
+# This will set verbose mode to true if it is not already set.
+#
+# It can be used in the following way:
+#
+#     verbose && echo "Verbose mode is set!"
+#
+# autodoc-end bashutils-modes }}}
+
+if (( ${BASH_LINENO:-0} == 0 )); then
+    source bashutils-autodoc
+    autodoc_execute "$0" "$@"
+    exit
+fi
+
 [[ $BASHUTILS_MODES_LOADED ]] && return
 
 source bashutils-utils
@@ -14,11 +50,10 @@ gui() #{{{1
 {
     # autodoc-begin gui {{{
     #
+    # Usage: gui [VALUE]
     # With no arguments, test if gui mode is enabled.
     # With one argument, set gui mode to given value.
     # Will only enable gui mode if X is running.
-    #
-    # Usage: gui [VALUE]
     #
     # autodoc-end gui }}}
 
@@ -36,10 +71,9 @@ interactive() #{{{1
 {
     # autodoc-begin interactive {{{
     #
+    # Usage: interactive [VALUE]
     # With no arguments, test if interactive mode is enabled.
     # With one argument, set interactive mode to given value.
-    #
-    # Usage: interactive [VALUE]
     #
     # autodoc-end interactive }}}
 
@@ -55,10 +89,9 @@ interactive_echo() #{{{1
 {
     # autodoc-begin interactive_echo {{{
     #
+    # Usage: interactive_echo [TRUE_VALUE] [FALSE_VALUE]
     # Will only echo the first argument if interactive mode is enabled.
     # Otherwise, echo the second argument.
-    #
-    # Usage: interactive_echo [TRUE_VALUE] [FALSE_VALUE]
     #
     # autodoc-end interactive_echo }}}
 
@@ -80,10 +113,9 @@ verbose() #{{{1
 {
     # autodoc-begin verbose {{{
     #
+    # Usage: verbose [VALUE]
     # With no arguments, test if verbose mode is enabled.
     # With one argument, set verbose mode to given value.
-    #
-    # Usage: verbose [VALUE]
     #
     # autodoc-end verbose }}}
 
@@ -99,10 +131,9 @@ verbose_echo() #{{{1
 {
     # autodoc-begin verbose_echo {{{
     #
+    # Usage: verbose_echo [TRUE_VALUE] [FALSE_VALUE]
     # Will only echo the first argument if verbose mode is enabled.
     # Otherwise, echo the second argument.
-    #
-    # Usage: verbose_echo [TRUE_VALUE] [FALSE_VALUE]
     #
     # autodoc-end verbose_echo }}}
 
@@ -124,10 +155,9 @@ verbose_execute() #{{{1
 {
     # autodoc-begin verbose_execute {{{
     #
+    # Usage: verbose_execute [COMMAND]
     # Will execute the given command and only display the output if verbose
     # mode is enabled.
-    #
-    # Usage: verbose_execute [COMMAND]
     #
     # autodoc-end verbose_execute }}}
 
