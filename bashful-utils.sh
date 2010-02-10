@@ -3,40 +3,19 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 10:27:38 (-0500)
+# Last Modified: Wed 2010-02-10 17:50:58 (-0500)
 
-# autodoc-begin bashful-autodoc {{{
+# autodoc-begin bashful-utils {{{
 #
-# The autodoc library provides a way to extract documentation from scripts.
+# The utils library provides miscellaneous functions.
 #
-# Normally, I would prefer to use getopts to setup a -h/--help option, but in
-# some cases it isn't practical or it can conflict with other functions. This
-# provides a nice alternative with no side-effects.
-#
-# Within the script, a section of documentation is denoted like this:
-#
-#     # autodoc-begin NAME
-#     #
-#     # DOCUMENTATION TEXT GOES HERE
-#     #
-#     # autodoc-end NAME
-#
-# autodoc-end bashful-autodoc }}}
+# autodoc-end bashful-utils }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
-# If run directly, show documentation {{{
-
-if (( $BASH_LINENO == 0 )); then
-    source bashful-autodoc
-    autodoc_help "$0" "$@"
-    exit
-fi
-
-#}}}
 
 [[ $BASHFUL_UTILS_LOADED ]] && return
 
