@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Filename:      bashutils-messages.sh
+# Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-09 22:59:57 (-0500)
+# Last Modified: Wed 2010-02-10 10:22:55 (-0500)
 
-# autodoc-begin bashutils-messages {{{
+# autodoc-begin bashful-messages {{{
 #
 # The messages library provides functions for notifying the user.
 #
@@ -17,19 +17,19 @@
 # The VERBOSE variable only matters if the function is used with the verbose
 # mode check option (-c).
 #
-# autodoc-end bashutils-messages }}}
+# autodoc-end bashful-messages }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHUTILS_MESSAGES_LOADED ]] && return
+[[ $BASHFUL_MESSAGES_LOADED ]] && return
 
-source bashutils-modes
-source bashutils-terminfo
-source bashutils-utils
+source bashful-modes
+source bashful-terminfo
+source bashful-utils
 
 z() #{{{1
 {
@@ -224,4 +224,4 @@ warn() #{{{1
 
 #}}}1
 
-BASHUTILS_MESSAGES_LOADED=1
+BASHFUL_MESSAGES_LOADED=1

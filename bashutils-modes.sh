@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Filename:      bashutils-modes.sh
+# Filename:      bashful-modes.sh
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-09 23:13:06 (-0500)
+# Last Modified: Wed 2010-02-10 10:23:24 (-0500)
 
-# autodoc-begin bashutils-modes {{{
+# autodoc-begin bashful-modes {{{
 #
 # The modes library provides functions for using getting/setting mode values.
 #
@@ -34,17 +34,17 @@
 #
 #     verbose && echo "Verbose mode is set!"
 #
-# autodoc-end bashutils-modes }}}
+# autodoc-end bashful-modes }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHUTILS_MODES_LOADED ]] && return
+[[ $BASHFUL_MODES_LOADED ]] && return
 
-source bashutils-utils
+source bashful-utils
 
 gui() #{{{1
 {
@@ -170,4 +170,4 @@ verbose_execute() #{{{1
 
 #}}}1
 
-BASHUTILS_MODES_LOADED=1
+BASHFUL_MODES_LOADED=1

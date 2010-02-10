@@ -1,4 +1,4 @@
-BashUtils is a collection of libraries intended simplify writing bash scripts.
+Bashful is a collection of libraries intended simplify writing bash scripts.
 
 To install, run the 'install' script:
 
@@ -8,24 +8,24 @@ This will install the scripts to DIR or to ~/bin, if not specified.
 
 To get documentation:
 
-    bashutils help [COMMAND]
+    bashful help [COMMAND]
 
 This will display documentation on COMMAND. If no COMMAND is specified,
 general help and a list of all libraries/commands will be given.
 
 To get documentation for a specific library:
 
-    bashutils-input help [COMMAND]
+    bashful-input help [COMMAND]
 
 This works exactly like the previous documentation command except it is
 specific to the input library.
 
 To use within a bash script, simply source the needed library:
 
-    source bashutils-input
+    source bashful-input
 
 At this point, all functions in the input library are available to the script.
 
 To test out a command or to use in a non-bash context:
 
-    bashutils COMMAND [OPTIONS] [ARGUMENTS]
+    bashful COMMAND [OPTIONS] [ARGUMENTS]

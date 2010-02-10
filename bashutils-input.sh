@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Filename:      bashutils-input.sh
+# Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-09 22:59:21 (-0500)
+# Last Modified: Wed 2010-02-10 10:22:29 (-0500)
 
-# autodoc-begin bashutils-input {{{
+# autodoc-begin bashful-input {{{
 #
 # The input library provides functions for taking user input.
 #
@@ -17,19 +17,19 @@
 # The INTERACTIVE variable only matters if the function is used with the
 # interactive mode check option (-c).
 #
-# autodoc-end bashutils-input }}}
+# autodoc-end bashful-input }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHUTILS_INPUT_LOADED ]] && return
+[[ $BASHFUL_INPUT_LOADED ]] && return
 
-source bashutils-messages
-source bashutils-modes
-source bashutils-utils
+source bashful-messages
+source bashful-modes
+source bashful-utils
 
 input() #{{{1
 {
@@ -239,4 +239,4 @@ choice() #{{{1
 
 #}}}1
 
-BASHUTILS_INPUT_LOADED=1
+BASHFUL_INPUT_LOADED=1

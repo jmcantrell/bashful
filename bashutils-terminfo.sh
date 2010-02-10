@@ -1,35 +1,24 @@
 #!/bin/bash
 
-# Filename:      bashutils-terminfo.sh
+# Filename:      bashful-terminfo.sh
 # Description:   Sets terminal strings for things like color, bold, etc.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-09 23:47:47 (-0500)
+# Last Modified: Wed 2010-02-10 10:26:15 (-0500)
 
-# autodoc-begin bashutils-autodoc {{{
+# autodoc-begin bashful-terminfo {{{
 #
-# The autodoc library provides a way to extract documentation from scripts.
+# The terminfo library provides variables for altering the appearance of
+# terminal output (bold, italics, underline, colors, etc).
 #
-# Normally, I would prefer to use getopts to setup a -h/--help option, but in
-# some cases it isn't practical or it can conflict with other functions. This
-# provides a nice alternative with no side-effects.
-#
-# Within the script, a section of documentation is denoted like this:
-#
-#     # autodoc-begin NAME
-#     #
-#     # DOCUMENTATION TEXT GOES HERE
-#     #
-#     # autodoc-end NAME
-#
-# autodoc-end bashutils-autodoc }}}
+# autodoc-end bashful-terminfo }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHUTILS_TERMINFO_LOADED ]] && return
+[[ $BASHFUL_TERMINFO_LOADED ]] && return
 
 term_reset=$(tput sgr0 2>/dev/null)
 term_bold=$(tput bold 2>/dev/null)
@@ -58,4 +47,4 @@ if (( $(tput colors) >= 8 )); then
     term_bg_white=$(tput setbf 7 2>/dev/null)
 fi
 
-BASHUTILS_TERMINFO_LOADED=1
+BASHFUL_TERMINFO_LOADED=1

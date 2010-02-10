@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Filename:      bashutils-profile.sh
+# Filename:      bashful-profile.sh
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-09 23:44:36 (-0500)
+# Last Modified: Wed 2010-02-10 10:23:47 (-0500)
 
-# autodoc-begin bashutils-profile {{{
+# autodoc-begin bashful-profile {{{
 #
 # The profile library provides functions for using profiles in scripts.
 #
@@ -43,28 +43,28 @@
 #
 # In summary, before any functionality can be used, you must do the following:
 #
-#     source bashutils-profile
+#     source bashful-profile
 #
 #     PROFILE_NAME=myapp
 #     PROFILE_DEFAULT="..."
 #
 #     profile_init  # This will return non-zero exit code on error.
 #
-# autodoc-end bashutils-profile }}}
+# autodoc-end bashful-profile }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHUTILS_PROFILE_LOADED ]] && return
+[[ $BASHFUL_PROFILE_LOADED ]] && return
 
-source bashutils-files
-source bashutils-input
-source bashutils-messages
-source bashutils-modes
-source bashutils-utils
+source bashful-files
+source bashful-input
+source bashful-messages
+source bashful-modes
+source bashful-utils
 
 profile_actions() #{{{1
 {
@@ -313,4 +313,4 @@ profile_verify() #{{{1
 
 #}}}1
 
-BASHUTILS_PROFILE_LOADED=1
+BASHFUL_PROFILE_LOADED=1

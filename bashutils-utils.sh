@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Filename:      bashutils-utils.sh
+# Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 00:18:32 (-0500)
+# Last Modified: Wed 2010-02-10 10:27:38 (-0500)
 
-# autodoc-begin bashutils-autodoc {{{
+# autodoc-begin bashful-autodoc {{{
 #
 # The autodoc library provides a way to extract documentation from scripts.
 #
@@ -21,24 +21,24 @@
 #     #
 #     # autodoc-end NAME
 #
-# autodoc-end bashutils-autodoc }}}
+# autodoc-end bashful-autodoc }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 # If run directly, show documentation {{{
 
 if (( $BASH_LINENO == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_help "$0" "$@"
     exit
 fi
 
 #}}}
 
-[[ $BASHUTILS_UTILS_LOADED ]] && return
+[[ $BASHFUL_UTILS_LOADED ]] && return
 
 lower() #{{{1
 {
@@ -438,4 +438,4 @@ execute_in() #{{{1
 
 #}}}1
 
-BASHUTILS_UTILS_LOADED=1
+BASHFUL_UTILS_LOADED=1

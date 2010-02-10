@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Filename:      bashutils-autodoc.sh
+# Filename:      bashful-autodoc.sh
 # Description:   Functions for extracting embedded documentation.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 00:19:49 (-0500)
+# Last Modified: Wed 2010-02-10 10:21:38 (-0500)
 
-# autodoc-begin bashutils-autodoc {{{
+# autodoc-begin bashful-autodoc {{{
 #
 # The autodoc library provides a way to extract documentation from scripts.
 #
@@ -21,17 +21,17 @@
 #     #
 #     # autodoc-end NAME
 #
-# autodoc-end bashutils-autodoc }}}
+# autodoc-end bashful-autodoc }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHUTILS_AUTODOC_LOADED ]] && return
+[[ $BASHFUL_AUTODOC_LOADED ]] && return
 
-source bashutils-utils
+source bashful-utils
 
 autodoc() #{{{1
 {
@@ -130,4 +130,4 @@ autodoc_commands() #{{{1
 
 #}}}1
 
-BASHUTILS_AUTODOC_LOADED=1
+BASHFUL_AUTODOC_LOADED=1

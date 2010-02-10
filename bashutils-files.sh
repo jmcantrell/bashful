@@ -1,27 +1,27 @@
 #!/bin/bash
 
-# Filename:      bashutils-files.sh
+# Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-02-09 22:42:06 (-0500)
+# Last Modified: Wed 2010-02-10 10:22:10 (-0500)
 
-# autodoc-begin bashutils-files {{{
+# autodoc-begin bashful-files {{{
 #
 # The files library provides functions for working with files/directories.
 #
-# autodoc-end bashutils-files }}}
+# autodoc-end bashful-files }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashutils-autodoc
+    source bashful-autodoc
     autodoc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHUTILS_FILES_LOADED ]] && return
+[[ $BASHFUL_FILES_LOADED ]] && return
 
-source bashutils-messages
-source bashutils-modes
-source bashutils-utils
+source bashful-messages
+source bashful-modes
+source bashful-utils
 
 commonpath() #{{{1
 {
@@ -550,4 +550,4 @@ truncate() #{{{1
 
 #}}}1
 
-BASHUTILS_FILES_LOADED=1
+BASHFUL_FILES_LOADED=1
