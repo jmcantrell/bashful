@@ -3,7 +3,7 @@
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-02-11 13:15:09 (-0500)
+# Last Modified: Thu 2010-02-11 13:16:12 (-0500)
 
 # autodoc-begin bashful-input {{{
 #
@@ -81,7 +81,7 @@ input() #{{{1
         reply=$(z "$p" --entry $s --entry-text="$d") || return 1
     else
         read $s -ep "${p}${d:+ [$d]}: " reply || return 1
-        truth $s && echo >&2
+        [[ $s ]] && echo >&2
     fi
 
     echo "${reply:-$d}"
