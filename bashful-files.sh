@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 10:22:10 (-0500)
+# Last Modified: Fri 2010-02-12 15:56:30 (-0500)
 
 # autodoc-begin bashful-files {{{
 #
@@ -33,9 +33,10 @@ commonpath() #{{{1
     #
     # autodoc-end commonpath }}}
 
-    local i path compare prefix
-    local OIFS=$IFS
+    local path
+    # local OIFS=$IFS
 
+    # Make sure command line args go to stdin.
     if (( $# > 0 )); then
         for path in "$@"; do
             echo "$path"
@@ -43,26 +44,21 @@ commonpath() #{{{1
         return
     fi
 
-    while read path; do
-        IFS=/
-        path=($(trim "/" <<<"$(abspath "$path")"))
-        IFS=$OIFS
-        if [[ ! $prefix ]]; then
-            prefix=("${path[@]}")
-            continue
-        fi
-        i=0
-        compare=()
-        while true; do
-            [[ ${path[$i]} || ${prefix[$i]} ]] || break
-            [[ ${path[$i]} != ${prefix[$i]} ]] && break
-            compare=("${compare[@]}" "${path[$((i++))]}")
-        done
-        prefix=("${compare[@]}")
-        IFS=/
-        echo "/${prefix[*]}"
-        IFS=$OIFS
-    done | tail -n1
+    local prefix=$(
+        while read path; do
+            echo "$(abspath "$path")/"
+        done | commonprefix
+    )
+
+    if [[ $prefix != */ ]]; then
+        prefix=${prefix%/*}/
+    fi
+
+    if [[ $prefix != / ]]; then
+        prefix=${prefix%/}
+    fi
+
+    echo "$prefix"
 }
 
 extname() #{{{1
