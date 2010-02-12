@@ -3,7 +3,7 @@
 # Filename:      bashful-autodoc.sh
 # Description:   Functions for extracting embedded documentation.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 10:21:38 (-0500)
+# Last Modified: Fri 2010-02-12 15:20:15 (-0500)
 
 # autodoc-begin bashful-autodoc {{{
 #
@@ -108,9 +108,8 @@ autodoc_commands() #{{{1
 {
     # autodoc-begin autodoc_commands {{{
     #
-    # Show all autodoc tags in given files.
-    #
     # Usage: autodoc_commands [FILE...]
+    # Show all autodoc tags in given files.
     #
     # autodoc-end autodoc_commands }}}
 
