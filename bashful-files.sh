@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Fri 2010-02-12 15:56:30 (-0500)
+# Last Modified: Fri 2010-02-12 22:19:02 (-0500)
 
 # autodoc-begin bashful-files {{{
 #
@@ -34,9 +34,8 @@ commonpath() #{{{1
     # autodoc-end commonpath }}}
 
     local path
-    # local OIFS=$IFS
 
-    # Make sure command line args go to stdin.
+    # Make sure command line args go to stdin
     if (( $# > 0 )); then
         for path in "$@"; do
             echo "$path"
@@ -50,10 +49,12 @@ commonpath() #{{{1
         done | commonprefix
     )
 
+    # We only want to break at path separators
     if [[ $prefix != */ ]]; then
         prefix=${prefix%/*}/
     fi
 
+    # Only strip the trailing slash if it's not root (/)
     if [[ $prefix != / ]]; then
         prefix=${prefix%/}
     fi

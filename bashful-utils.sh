@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 17:50:58 (-0500)
+# Last Modified: Sat 2010-02-13 00:32:11 (-0500)
 
 # autodoc-begin bashful-utils {{{
 #
@@ -50,6 +50,13 @@ title() #{{{1
     # autodoc-end title }}}
 
     lower | sed 's/\<./\u&/g'
+}
+
+detox() #{{{1
+{
+    sed 's/[[:punct:]]/ /g' |
+    sed 's/[^A-Za-z0-9 ]/ /g' |
+    squeeze | sed 's/ /_/g' | lower
 }
 
 first() #{{{1
