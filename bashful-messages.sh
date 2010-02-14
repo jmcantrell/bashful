@@ -3,7 +3,7 @@
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 10:22:55 (-0500)
+# Last Modified: Sun 2010-02-14 15:38:17 (-0500)
 
 # autodoc-begin bashful-messages {{{
 #
@@ -126,16 +126,16 @@ error() #{{{1
     #
     # autodoc-end error }}}
 
-    local check
+    local c
 
     unset OPTIND
     while getopts ":c" option; do
         case $option in
-            c) check=1 ;;
+            c) c=1 ;;
         esac
     done && shift $(($OPTIND - 1))
 
-    if truth $check && ! verbose; then
+    if truth $c && ! verbose; then
         return
     fi
 
@@ -169,20 +169,23 @@ info() #{{{1
     #
     # autodoc-end info }}}
 
-    local check
+    local c
 
     unset OPTIND
     while getopts ":c" option; do
         case $option in
-            c) check=1 ;;
+            c) c=1 ;;
         esac
     done && shift $(($OPTIND - 1))
 
-    if truth $check && ! verbose; then
+    if truth $c && ! verbose; then
         return
     fi
 
     local msg=${1:-All updates are complete.}
+
+    # Shorten home paths, if they exist.
+    msg=${msg//$HOME/~}
 
     if gui; then
         z "$msg" --info
@@ -200,16 +203,16 @@ warn() #{{{1
     #
     # autodoc-end warn }}}
 
-    local check
+    local c
 
     unset OPTIND
     while getopts ":c" option; do
         case $option in
-            c) check=1 ;;
+            c) c=1 ;;
         esac
     done && shift $(($OPTIND - 1))
 
-    if truth $check && ! verbose; then
+    if truth $c && ! verbose; then
         return
     fi
 
