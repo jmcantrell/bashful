@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Fri 2010-02-12 22:19:02 (-0500)
+# Last Modified: Sat 2010-02-13 01:07:21 (-0500)
 
 # autodoc-begin bashful-files {{{
 #
@@ -277,7 +277,18 @@ abspath() #{{{1
 
     local path=${1:-$PWD}
 
-    [[ $path == /* ]] || path=$PWD/$path
+    # Path looks like: ~user/...
+    if [[ $path =~ ~[a-zA-Z] ]]; then
+        local name=${path##\~}
+        name=${name%%/*}
+        local home=$(grep "^$name:" /etc/passwd | awk -F: '{print $6}')
+        path=${path/~$name/$home}
+    fi
+
+    # Path looks like: ~/...
+    [[ $path == ~* ]] && path=${path/\~/$HOME}
+
+    [[ $path == /*  ]] || path=$PWD/$path
 
     path=$(squeeze "/" <<<"$path")
 
