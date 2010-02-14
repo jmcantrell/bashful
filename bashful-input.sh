@@ -3,7 +3,7 @@
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-02-11 13:16:12 (-0500)
+# Last Modified: Sat 2010-02-13 21:27:26 (-0500)
 
 # autodoc-begin bashful-input {{{
 #
@@ -80,7 +80,8 @@ input() #{{{1
     if gui; then
         reply=$(z "$p" --entry $s --entry-text="$d") || return 1
     else
-        read $s -ep "${p}${d:+ [$d]}: " reply || return 1
+        [[ $s ]] || p="${p}${d:+ [$d]}"
+        read $s -ep "$p: " reply || return 1
         [[ $s ]] && echo >&2
     fi
 
@@ -140,43 +141,39 @@ question() #{{{1
     #
     # autodoc-end question }}}
 
-    prompt="Are you sure you want to proceed?"
-    local default check reply choice
+    local p="Are you sure you want to proceed?"
+    local d c reply choice
 
     unset OPTIND
     while getopts ":p:d:c" option; do
         case $option in
-            p) prompt=$OPTARG ;;
-            d) default=$OPTARG ;;
-            c) check=1 ;;
+            p) p=$OPTARG ;;
+            d) d=$OPTARG ;;
+            c) c=1 ;;
         esac
     done && shift $(($OPTIND - 1))
 
-    if truth $check && ! interactive; then
+    if truth $c && ! interactive; then
         return 0
     fi
 
-    if truth "$default"; then
-        default=y
-    else
-        default=n
-    fi
+    truth "$d" && d=y || d=n
 
     if ! gui; then
-        prompt="$prompt [$(sed "s/\($default\)/\u\1/i" <<<"yn")]: "
+        p="$p [$(sed "s/\($d\)/\u\1/i" <<<"yn")]: "
     fi
 
     until [[ $choice ]]; do
         if gui; then
-            if z "$prompt" --question; then
+            if z "$p" --question; then
                 choice=y
             else
                 choice=n
             fi
         else
-            read -e -n1 -p "$prompt" choice
+            read -e -n1 -p "$p" choice
         fi
-        choice=$(first "$choice" "$default" | trim | lower)
+        choice=$(first "$choice" "$d" | trim | lower)
         case $choice in
             y) choice=0 ;;
             n) choice=1 ;;
@@ -203,18 +200,18 @@ choice() #{{{1
     #
     # autodoc-end choice }}}
 
-    local prompt="Select from these choices"
-    local prompt check
+    local p="Select from these choices"
+    local c
 
     unset OPTIND
     while getopts ":p:c" option; do
         case $option in
-            p) prompt=$OPTARG ;;
-            c) check=1 ;;
+            p) p=$OPTARG ;;
+            c) c=1 ;;
         esac
     done && shift $(($OPTIND - 1))
 
-    if truth $check && ! interactive; then
+    if truth $c && ! interactive; then
         return
     fi
 
@@ -225,9 +222,9 @@ choice() #{{{1
 
     if gui; then
         printf "%s\n" "$@" |
-        z "$prompt" --list --column="Choices" || return 1
+        z "$p" --list --column="Choices" || return 1
     else
-        echo "$prompt:" >&2
+        echo "$p:" >&2
         select choice in "$@"; do
             if [[ $choice ]]; then
                 echo "$choice"
