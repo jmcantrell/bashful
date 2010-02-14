@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-02-13 00:32:11 (-0500)
+# Last Modified: Sat 2010-02-13 22:57:12 (-0500)
 
 # autodoc-begin bashful-utils {{{
 #
@@ -49,7 +49,8 @@ title() #{{{1
     #
     # autodoc-end title }}}
 
-    lower | sed 's/\<./\u&/g'
+    lower | sed 's/\<./\u&/g' |
+    sed "s/'[[:upper:]]/\L&\l/g"
 }
 
 detox() #{{{1
@@ -85,6 +86,23 @@ named() #{{{1
     #
     # Get the value of the variable named the passed argument.
     #
+    # The only reason why this function exists is because I can't do:
+    #
+    #     echo ${!"some_var"}
+    #
+    # Instead, I have to do:
+    #
+    #     some_var="The value I really want"
+    #     name="some_var"
+    #     echo ${!name}  #==> The value I really want
+    #
+    # With named(), I can now do:
+    #
+    #     some_var="The value I really want"
+    #     named "some_var"  #==> The value I really want
+    #
+    # Which eliminates the need for an intermediate variable.
+    #
     # autodoc-end named }}}
 
     echo "${!1}"
@@ -106,7 +124,7 @@ truth() #{{{1
     #
     # autodoc-end truth }}}
 
-    case $(tr A-Z a-z <<<"$1") in
+    case $(lower <<<"$1") in
         yes|y|true|t|on|1) return 0 ;;
     esac
     return 1
@@ -327,13 +345,13 @@ sort_list() #{{{1
     #
     # autodoc-end sort_list }}}
 
-    local reverse unique
+    local r u
 
     unset OPTIND
     while getopts ":ur" option; do
         case $option in
-            u) unique=-u ;;
-            r) reverse=-r ;;
+            u) u=-u ;;
+            r) r=-r ;;
         esac
     done && shift $(($OPTIND - 1))
 
@@ -341,7 +359,7 @@ sort_list() #{{{1
     local item list
 
     OIFS=$IFS; IFS=$'\n'
-    for item in $(sed "s%${delim//%/\%}%\n%g" | sort $reverse $unique); do
+    for item in $(sed "s%${delim//%/\%}%\n%g" | sort $r $u); do
         IFS=$OIFS
         list+="$(trim <<<"$item")$delim"
     done
@@ -356,20 +374,13 @@ split_string() #{{{1
     # Split a given string into a list.
     #
     # Usage examples:
-    #     echo "foo, bar, baz" | split_string         #==> foo\nbar\nbaz
-    #     echo "foo|bar|baz"   | split_string -d "|"  #==> foo\nbar\nbaz
+    #     echo "foo, bar, baz" | split_string      #==> foo\nbar\nbaz
+    #     echo "foo|bar|baz"   | split_string "|"  #==> foo\nbar\nbaz
     #
     # autodoc-end split_string }}}
 
-    local delim=","
+    local delim=${1:-,}
     local line str
-
-    unset OPTIND
-    while getopts ":d:" option; do
-        case $option in
-            d) delim=$OPTARG ;;
-        esac
-    done && shift $(($OPTIND - 1))
 
     while read line; do
         OIFS=$IFS; IFS=$delim
@@ -387,20 +398,13 @@ join_lines() #{{{1
     # Joins a list into a string.
     #
     # Usage examples:
-    #     echo -e "foo\nbar\nbaz" | join_lines         #==> foo, bar, baz
-    #     echo -e "foo\nbar\nbaz" | join_lines -d "|"  #==> foo|bar|baz
+    #     echo -e "foo\nbar\nbaz" | join_lines      #==> foo, bar, baz
+    #     echo -e "foo\nbar\nbaz" | join_lines "|"  #==> foo|bar|baz
     #
     # autodoc-end join_lines }}}
 
-    local delim=", "
+    local delim=${1:-, }
     local value
-
-    unset OPTIND
-    while getopts ":d:" option; do
-        case $option in
-            d) delim=$OPTARG ;;
-        esac
-    done && shift $(($OPTIND - 1))
 
     while read value; do
         echo -ne "${value}${delim}"

@@ -3,7 +3,7 @@
 # Filename:      bashful.sh
 # Description:   An interface to bashful for non-bash scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-02-13 00:30:39 (-0500)
+# Last Modified: Sat 2010-02-13 00:50:48 (-0500)
 
 (( ${BASH_LINENO:-0} > 0 )) && exit
 
