@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-02-13 22:57:12 (-0500)
+# Last Modified: Mon 2010-02-15 00:57:29 (-0500)
 
 # autodoc-begin bashful-utils {{{
 #
@@ -308,23 +308,24 @@ commonprefix() #{{{1
     #
     # autodoc-end commonprefix }}}
 
-    local i str compare prefix
+    local i compare prefix
 
     if (( $# > 0 )); then
+        local str
         for str in "$@"; do
             echo "$str"
         done | commonprefix
         return
     fi
 
-    while read str; do
-        [[ $prefix ]] || prefix=$str
+    while read -r; do
+        [[ $prefix ]] || prefix=$REPLY
         i=0
         unset compare
         while true; do
-            [[ ${str:$i:1} || ${prefix:$i:1} ]] || break
-            [[ ${str:$i:1} != ${prefix:$i:1} ]] && break
-            compare+=${str:$((i++)):1}
+            [[ ${REPLY:$i:1} || ${prefix:$i:1} ]] || break
+            [[ ${REPLY:$i:1} != ${prefix:$i:1} ]] && break
+            compare+=${REPLY:$((i++)):1}
         done
         prefix=$compare
         echo "$prefix"
@@ -382,9 +383,9 @@ split_string() #{{{1
     local delim=${1:-,}
     local line str
 
-    while read line; do
+    while read -r; do
         OIFS=$IFS; IFS=$delim
-        for str in $line; do
+        for str in $REPLY; do
             IFS=$OIFS
             trim <<<"$str"
         done
@@ -404,10 +405,9 @@ join_lines() #{{{1
     # autodoc-end join_lines }}}
 
     local delim=${1:-, }
-    local value
 
-    while read value; do
-        echo -ne "${value}${delim}"
+    while read -r; do
+        echo -ne "${REPLY}${delim}"
     done | sed "s/$delim$//"
     echo
 }

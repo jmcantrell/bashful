@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-02-13 01:07:21 (-0500)
+# Last Modified: Mon 2010-02-15 00:49:00 (-0500)
 
 # autodoc-begin bashful-files {{{
 #
@@ -44,8 +44,8 @@ commonpath() #{{{1
     fi
 
     local prefix=$(
-        while read path; do
-            echo "$(abspath "$path")/"
+        while read -r; do
+            echo "$(abspath "$REPLY")/"
         done | commonprefix
     )
 
