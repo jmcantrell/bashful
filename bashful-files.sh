@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-15 00:49:00 (-0500)
+# Last Modified: Mon 2010-02-15 14:32:17 (-0500)
 
 # autodoc-begin bashful-files {{{
 #
@@ -360,6 +360,7 @@ link() #{{{1
 {
     # autodoc-begin link {{{
     #
+    # Usage: link SOURCE [DESTINATION]
     # Version of ln that respects the interactive/verbose settings.
     # Accepts the same options/arguments as ln.
     #
@@ -368,7 +369,7 @@ link() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    ln -snT $(interactive_option) $(verbose_echo -v) "$@"
+    ln -snT $(interactive_option) $(verbose_echo -v) "$1" "${2:-$(basename "$1")}"
 }
 
 move() #{{{1
