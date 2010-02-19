@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Filename:      bashful-files.sh
-# Description:   Miscellaneous utility functions for dealing with files.
-# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-15 14:32:17 (-0500)
+# Filename:    bashful-files.sh
+# Description: Miscellaneous utility functions for dealing with files.
+# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
 # autodoc-begin bashful-files {{{
 #

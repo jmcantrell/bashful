@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Filename:      bashful-input.sh
-# Description:   A set of functions for interacting with the user.
-# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-02-13 21:27:26 (-0500)
+# Filename:    bashful-input.sh
+# Description: A set of functions for interacting with the user.
+# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
 # autodoc-begin bashful-input {{{
 #

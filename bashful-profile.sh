@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Filename:      bashful-profile.sh
-# Description:   Utilities for using script profiles.
-# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-02-10 10:23:47 (-0500)
+# Filename:    bashful-profile.sh
+# Description: Utilities for using script profiles.
+# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
 # autodoc-begin bashful-profile {{{
 #

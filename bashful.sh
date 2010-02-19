@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Filename:      bashful.sh
-# Description:   An interface to bashful for non-bash scripts.
-# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-02-13 00:50:48 (-0500)
+# Filename:    bashful.sh
+# Description: An interface to bashful for non-bash scripts.
+# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
 (( ${BASH_LINENO:-0} > 0 )) && exit
 

@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Filename:      bashful-autodoc.sh
-# Description:   Functions for extracting embedded documentation.
-# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Fri 2010-02-12 15:20:15 (-0500)
+# Filename:    bashful-autodoc.sh
+# Description: Functions for extracting embedded documentation.
+# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
 # autodoc-begin bashful-autodoc {{{
 #

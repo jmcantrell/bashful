@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Filename:      bashful-messages.sh
-# Description:   A set of functions for giving the user information.
-# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-02-14 15:38:17 (-0500)
+# Filename:    bashful-messages.sh
+# Description: A set of functions for giving the user information.
+# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
 # autodoc-begin bashful-messages {{{
 #

@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Filename:      bashful-utils.sh
-# Description:   Miscellaneous utility functions for use in other scripts.
-# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-02-15 00:57:29 (-0500)
+# Filename:    bashful-utils.sh
+# Description: Miscellaneous utility functions for use in other scripts.
+# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
 # autodoc-begin bashful-utils {{{
 #
