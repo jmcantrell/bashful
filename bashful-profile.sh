@@ -4,7 +4,7 @@
 # Description: Utilities for using script profiles.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-profile {{{
+# doc bashful-profile {{{
 #
 # The profile library provides functions for using profiles in scripts.
 #
@@ -49,11 +49,11 @@
 #
 #     profile_init  # This will return non-zero exit code on error.
 #
-# autodoc-end bashful-profile }}}
+# doc-end bashful-profile }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 
@@ -76,13 +76,13 @@ profile_actions() #{{{1
 
 profile_choose() #{{{1
 {
-    # autodoc-begin profile_choose {{{
+    # doc profile_choose {{{
     #
     # Prompt user for a profile.
     # If interactive mode is not enabled, you better have already set the
     # profile or it's errors for everyone.
     #
-    # autodoc-end profile_choose }}}
+    # doc-end profile_choose }}}
 
     if (( $(profile_list | wc -l) == 0 )); then
         error "No profiles available."
@@ -113,11 +113,11 @@ profile_clear() #{{{1
 
 profile_create() #{{{1
 {
-    # autodoc-begin profile_create {{{
+    # doc profile_create {{{
     #
     # Creates a new profile.
     #
-    # autodoc-end profile_create }}}
+    # doc-end profile_create }}}
 
     [[ $PROFILE ]] || PROFILE=$(input -c -p "Enter profile")
 
@@ -143,11 +143,11 @@ profile_create() #{{{1
 
 profile_delete() #{{{1
 {
-    # autodoc-begin profile_delete {{{
+    # doc profile_delete {{{
     #
     # Deletes an existing profile.
     #
-    # autodoc-end profile_delete }}}
+    # doc-end profile_delete }}}
 
     profile_verify || return 1
     question -c -p "Are you sure you want to delete '$PROFILE'?" || return 1
@@ -157,11 +157,11 @@ profile_delete() #{{{1
 
 profile_edit() #{{{1
 {
-    # autodoc-begin profile_edit {{{
+    # doc profile_edit {{{
     #
     # Edits an existing profile.
     #
-    # autodoc-end profile_edit }}}
+    # doc-end profile_edit }}}
 
     profile_verify || return 1
     editor "$PROFILE_FILE"
@@ -169,11 +169,11 @@ profile_edit() #{{{1
 
 profile_file() #{{{1
 {
-    # autodoc-begin profile_file {{{
+    # doc profile_file {{{
     #
     # Make sure the profile file is set before continuing.
     #
-    # autodoc-end profile_file }}}
+    # doc-end profile_file }}}
 
     if [[ ! $PROFILE ]]; then
         PROFILE=$(profile_choose) || return 1
@@ -189,13 +189,13 @@ profile_file() #{{{1
 
 profile_init() #{{{1
 {
-    # autodoc-begin profile_init {{{
+    # doc profile_init {{{
     #
     # This function should be called in the script before any other
     # functionality is used. If prefix was set, use that.
     # Otherwise use a prefix appropriate for the user's permissions.
     #
-    # autodoc-end profile_init }}}
+    # doc-end profile_init }}}
 
     if (( EUID == 0 )); then
         PREFIX=${PREFIX:-/usr/local}
@@ -227,7 +227,7 @@ profile_init() #{{{1
 
 profile_list() #{{{1
 {
-    # autodoc-begin profile_list {{{
+    # doc profile_list {{{
     #
     # profile_list [PATTERN]
     # List profiles.
@@ -236,7 +236,7 @@ profile_list() #{{{1
     # a pattern to filter the list. If a pattern is passed, it will override
     # anything that PROFILE is set to.
     #
-    # autodoc-end profile_list }}}
+    # doc-end profile_list }}}
 
     local profile=${1:-$PROFILE}
 
@@ -249,7 +249,7 @@ profile_list() #{{{1
 
 profile_load() #{{{1
 {
-    # autodoc-begin profile_load {{{
+    # doc profile_load {{{
     #
     # Load a profile.
     #
@@ -261,7 +261,7 @@ profile_load() #{{{1
     # The uncommented default profile settings are considered required, and
     # uncommented settings are considered optional.
     #
-    # autodoc-end profile_load }}}
+    # doc-end profile_load }}}
 
     profile_verify || return 1
 
@@ -296,11 +296,11 @@ profile_variables_required() #{{{1
 
 profile_verify() #{{{1
 {
-    # autodoc-begin profile_verify {{{
+    # doc profile_verify {{{
     #
     # Make sure the profile file exists before continuing.
     #
-    # autodoc-end profile_verify }}}
+    # doc-end profile_verify }}}
 
     profile_file || return 1
 

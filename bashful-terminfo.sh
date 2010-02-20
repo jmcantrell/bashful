@@ -4,16 +4,16 @@
 # Description: Sets terminal strings for things like color, bold, etc.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-terminfo {{{
+# doc bashful-terminfo {{{
 #
 # The terminfo library provides variables for altering the appearance of
 # terminal output (bold, italics, underline, colors, etc).
 #
-# autodoc-end bashful-terminfo }}}
+# doc-end bashful-terminfo }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 

@@ -4,7 +4,7 @@
 # Description: Set of functions to interact with different script modes.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-modes {{{
+# doc bashful-modes {{{
 #
 # The modes library provides functions for using getting/setting mode values.
 #
@@ -33,11 +33,11 @@
 #
 #     verbose && echo "Verbose mode is set!"
 #
-# autodoc-end bashful-modes }}}
+# doc-end bashful-modes }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 
@@ -47,14 +47,14 @@ source bashful-utils
 
 gui() #{{{1
 {
-    # autodoc-begin gui {{{
+    # doc gui {{{
     #
     # Usage: gui [VALUE]
     # With no arguments, test if gui mode is enabled.
     # With one argument, set gui mode to given value.
     # Will only enable gui mode if X is running.
     #
-    # autodoc-end gui }}}
+    # doc-end gui }}}
 
     if (( $# == 0 )); then
         if [[ $DISPLAY ]]; then
@@ -68,13 +68,13 @@ gui() #{{{1
 
 interactive() #{{{1
 {
-    # autodoc-begin interactive {{{
+    # doc interactive {{{
     #
     # Usage: interactive [VALUE]
     # With no arguments, test if interactive mode is enabled.
     # With one argument, set interactive mode to given value.
     #
-    # autodoc-end interactive }}}
+    # doc-end interactive }}}
 
     if (( $# == 0 )); then
         truth $INTERACTIVE && return 0
@@ -86,37 +86,37 @@ interactive() #{{{1
 
 interactive_echo() #{{{1
 {
-    # autodoc-begin interactive_echo {{{
+    # doc interactive_echo {{{
     #
     # Usage: interactive_echo [TRUE_VALUE] [FALSE_VALUE]
     # Will only echo the first argument if interactive mode is enabled.
     # Otherwise, echo the second argument.
     #
-    # autodoc-end interactive_echo }}}
+    # doc-end interactive_echo }}}
 
     truth_echo "$INTERACTIVE" "$1" "$2"
 }
 
 interactive_option() #{{{1
 {
-    # autodoc-begin interactive_option {{{
+    # doc interactive_option {{{
     #
     # Echo the appropriate flag depending on the state of interactive mode.
     #
-    # autodoc-end interactive_option }}}
+    # doc-end interactive_option }}}
 
     interactive_echo "-i" "-f"
 }
 
 verbose() #{{{1
 {
-    # autodoc-begin verbose {{{
+    # doc verbose {{{
     #
     # Usage: verbose [VALUE]
     # With no arguments, test if verbose mode is enabled.
     # With one argument, set verbose mode to given value.
     #
-    # autodoc-end verbose }}}
+    # doc-end verbose }}}
 
     if (( $# == 0 )); then
         truth $VERBOSE && return 0
@@ -128,37 +128,37 @@ verbose() #{{{1
 
 verbose_echo() #{{{1
 {
-    # autodoc-begin verbose_echo {{{
+    # doc verbose_echo {{{
     #
     # Usage: verbose_echo [TRUE_VALUE] [FALSE_VALUE]
     # Will only echo the first argument if verbose mode is enabled.
     # Otherwise, echo the second argument.
     #
-    # autodoc-end verbose_echo }}}
+    # doc-end verbose_echo }}}
 
     truth_echo "$VERBOSE" "$1" "$2"
 }
 
 verbose_option() #{{{1
 {
-    # autodoc-begin verbose_option {{{
+    # doc verbose_option {{{
     #
     # Echo the appropriate flag depending on the state of verbose mode.
     #
-    # autodoc-end verbose_option }}}
+    # doc-end verbose_option }}}
 
     verbose_echo "-v" "-q"
 }
 
 verbose_execute() #{{{1
 {
-    # autodoc-begin verbose_execute {{{
+    # doc verbose_execute {{{
     #
     # Usage: verbose_execute [COMMAND]
     # Will execute the given command and only display the output if verbose
     # mode is enabled.
     #
-    # autodoc-end verbose_execute }}}
+    # doc-end verbose_execute }}}
 
     if verbose; then
         "$@"

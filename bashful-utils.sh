@@ -4,15 +4,15 @@
 # Description: Miscellaneous utility functions for use in other scripts.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-utils {{{
+# doc bashful-utils {{{
 #
 # The utils library provides miscellaneous functions.
 #
-# autodoc-end bashful-utils }}}
+# doc-end bashful-utils }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 
@@ -20,33 +20,33 @@ fi
 
 lower() #{{{1
 {
-    # autodoc-begin lower {{{
+    # doc lower {{{
     #
     # Convert stdin to lowercase.
     #
-    # autodoc-end lower }}}
+    # doc-end lower }}}
 
     tr '[:upper:]' '[:lower:]'
 }
 
 upper() #{{{1
 {
-    # autodoc-begin upper {{{
+    # doc upper {{{
     #
     # Convert stdin to uppercase.
     #
-    # autodoc-end upper }}}
+    # doc-end upper }}}
 
     tr '[:lower:]' '[:upper:]'
 }
 
 title() #{{{1
 {
-    # autodoc-begin title {{{
+    # doc title {{{
     #
     # Convert stdin to titlecase.
     #
-    # autodoc-end title }}}
+    # doc-end title }}}
 
     lower | sed 's/\<./\u&/g' |
     sed "s/'[[:upper:]]/\L&\l/g"
@@ -61,14 +61,14 @@ detox() #{{{1
 
 first() #{{{1
 {
-    # autodoc-begin first {{{
+    # doc first {{{
     #
     # Get the first value that is non-empty.
     #
     # Usage examples:
     #     EDITOR=$(first "$VISUAL" "$EDITOR" vi)
     #
-    # autodoc-end first }}}
+    # doc-end first }}}
 
     local value
     for value in "$@"; do
@@ -81,7 +81,7 @@ first() #{{{1
 
 named() #{{{1
 {
-    # autodoc-begin named {{{
+    # doc named {{{
     #
     # Get the value of the variable named the passed argument.
     #
@@ -102,14 +102,14 @@ named() #{{{1
     #
     # Which eliminates the need for an intermediate variable.
     #
-    # autodoc-end named }}}
+    # doc-end named }}}
 
     echo "${!1}"
 }
 
 truth() #{{{1
 {
-    # autodoc-begin truth {{{
+    # doc truth {{{
     #
     # Determine the "truthiness" of the given value.
     #
@@ -121,7 +121,7 @@ truth() #{{{1
     #     truth on     #==> true
     #     truth spam   #==> false
     #
-    # autodoc-end truth }}}
+    # doc-end truth }}}
 
     case $(lower <<<"$1") in
         yes|y|true|t|on|1) return 0 ;;
@@ -131,12 +131,12 @@ truth() #{{{1
 
 truth_echo() #{{{1
 {
-    # autodoc-begin truth_echo {{{
+    # doc truth_echo {{{
     #
     # Depending on the "truthiness" of the given value, echo the first (true)
     # or second (false) value.
     #
-    # autodoc-end truth_echo }}}
+    # doc-end truth_echo }}}
 
     if truth "$1"; then
         echo "$2"
@@ -147,18 +147,18 @@ truth_echo() #{{{1
 
 truth_value() #{{{1
 {
-    # autodoc-begin truth_value {{{
+    # doc truth_value {{{
     #
     # Gets a value that represents the "truthiness" of the given value.
     #
-    # autodoc-end truth_value }}}
+    # doc-end truth_value }}}
 
     truth_echo "$1" 1 0
 }
 
 squeeze() #{{{1
 {
-    # autodoc-begin squeeze {{{
+    # doc squeeze {{{
     #
     # Removes leading/trailing whitespace and condenses all other consecutive
     # whitespace into a single space.
@@ -166,7 +166,7 @@ squeeze() #{{{1
     # Usage examples:
     #     echo "  foo  bar   baz  " | squeeze  #==> "foo bar baz"
     #
-    # autodoc-end squeeze }}}
+    # doc-end squeeze }}}
 
     local char=${1:-[[:space:]]}
     sed "s%\(${char//%/\\%}\)\+%\1%g" | trim "$char"
@@ -174,26 +174,26 @@ squeeze() #{{{1
 
 squeeze_lines() #{{{1
 {
-    # autodoc-begin squeeze_lines {{{
+    # doc squeeze_lines {{{
     #
     # Removes all leading/trailing blank lines and condenses all other
     # consecutive blank lines into a single blank line.
     #
-    # autodoc-end squeeze_lines }}}
+    # doc-end squeeze_lines }}}
 
     sed '/^[[:space:]]+$/s/.*//g' | cat -s | trim_lines
 }
 
 trim() #{{{1
 {
-    # autodoc-begin trim {{{
+    # doc trim {{{
     #
     # Removes all leading/trailing whitespace
     #
     # Usage examples:
     #     echo "  foo  bar baz " | trim  #==> "foo  bar baz"
     #
-    # autodoc-end trim }}}
+    # doc-end trim }}}
 
     local char=${1:-[[:space:]]}
     sed "s%^${char//%/\\%}*%%;s%${char//%/\\%}*$%%"
@@ -201,7 +201,7 @@ trim() #{{{1
 
 trim_lines() #{{{1
 {
-    # autodoc-begin trim_lines {{{
+    # doc trim_lines {{{
     #
     # Removes all leading/trailing blank lines.
     #
@@ -218,19 +218,19 @@ trim_lines() #{{{1
     #     s/^[[:space:]]*\n//  # Remove all leading whitespace (blank lines).
     #     s/\n[[:space:]]*$//  # Remove all trailing whitespace (blank lines).
     #
-    # autodoc-end trim_lines }}}
+    # doc-end trim_lines }}}
 
     sed ':a;$!{N;ba;};s/^[[:space:]]*\n//;s/\n[[:space:]]*$//'
 }
 
 sleep_until() #{{{1
 {
-    # autodoc-begin sleep_until {{{
+    # doc sleep_until {{{
     #
     # Causes the running process to wait until the given date.
     # If the date is in the past, it immediately returns.
     #
-    # autodoc-end sleep_until }}}
+    # doc-end sleep_until }}}
 
     local secs=$(($(date -d "$1" +%s) - $(date +%s)))
     (( secs > 0 )) && sleep $secs
@@ -238,11 +238,11 @@ sleep_until() #{{{1
 
 variables() #{{{1
 {
-    # autodoc-begin variables {{{
+    # doc variables {{{
     #
     # Pulls all variable names from the input.
     #
-    # autodoc-end variables }}}
+    # doc-end variables }}}
 
     sed 's/[[:space:];]/\n/g' |
     egrep '^[a-zA-Z0-9_]+=' |
@@ -251,11 +251,11 @@ variables() #{{{1
 
 functions() #{{{1
 {
-    # autodoc-begin functions {{{
+    # doc functions {{{
     #
     # Pulls all function names from the input.
     #
-    # autodoc-end functions }}}
+    # doc-end functions }}}
 
     sed 's/[[:space:];]/\n/g' |
     egrep '^[a-zA-Z0-9_-]+\(\)' |
@@ -264,22 +264,22 @@ functions() #{{{1
 
 editor() #{{{1
 {
-    # autodoc-begin editor {{{
+    # doc editor {{{
     #
     # Execute the preferred editor.
     #
-    # autodoc-end editor }}}
+    # doc-end editor }}}
 
     $(first "$VISUAL" "$EDITOR" "vi") "$@"
 }
 
 repeat() #{{{1
 {
-    # autodoc-begin repeat {{{
+    # doc repeat {{{
     #
     # Repeat a command a given number of times.
     #
-    # autodoc-end repeat }}}
+    # doc-end repeat }}}
 
     local count=$1; shift
     local i
@@ -290,22 +290,22 @@ repeat() #{{{1
 
 lines() #{{{1
 {
-    # autodoc-begin lines {{{
+    # doc lines {{{
     #
     # Get all lines except for comments and blank lines.
     #
-    # autodoc-end lines }}}
+    # doc-end lines }}}
 
     egrep -v '^[[:space:]]*#|^[[:space:]]*$' "$@"
 }
 
 commonprefix() #{{{1
 {
-    # autodoc-begin commonprefix {{{
+    # doc commonprefix {{{
     #
     # Gets the common prefix of the strings passed on stdin.
     #
-    # autodoc-end commonprefix }}}
+    # doc-end commonprefix }}}
 
     local i compare prefix
 
@@ -333,7 +333,7 @@ commonprefix() #{{{1
 
 sort_list() #{{{1
 {
-    # autodoc-begin sort_list {{{
+    # doc sort_list {{{
     #
     # Sorts a list.
     #
@@ -343,7 +343,7 @@ sort_list() #{{{1
     #     echo "c b b b a" | sort_list -u    #==> a b c
     #     echo "c b a"     | sort_list -r    #==> c b a
     #
-    # autodoc-end sort_list }}}
+    # doc-end sort_list }}}
 
     local r u
 
@@ -369,7 +369,7 @@ sort_list() #{{{1
 
 split_string() #{{{1
 {
-    # autodoc-begin split_string {{{
+    # doc split_string {{{
     #
     # Split a given string into a list.
     #
@@ -377,7 +377,7 @@ split_string() #{{{1
     #     echo "foo, bar, baz" | split_string      #==> foo\nbar\nbaz
     #     echo "foo|bar|baz"   | split_string "|"  #==> foo\nbar\nbaz
     #
-    # autodoc-end split_string }}}
+    # doc-end split_string }}}
 
     local delim=${1:-,}
     local line str
@@ -393,7 +393,7 @@ split_string() #{{{1
 
 join_lines() #{{{1
 {
-    # autodoc-begin join_lines {{{
+    # doc join_lines {{{
     #
     # Joins a list into a string.
     #
@@ -401,7 +401,7 @@ join_lines() #{{{1
     #     echo -e "foo\nbar\nbaz" | join_lines      #==> foo, bar, baz
     #     echo -e "foo\nbar\nbaz" | join_lines "|"  #==> foo|bar|baz
     #
-    # autodoc-end join_lines }}}
+    # doc-end join_lines }}}
 
     local delim=${1:-, }
 
@@ -413,11 +413,11 @@ join_lines() #{{{1
 
 execute_in() #{{{1
 {
-    # autodoc-begin execute_in {{{
+    # doc execute_in {{{
     #
     # Execute a command in a given directory.
     #
-    # autodoc-end execute_in }}}
+    # doc-end execute_in }}}
 
     local OPWD=$PWD; cd "$1"; shift
     "$@"; error=$?

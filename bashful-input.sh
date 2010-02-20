@@ -4,7 +4,7 @@
 # Description: A set of functions for interacting with the user.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-input {{{
+# doc bashful-input {{{
 #
 # The input library provides functions for taking user input.
 #
@@ -16,11 +16,11 @@
 # The INTERACTIVE variable only matters if the function is used with the
 # interactive mode check option (-c).
 #
-# autodoc-end bashful-input }}}
+# doc-end bashful-input }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 
@@ -32,7 +32,7 @@ source bashful-utils
 
 input() #{{{1
 {
-    # autodoc-begin input {{{
+    # doc input {{{
     #
     # Usage: input [-cs] [-p PROMPT] [-d DEFAULT]
     # Prompts the user to input text.
@@ -48,7 +48,7 @@ input() #{{{1
     # Input will be hidden:
     #     input -s -p "Enter password"
     #
-    # autodoc-end input }}}
+    # doc-end input }}}
 
     local p="Enter value"
     local d c s reply
@@ -89,12 +89,12 @@ input() #{{{1
 
 input_lines() #{{{1
 {
-    # autodoc-begin input_lines {{{
+    # doc input_lines {{{
     #
     # Usage: input_lines [-c] [-p PROMPT]
     # Prompts the user to input text lists.
     #
-    # autodoc-end input_lines }}}
+    # doc-end input_lines }}}
 
     local p="Enter values"
     local c reply
@@ -123,7 +123,7 @@ input_lines() #{{{1
 
 question() #{{{1
 {
-    # autodoc-begin question {{{
+    # doc question {{{
     #
     # Usage: question [-c] [-p PROMPT] [-d DEFAULT]
     # Prompts the user with a yes/no question.
@@ -138,7 +138,7 @@ question() #{{{1
     # User will only be prompted if interactive mode is enabled:
     #     question -c -p "Continue?"
     #
-    # autodoc-end question }}}
+    # doc-end question }}}
 
     local p="Are you sure you want to proceed?"
     local d c reply choice
@@ -188,7 +188,7 @@ question() #{{{1
 
 choice() #{{{1
 {
-    # autodoc-begin choice {{{
+    # doc choice {{{
     #
     # Usage: choice [-c] [-p PROMPT] [CHOICE...]
     # Prompts the user to choose from a set of choices.
@@ -197,7 +197,7 @@ choice() #{{{1
     # Usage examples:
     #     choice -p "Choose your favorite color" red green blue
     #
-    # autodoc-end choice }}}
+    # doc-end choice }}}
 
     local p="Select from these choices"
     local c

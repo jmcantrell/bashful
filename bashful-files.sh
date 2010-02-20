@@ -4,15 +4,15 @@
 # Description: Miscellaneous utility functions for dealing with files.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-files {{{
+# doc bashful-files {{{
 #
 # The files library provides functions for working with files/directories.
 #
-# autodoc-end bashful-files }}}
+# doc-end bashful-files }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 
@@ -24,13 +24,13 @@ source bashful-utils
 
 commonpath() #{{{1
 {
-    # autodoc-begin commonpath {{{
+    # doc commonpath {{{
     #
     # Usage: commonpath [PATH...]
     # Gets the common path of the paths passed on stdin.
     # Alternatively, paths can be passed as arguments.
     #
-    # autodoc-end commonpath }}}
+    # doc-end commonpath }}}
 
     local path
 
@@ -63,7 +63,7 @@ commonpath() #{{{1
 
 extname() #{{{1
 {
-    # autodoc-begin extname {{{
+    # doc extname {{{
     #
     # Usage: extname [-n LEVELS] FILENAME
     # Get the extension of the given filename.
@@ -72,7 +72,7 @@ extname() #{{{1
     #     extname     foo.tar.gz  #==> .gz
     #     extname -n2 foo.tar.gz  #==> .tar.gz
     #
-    # autodoc-end extname }}}
+    # doc-end extname }}}
 
     local levels=1
 
@@ -99,7 +99,7 @@ extname() #{{{1
 
 filename() #{{{1
 {
-    # autodoc-begin filename {{{
+    # doc filename {{{
     #
     # Usage: filename [-n LEVELS] FILENAME
     # Gets the filename of the given path.
@@ -108,7 +108,7 @@ filename() #{{{1
     #     filename     /path/to/file.txt     #==> file
     #     filename -n2 /path/to/file.tar.gz  #==> file
     #
-    # autodoc-end filename }}}
+    # doc-end filename }}}
 
     local levels=1
 
@@ -130,7 +130,7 @@ filename() #{{{1
 
 increment_file() #{{{1
 {
-    # autodoc-begin increment_file {{{
+    # doc increment_file {{{
     #
     # Usage: increment_file FILENAME
     # Get the next filename in line for the given file.
@@ -139,7 +139,7 @@ increment_file() #{{{1
     #     increment_file does_not_exist  #==> does_not_exist
     #     increment_file does_exist      #==> does_exist (1)
     #
-    # autodoc-end increment_file }}}
+    # doc-end increment_file }}}
 
     local file=$1
     local count=1
@@ -153,13 +153,13 @@ increment_file() #{{{1
 
 listdir() #{{{1
 {
-    # autodoc-begin listdir {{{
+    # doc listdir {{{
     #
     # Usage: listdir DIR [OPTIONS]
     # List the files in the given directory (1 level deep).
     # Accepts the same options as the find command.
     #
-    # autodoc-end listdir }}}
+    # doc-end listdir }}}
 
     local dir=$1; shift
     find "$dir" -maxdepth 1 -mindepth 1 "$@"
@@ -167,24 +167,24 @@ listdir() #{{{1
 
 mimetype() #{{{1
 {
-    # autodoc-begin mimetype {{{
+    # doc mimetype {{{
     #
     # Usage: mimetype FILE
     # Get the mimetype of the given file.
     #
-    # autodoc-end mimetype }}}
+    # doc-end mimetype }}}
 
     file -ibL "$1" | awk -F";" '{print $1}'
 }
 
 mount_file() #{{{1
 {
-    # autodoc-begin mount_file {{{
+    # doc mount_file {{{
     #
     # Usage: mount_file FILE
     # Get the mount path that contains the given file.
     #
-    # autodoc-end mount_file }}}
+    # doc-end mount_file }}}
 
     local f=$(readlink -f "$1")
 
@@ -197,24 +197,24 @@ mount_file() #{{{1
 
 mount_path() #{{{1
 {
-    # autodoc-begin mount_path {{{
+    # doc mount_path {{{
     #
     # Usage: mount_device DEVICE
     # Get the mount path for the given device.
     #
-    # autodoc-end mount_path }}}
+    # doc-end mount_path }}}
 
     grep "^$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $2}'
 }
 
 mount_device() #{{{1
 {
-    # autodoc-begin mount_device {{{
+    # doc mount_device {{{
     #
     # Usage: mount_device PATH
     # Get the device for the given mount path.
     #
-    # autodoc-end mount_device }}}
+    # doc-end mount_device }}}
 
     grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab |
     awk '{print $1}'
@@ -222,12 +222,12 @@ mount_device() #{{{1
 
 mounted_same() #{{{1
 {
-    # autodoc-begin mounted_same {{{
+    # doc mounted_same {{{
     #
     # Usage: mounted_same [FILE...]
     # Determine if all given files are on the same mount path.
     #
-    # autodoc-end mounted_same }}}
+    # doc-end mounted_same }}}
 
     local prev cur
 
@@ -242,37 +242,37 @@ mounted_same() #{{{1
 
 mounted_path() #{{{1
 {
-    # autodoc-begin mounted_path {{{
+    # doc mounted_path {{{
     #
     # Usage: mounted_path [PATH]
     # Check to see if a given path is mounted.
     #
-    # autodoc-end mounted_path }}}
+    # doc-end mounted_path }}}
 
     mount | awk '{print $3}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 mounted_device() #{{{1
 {
-    # autodoc-begin mounted_device {{{
+    # doc mounted_device {{{
     #
     # Usage: mounted_device DEVICE
     # Check to see if a given device is mounted.
     #
-    # autodoc-end mounted_device }}}
+    # doc-end mounted_device }}}
 
     mount | awk '{print $1}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 abspath() #{{{1
 {
-    # autodoc-begin abspath {{{
+    # doc abspath {{{
     #
     # Usage: abspath [PATH]
     # Gets the absolute path of the given path.
     # Will resolve paths that contain '.' and '..'.
     #
-    # autodoc-end abspath }}}
+    # doc-end abspath }}}
 
     local path=${1:-$PWD}
 
@@ -310,7 +310,7 @@ abspath() #{{{1
 
 relpath() #{{{1
 {
-    # autodoc-begin relpath {{{
+    # doc relpath {{{
     #
     # Usage: relpath [DESTINATION] [SOURCE]
     # Gets the relative path from SOURCE to DESTINATION.
@@ -324,7 +324,7 @@ relpath() #{{{1
     #     relpath /foo/bar       /baz            #==> ../../baz
     #     relpath /home/user     /home/user      #==> .
     #
-    # autodoc-end relpath }}}
+    # doc-end relpath }}}
 
     local dst=$(abspath "$1")
     local src=$(abspath "$2")
@@ -357,13 +357,13 @@ relpath() #{{{1
 
 link() #{{{1
 {
-    # autodoc-begin link {{{
+    # doc link {{{
     #
     # Usage: link SOURCE [DESTINATION]
     # Version of ln that respects the interactive/verbose settings.
     # Accepts the same options/arguments as ln.
     #
-    # autodoc-end link }}}
+    # doc-end link }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -373,12 +373,12 @@ link() #{{{1
 
 move() #{{{1
 {
-    # autodoc-begin move {{{
+    # doc move {{{
     #
     # Version of mv that respects the interactive/verbose settings.
     # Accepts the same options/arguments as mv.
     #
-    # autodoc-end name }}}
+    # doc-end name }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -388,12 +388,12 @@ move() #{{{1
 
 copy() #{{{1
 {
-    # autodoc-begin copy {{{
+    # doc copy {{{
     #
     # Version of cp that respects the interactive/verbose settings.
     # Accepts the same options/arguments as cp.
     #
-    # autodoc-end copy }}}
+    # doc-end copy }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -403,12 +403,12 @@ copy() #{{{1
 
 remove() #{{{1
 {
-    # autodoc-begin remove {{{
+    # doc remove {{{
     #
     # Version of rm that respects the interactive/verbose settings.
     # Accepts the same options/arguments as rm.
     #
-    # autodoc-end remove }}}
+    # doc-end remove }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -418,13 +418,13 @@ remove() #{{{1
 
 trash() #{{{1
 {
-    # autodoc-begin trash {{{
+    # doc trash {{{
     #
     # Usage: trash [FILE...]
     # Put files in gnome trash if it's on the same partition.
     # If on a different partition, remove as normal.
     #
-    # autodoc-end trash }}}
+    # doc-end trash }}}
 
     local td=$HOME/.local/share/Trash
 
@@ -448,12 +448,12 @@ trash() #{{{1
 
 cleanup() #{{{1
 {
-    # autodoc-begin cleanup {{{
+    # doc cleanup {{{
     #
     # Cleans up any temp files lying around.
     # Intended to be used alongside tempfile() and not to be called directly.
     #
-    # autodoc-end cleanup }}}
+    # doc-end cleanup }}}
 
     for file in "${CLEANUP_FILES[@]}"; do
         rm -rf "$file"
@@ -462,7 +462,7 @@ cleanup() #{{{1
 
 tempfile() #{{{1
 {
-    # autodoc-begin tempfile {{{
+    # doc tempfile {{{
     #
     # Creates and keeps track of temp files/dirs.
     # Accepts the same options/arguments as mktemp.
@@ -471,7 +471,7 @@ tempfile() #{{{1
     #     tempfile     # $TEMPFILE is now a regular file
     #     tempfile -d  # $TEMPFILE is now a directory
     #
-    # autodoc-end tempfile }}}
+    # doc-end tempfile }}}
 
     TEMPFILE=$(mktemp "$@")
     if [[ ! $TEMPFILE ]]; then
@@ -484,7 +484,7 @@ tempfile() #{{{1
 
 truncate() #{{{1
 {
-    # autodoc-begin truncate {{{
+    # doc truncate {{{
     #
     # Usage: truncate PREFIX SUFFIX [EXCLUDED_PREFIX...]
     # Removes all similar unused files.
@@ -520,7 +520,7 @@ truncate() #{{{1
     #
     #     truncate file .txt file-foo file-bar
     #
-    # autodoc-end truncate }}}
+    # doc-end truncate }}}
 
     local prefix=$1; shift
     local suffix=$1; shift

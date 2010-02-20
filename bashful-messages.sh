@@ -4,7 +4,7 @@
 # Description: A set of functions for giving the user information.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-messages {{{
+# doc bashful-messages {{{
 #
 # The messages library provides functions for notifying the user.
 #
@@ -16,11 +16,11 @@
 # The VERBOSE variable only matters if the function is used with the verbose
 # mode check option (-c).
 #
-# autodoc-end bashful-messages }}}
+# doc-end bashful-messages }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 
@@ -38,7 +38,7 @@ z() #{{{1
 
 usage() #{{{1
 {
-    # autodoc-begin usage {{{
+    # doc usage {{{
     #
     # Display usage information.
     #
@@ -57,7 +57,7 @@ usage() #{{{1
     #     SCRIPT_EXAMPLES
     #     SCRIPT_OPTIONS
     #
-    # autodoc-end usage }}}
+    # doc-end usage }}}
 
     if [[ $SCRIPT_NAME ]]; then
         local p="    "
@@ -106,24 +106,24 @@ usage() #{{{1
 
 usage_exit() #{{{1
 {
-    # autodoc-begin usage_exit {{{
+    # doc usage_exit {{{
     #
     # Usage: usage_exit [ERROR]
     # Display usage information and exit with the given error code.
     #
-    # autodoc-end usage_exit }}}
+    # doc-end usage_exit }}}
 
     usage; exit ${1:-0}
 }
 
 error() #{{{1
 {
-    # autodoc-begin error {{{
+    # doc error {{{
     #
     # Usage: error [-c] [MESSAGE]
     # Displays a colorized (if available) error message.
     #
-    # autodoc-end error }}}
+    # doc-end error }}}
 
     local c
 
@@ -149,24 +149,24 @@ error() #{{{1
 
 error_exit() #{{{1
 {
-    # autodoc-begin error_exit {{{
+    # doc error_exit {{{
     #
     # Usage: error_exit [MESSAGE] [ERROR]
     # Displays an error message and exits with the given error code.
     #
-    # autodoc-end error_exit }}}
+    # doc-end error_exit }}}
 
     error "$1"; exit ${2:-1}
 }
 
 info() #{{{1
 {
-    # autodoc-begin info {{{
+    # doc info {{{
     #
     # Usage: info [-c] [MESSAGE]
     # Displays a colorized (if available) informational message.
     #
-    # autodoc-end info }}}
+    # doc-end info }}}
 
     local c
 
@@ -195,12 +195,12 @@ info() #{{{1
 
 warn() #{{{1
 {
-    # autodoc-begin warn {{{
+    # doc warn {{{
     #
     # Usage: warn [-c] [MESSAGE]
     # Displays a colorized (if available) warning message.
     #
-    # autodoc-end warn }}}
+    # doc-end warn }}}
 
     local c
 

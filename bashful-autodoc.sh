@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Filename:    bashful-autodoc.sh
+# Filename:    bashful-doc.sh
 # Description: Functions for extracting embedded documentation.
 # Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
 
-# autodoc-begin bashful-autodoc {{{
+# doc bashful-doc {{{
 #
-# The autodoc library provides a way to extract documentation from scripts.
+# The doc library provides a way to extract documentation from scripts.
 #
 # Normally, I would prefer to use getopts to setup a -h/--help option, but in
 # some cases it isn't practical or it can conflict with other functions. This
@@ -14,57 +14,57 @@
 #
 # Within the script, a section of documentation is denoted like this:
 #
-#     # autodoc-begin NAME
+#     # doc NAME
 #     #
 #     # DOCUMENTATION TEXT GOES HERE
 #     #
-#     # autodoc-end NAME
+#     # doc-end NAME
 #
-# autodoc-end bashful-autodoc }}}
+# doc-end bashful-doc }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
-    source bashful-autodoc
-    autodoc_execute "$0" "$@"
+    source bashful-doc
+    doc_execute "$0" "$@"
     exit
 fi
 
-[[ $BASHFUL_AUTODOC_LOADED ]] && return
+[[ $BASHFUL_DOC_LOADED ]] && return
 
 source bashful-utils
 
-autodoc() #{{{1
+doc() #{{{1
 {
-    # autodoc-begin autodoc {{{
+    # doc doc {{{
     #
-    # Usage: autodoc NAME [FILE...]
+    # Usage: doc NAME [FILE...]
     # Retrieve embedded documentation from scripts.
     #
-    # autodoc-end autodoc }}}
+    # doc-end doc }}}
 
     local name=$1; shift
-    sed -n "/# autodoc-begin $name\>/,/# autodoc-end $name\>/p" "$@" |
+    sed -n "/# doc $name\>/,/# doc-end $name\>/p" "$@" |
     sed '1d;$d' | sed 's/^[[:space:]]*# \?//' | squeeze_lines
 }
 
-autodoc_help() #{{{1
+doc_help() #{{{1
 {
-    # autodoc-begin autodoc_help {{{
+    # doc doc_help {{{
     #
-    # Usage: autodoc_help SCRIPT [COMMAND]
+    # Usage: doc_help SCRIPT [COMMAND]
     # Display full documentation for a given script/command.
     #
-    # autodoc-end autodoc_help }}}
+    # doc-end doc_help }}}
 
     local src=$(type -p "$1")
     local cmd=$2
     local cmds
 
     if [[ $cmd ]]; then
-        autodoc "$cmd" "$src" >&2
+        doc "$cmd" "$src" >&2
     else
         {
-            autodoc "$(basename "$src" .sh)" "$src"
-            cmds=$(autodoc_commands "$src")
+            doc "$(basename "$src" .sh)" "$src"
+            cmds=$(doc_commands "$src")
             if [[ $cmds ]]; then
                 echo -e "\nAvailable commands:\n"
                 echo "$cmds" | sed 's/^/    /'
@@ -73,14 +73,14 @@ autodoc_help() #{{{1
     fi
 }
 
-autodoc_execute() #{{{1
+doc_execute() #{{{1
 {
-    # autodoc-begin autodoc_execute {{{
+    # doc doc_execute {{{
     #
     # Usage:
-    #     autodoc_execute SCRIPT
-    #     autodoc_execute SCRIPT help [COMMAND]
-    #     autodoc_execute SCRIPT [COMMAND] [OPTIONS] [ARGUMENTS]
+    #     doc_execute SCRIPT
+    #     doc_execute SCRIPT help [COMMAND]
+    #     doc_execute SCRIPT [COMMAND] [OPTIONS] [ARGUMENTS]
     #
     # Display the documentation for a given script if there are no arguments
     # or the only argument is "help".
@@ -91,26 +91,26 @@ autodoc_execute() #{{{1
     # If not using one of the help methods, the given command will be executed
     # as if it were run directly.
     #
-    # autodoc-end autodoc_execute }}}
+    # doc-end doc_execute }}}
 
     local src=$(type -p "$1"); shift
 
     if [[ ! $1 || $1 == help ]]; then
         shift
-        autodoc_help "$src" "$1"
+        doc_help "$src" "$1"
     else
         source "$src"; "$@"
     fi
 }
 
-autodoc_commands() #{{{1
+doc_commands() #{{{1
 {
-    # autodoc-begin autodoc_commands {{{
+    # doc doc_commands {{{
     #
-    # Usage: autodoc_commands [FILE...]
-    # Show all autodoc tags in given files.
+    # Usage: doc_commands [FILE...]
+    # Show all doc tags in given files.
     #
-    # autodoc-end autodoc_commands }}}
+    # doc-end doc_commands }}}
 
     local f cmd
 
@@ -120,7 +120,7 @@ autodoc_commands() #{{{1
         done
         )
 
-    local t="autodoc-begin"
+    local t="doc"
     sed -n "/^\s*#\s\+$t\s/p" "$@" |
     sed "s/^.*\s$t\s\+\([^[:space:]]\+\).*$/\1/" | sort -u |
     grep -v "$libs"
@@ -128,4 +128,4 @@ autodoc_commands() #{{{1
 
 #}}}1
 
-BASHFUL_AUTODOC_LOADED=1
+BASHFUL_DOC_LOADED=1

@@ -6,7 +6,7 @@
 
 (( ${BASH_LINENO:-0} > 0 )) && exit
 
-source bashful-autodoc
+source bashful-doc
 source bashful-files
 source bashful-input
 source bashful-messages
