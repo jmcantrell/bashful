@@ -60,16 +60,14 @@ doc_help() #{{{1
     local cmds
 
     if [[ $cmd ]]; then
-        doc "$cmd" "$src" >&2
+        doc "$cmd" "$src"
     else
-        {
-            doc "$(basename "$src" .sh)" "$src"
-            cmds=$(doc_commands "$src")
-            if [[ $cmds ]]; then
-                echo -e "\nAvailable commands:\n"
-                echo "$cmds" | sed 's/^/    /'
-            fi
-        } >&2
+        doc "$(basename "$src" .sh)" "$src"
+        cmds=$(doc_commands "$src")
+        if [[ $cmds ]]; then
+            echo -e "\nAvailable commands:\n"
+            echo "$cmds" | sed 's/^/    /'
+        fi
     fi
 }
 
