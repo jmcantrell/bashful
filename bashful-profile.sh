@@ -132,7 +132,20 @@ profile_create() #{{{1
 
     info -c "Creating new profile '$PROFILE'..."
 
-    squeeze_lines <<<"$PROFILE_DEFAULT" >$PROFILE_FILE
+    local default=$PROFILE_DEFAULT
+
+    local variables=(
+        'PROFILE'
+        'PROFILE_NAME'
+        "${PROFILE_DEFAULT_VARIABLES[@]}"
+    )
+
+    local name
+    for name in "${variables[@]}"; do
+        default=${default//\{\{$name\}\}/${!name}}
+    done
+
+    squeeze_lines <<<"$default" >$PROFILE_FILE
 
     if interactive; then
         editor "$PROFILE_FILE"
