@@ -181,7 +181,7 @@ squeeze_lines() #{{{1
     #
     # doc-end squeeze_lines }}}
 
-    sed '/^[[:space:]]+$/s/.*//g' | cat -s | trim_lines
+    sed '/^[[:space:]]\+$/s/.*//g' | cat -s | trim_lines
 }
 
 trim() #{{{1
