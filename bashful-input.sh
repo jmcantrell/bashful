@@ -76,6 +76,9 @@ input() #{{{1
         return
     fi
 
+    # Shorten home paths, if they exist.
+    p=${p//$HOME/~}
+
     if gui; then
         reply=$(z "$p" --entry $s --entry-text="$d") || return 1
     else
@@ -111,7 +114,10 @@ input_lines() #{{{1
         return
     fi
 
-    prompt+=" (one per line)"
+    p+=" (one per line)"
+
+    # Shorten home paths, if they exist.
+    p=${p//$HOME/~}
 
     if gui; then
         z "$p" --text-info --editable
@@ -161,6 +167,9 @@ question() #{{{1
     if ! gui; then
         p="$p [$(sed "s/\($d\)/\u\1/i" <<<"yn")]: "
     fi
+
+    # Shorten home paths, if they exist.
+    p=${p//$HOME/~}
 
     until [[ $choice ]]; do
         if gui; then
@@ -218,6 +227,9 @@ choice() #{{{1
         echo "$1"
         exit
     fi
+
+    # Shorten home paths, if they exist.
+    p=${p//$HOME/~}
 
     if gui; then
         printf "%s\n" "$@" |
