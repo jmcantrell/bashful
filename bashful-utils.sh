@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Filename:    bashful-utils.sh
-# Description: Miscellaneous utility functions for use in other scripts.
-# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
+# Filename:      bashful-utils.sh
+# Description:   Miscellaneous utility functions for use in other scripts.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Mon 2010-03-01 00:35:44 (-0500)
 
 # doc bashful-utils {{{
 #
@@ -409,6 +410,18 @@ join_lines() #{{{1
         echo -ne "${REPLY}${delim}"
     done | sed "s/$delim$//"
     echo
+}
+
+flatten() #{{{1
+{
+    local text=$1; shift
+    local name
+
+    for name in "$@"; do
+        text=${text//\{\{$name\}\}/${!name}}
+    done
+
+    echo "$text"
 }
 
 execute_in() #{{{1

@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Filename:    bashful-modes.sh
-# Description: Set of functions to interact with different script modes.
-# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
+# Filename:      bashful-modes.sh
+# Description:   Set of functions to interact with different script modes.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Mon 2010-03-01 00:14:47 (-0500)
 
 # doc bashful-modes {{{
 #

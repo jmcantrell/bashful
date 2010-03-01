@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Filename:    bashful-profile.sh
-# Description: Utilities for using script profiles.
-# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
+# Filename:      bashful-profile.sh
+# Description:   Utilities for using script profiles.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Mon 2010-03-01 00:15:01 (-0500)
 
 # doc bashful-profile {{{
 #
@@ -32,6 +33,21 @@
 # be required and is considered an error if any profile does not provide it.
 # Any commented variables are considered optional and will not be subject to
 # this check.
+#
+# You can also use placeholders within PROFILE_DEFAULT that will be replaced
+# when the profile is created. Currently, the only placeholders are:
+#
+#     PROFILE
+#     PROFILE_NAME
+#
+# Within PROFILE_DEFAULT, these placeholders are given as:
+#
+#     {{PROFILE}}
+#     {{PROFILE_NAME}}
+#
+# You add more placeholders by creating an array called
+# PROFILE_DEFAULT_VARIABLES. On profile creation, variables with these names
+# will be substituted.
 #
 # You can override the default config directory by setting CONFIG_DIR.
 # Otherwise, this value will be set to one of the following:
@@ -64,6 +80,14 @@ source bashful-input
 source bashful-messages
 source bashful-modes
 source bashful-utils
+
+profile_hook() #{{{1
+{
+    local command=profile_${1}_${2}
+    if type $command &>/dev/null; then
+        $command
+    fi
+}
 
 profile_actions() #{{{1
 {
@@ -132,6 +156,8 @@ profile_create() #{{{1
 
     info -c "Creating new profile '$PROFILE'..."
 
+    profile_hook create pre
+
     local default=$PROFILE_DEFAULT
 
     local variables=(
@@ -140,12 +166,11 @@ profile_create() #{{{1
         "${PROFILE_DEFAULT_VARIABLES[@]}"
     )
 
-    local name
-    for name in "${variables[@]}"; do
-        default=${default//\{\{$name\}\}/${!name}}
-    done
+    local default=$(flatten "$PROFILE_DEFAULT" "${variables[@]}")
 
     squeeze_lines <<<"$default" >$PROFILE_FILE
+
+    profile_hook create post
 
     if interactive; then
         editor "$PROFILE_FILE"
@@ -165,7 +190,9 @@ profile_delete() #{{{1
     profile_verify || return 1
     question -c -p "Are you sure you want to delete '$PROFILE'?" || return 1
     info -c "Deleting profile '$PROFILE'..."
+    profile_hook delete pre
     rm -f "$PROFILE_FILE"
+    profile_hook delete post
 }
 
 profile_edit() #{{{1
@@ -177,7 +204,9 @@ profile_edit() #{{{1
     # doc-end profile_edit }}}
 
     profile_verify || return 1
+    profile_hook edit pre
     editor "$PROFILE_FILE"
+    profile_hook edit post
 }
 
 profile_file() #{{{1

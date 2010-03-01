@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Filename:    bashful-terminfo.sh
-# Description: Sets terminal strings for things like color, bold, etc.
-# Maintainer:  Jeremy Cantrell <jmcantrell@gmail.com>
+# Filename:      bashful-terminfo.sh
+# Description:   Sets terminal strings for things like color, bold, etc.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Mon 2010-03-01 00:15:27 (-0500)
 
 # doc bashful-terminfo {{{
 #
