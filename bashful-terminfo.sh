@@ -3,7 +3,7 @@
 # Filename:      bashful-terminfo.sh
 # Description:   Sets terminal strings for things like color, bold, etc.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-15 11:15:10 (-0400)
+# Last Modified: Mon 2010-03-15 13:43:55 (-0400)
 
 # doc bashful-terminfo {{{
 #
@@ -38,14 +38,14 @@ BG() { C b "$1" "$2"; }
 
 FX() { P "$(named "term_$1")" "$2"; }
 
-key_reset=$(tput sgr0)
-key_bold=$(tput bold)
-key_dim=$(tput dim)
-key_standout=$(tput smso)
-key_italic=$(tput sitm)
-key_underline=$(tput smul)
-key_blink=$(tput blink)
-key_reverse=$(tput rev)
+term_reset=$(tput sgr0)
+term_bold=$(tput bold)
+term_dim=$(tput dim)
+term_standout=$(tput smso)
+term_italic=$(tput sitm)
+term_underline=$(tput smul)
+term_blink=$(tput blink)
+term_reverse=$(tput rev)
 
 if (( $term_colors >= 8 )); then
     # Foreground colors
