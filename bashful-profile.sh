@@ -3,7 +3,7 @@
 # Filename:      bashful-profile.sh
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:15:01 (-0500)
+# Last Modified: Thu 2010-03-18 00:54:42 (-0400)
 
 # doc bashful-profile {{{
 #
@@ -170,13 +170,13 @@ profile_create() #{{{1
 
     squeeze_lines <<<"$default" >$PROFILE_FILE
 
-    profile_hook create post
-
     if interactive; then
         editor "$PROFILE_FILE"
     else
         warn -c "Profile '$PROFILE_FILE' may need to be modified."
     fi
+
+    profile_hook create post
 }
 
 profile_delete() #{{{1

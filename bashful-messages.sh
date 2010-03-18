@@ -3,7 +3,7 @@
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:14:34 (-0500)
+# Last Modified: Thu 2010-03-18 00:57:51 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -185,7 +185,7 @@ info() #{{{1
     local msg=${1:-All updates are complete.}
 
     # Shorten home paths, if they exist.
-    msg=${msg//$HOME/~}
+    msg=${msg//$HOME/\~}
 
     if gui; then
         z "$msg" --info
