@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:13:32 (-0500)
+# Last Modified: Thu 2010-03-18 14:19:17 (-0400)
 
 # doc bashful-files {{{
 #
@@ -434,6 +434,7 @@ trash() #{{{1
 
     for f in "$@"; do
         [[ -e $f ]] || continue
+        # Only trash files if they are on the same partition
         if mounted_same "$td" "$f"; then
             {
                 echo "[Trash Info]"
