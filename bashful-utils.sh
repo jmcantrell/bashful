@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:35:44 (-0500)
+# Last Modified: Sun 2010-03-28 22:37:26 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -424,20 +424,6 @@ flatten() #{{{1
     echo "$text"
 }
 
-execute_in() #{{{1
-{
-    # doc execute_in {{{
-    #
-    # Execute a command in a given directory.
-    #
-    # doc-end execute_in }}}
-
-    local OPWD=$PWD; cd "$1"; shift
-    "$@"; error=$?
-    cd "$OPWD"
-    return $error
-}
-
-#}}}1
+#}}}
 
 BASHFUL_UTILS_LOADED=1

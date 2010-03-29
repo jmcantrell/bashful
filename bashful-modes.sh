@@ -3,7 +3,7 @@
 # Filename:      bashful-modes.sh
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:14:47 (-0500)
+# Last Modified: Sun 2010-03-28 22:41:50 (-0400)
 
 # doc bashful-modes {{{
 #
@@ -44,6 +44,7 @@ fi
 
 [[ $BASHFUL_MODES_LOADED ]] && return
 
+source bashful-execute
 source bashful-utils
 
 gui() #{{{1
@@ -162,9 +163,28 @@ verbose_execute() #{{{1
     # doc-end verbose_execute }}}
 
     if verbose; then
-        "$@"
+        execute "$@"
     else
-        "$@" &>/dev/null
+        execute "$@" &>/dev/null
+    fi
+}
+
+#}}}1
+verbose_execute_in() #{{{1
+{
+    # doc verbose_execute_in {{{
+    #
+    # Will execute the given command in the given directory and only display
+    # the output if verbose mode is enabled.
+    #
+    # Usage: verbose_execute_in DIRECTORY [COMMAND]
+    #
+    # doc-end verbose_execute_in }}}
+
+    if verbose; then
+        execute_in "$@"
+    else
+        execute_in "$@" &>/dev/null
     fi
 }
 
