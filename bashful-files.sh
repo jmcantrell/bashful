@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-03-18 14:19:17 (-0400)
+# Last Modified: Mon 2010-03-29 17:44:24 (-0400)
 
 # doc bashful-files {{{
 #
@@ -144,9 +144,10 @@ increment_file() #{{{1
 
     local file=$1
     local count=1
+    local pattern=${2:- (\{num\})}
 
     while [[ -e $file ]]; do
-        file="$1 ($((count++)))"
+        file="${1}${pattern//\{num\}/$((count++))}"
     done
 
     echo "$file"
@@ -436,12 +437,13 @@ trash() #{{{1
         [[ -e $f ]] || continue
         # Only trash files if they are on the same partition
         if mounted_same "$td" "$f"; then
+            nf=$(increment_file "${f##*/}" ".{num}")
             {
                 echo "[Trash Info]"
                 echo "Path=$(readlink -f "$f")"
                 echo "DeletionDate=$(date)"
-            } >$td/info/${f##*/}.trashinfo
-            move "$f" "$td/files"
+            } >$td/info/$nf.trashinfo
+            move "$f" "$td/files/$nf"
         else
             remove "$f"
         fi
