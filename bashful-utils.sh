@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-03-28 22:37:26 (-0400)
+# Last Modified: Tue 2010-03-30 20:34:45 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -414,14 +414,22 @@ join_lines() #{{{1
 
 flatten() #{{{1
 {
-    local text=$1; shift
-    local name
+    # doc flatten {{{
+    #
+    # Substitute variable names with variables.
+    #
+    # Usage: flatten TEXT [VAR...]
+    #
+    # doc-end flatten }}}
 
-    for name in "$@"; do
-        text=${text//\{\{$name\}\}/${!name}}
+    local t=$1; shift
+    local n
+
+    for n in "$@"; do
+        t=${t//\{\{$n\}\}/${!n}}
     done
 
-    echo "$text"
+    echo "$t"
 }
 
 #}}}
