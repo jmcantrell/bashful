@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-03-30 20:34:45 (-0400)
+# Last Modified: Thu 2010-04-01 13:18:30 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -418,6 +418,14 @@ flatten() #{{{1
     #
     # Substitute variable names with variables.
     #
+    # The default is to try to substitute all environment variables, but if
+    # any names are given, it will be limited to just those.
+    #
+    # The placeholder syntax can be changed by setting the following variables:
+    #
+    #     FLATTEN_L  # Default: {{
+    #     FLATTEN_R  # Default: }}
+    #
     # Usage: flatten TEXT [VAR...]
     #
     # doc-end flatten }}}
@@ -425,11 +433,23 @@ flatten() #{{{1
     local t=$1; shift
     local n
 
+    local fl=${FLATTEN_L:-\{\{}
+    local fr=${FLATTEN_R:-\}\}}
+
+    if (( $# == 0 )); then
+        IFS=$'\n' set -- $(set | variables)
+    fi
+
     for n in "$@"; do
-        t=${t//\{\{$n\}\}/${!n}}
+        t=${t//${fl}${n}${fr}/${!n}}
     done
 
     echo "$t"
+}
+
+timestamp() #{{{1
+{
+    date +%Y%m%d%H%M%S
 }
 
 #}}}
