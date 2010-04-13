@@ -3,7 +3,7 @@
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:14:14 (-0500)
+# Last Modified: Mon 2010-04-12 19:27:22 (-0400)
 
 # doc bashful-input {{{
 #
@@ -71,6 +71,8 @@ input() #{{{1
             s="-s"
         fi
     fi
+
+    truth $s && unset d
 
     if truth $c && ! interactive; then
         echo "$d"
