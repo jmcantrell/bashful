@@ -3,7 +3,7 @@
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:14:14 (-0500)
+# Last Modified: Tue 2010-04-13 13:54:06 (-0400)
 
 # doc bashful-input {{{
 #
@@ -165,35 +165,16 @@ question() #{{{1
 
     truth "$d" && d=y || d=n
 
-    if ! gui; then
-        p="$p [$(sed "s/\($d\)/\u\1/i" <<<"yn")]: "
-    fi
-
     # Shorten home paths, if they exist.
     p=${p//$HOME/~}
 
-    until [[ $choice ]]; do
-        if gui; then
-            if z "$p" --question; then
-                choice=y
-            else
-                choice=n
-            fi
-        else
-            read -e -n1 -p "$p" choice
-        fi
-        choice=$(first "$choice" "$d" | trim | lower)
-        case $choice in
-            y) choice=0 ;;
-            n) choice=1 ;;
-            *)
-                error "Invalid choice."
-                unset choice
-                ;;
-        esac
-    done
+    if gui; then
+        z "$p" --question
+    else
+        truth $(input -d $d -p "$p")
+    fi
 
-    return $choice
+    return $?
 }
 
 choice() #{{{1

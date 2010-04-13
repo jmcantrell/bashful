@@ -216,12 +216,12 @@ warn() #{{{1
         return
     fi
 
-    local msg=${1:-Are you sure you want to proceed?}
+    local msg=${1:-A warning has occurred.}
 
     if gui; then
         z "$msg" --warning
     else
-        info "${term_fg_yellow}${term_bold}WARNING: ${msg}${term_reset}"
+        info "${term_fg_yellow}WARNING: ${msg}${term_reset}"
     fi
 }
 
