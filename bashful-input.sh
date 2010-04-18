@@ -3,7 +3,7 @@
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-04-13 13:56:17 (-0400)
+# Last Modified: Sat 2010-04-17 23:59:01 (-0400)
 
 # doc bashful-input {{{
 #
@@ -226,6 +226,42 @@ choice() #{{{1
                 break
             fi
         done
+    fi
+}
+
+pause() #{{{1
+{
+    # doc pause {{{
+    #
+    # Pause and wait for user interaction.
+    #
+    # Usage: pause [OPTIONS]
+    #
+    # doc-end pause }}}
+
+    if gui; then
+        local p="Click OK to continue."
+    else
+        local p="Press any key to continue..."
+    fi
+    local c
+
+    unset OPTIND
+    while getopts ":p:c" option; do
+        case $option in
+            p) p=$OPTARG ;;
+            c) c=1 ;;
+        esac
+    done && shift $(($OPTIND - 1))
+
+    if truth $c && ! interactive; then
+        return
+    fi
+
+    if gui; then
+        zenity --info --text "$p"
+    else
+        read -s -p "$p" -n1 && echo >&2
     fi
 }
 
