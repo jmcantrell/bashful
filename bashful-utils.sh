@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-04-01 13:18:30 (-0400)
+# Last Modified: Mon 2010-04-19 01:07:17 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -196,8 +196,19 @@ trim() #{{{1
     #
     # doc-end trim }}}
 
-    local char=${1:-[[:space:]]}
-    sed "s%^${char//%/\\%}*%%;s%${char//%/\\%}*$%%"
+    ltrim "$1" | rtrim "$1"
+}
+
+ltrim() #{{{1
+{
+    local char=${1:-[:space:]}
+    sed "s%^[${char//%/\\%}]*%%"
+}
+
+rtrim() #{{{1
+{
+    local char=${1:-[:space:]}
+    sed "s%[${char//%/\\%}]*$%%"
 }
 
 trim_lines() #{{{1
