@@ -3,7 +3,7 @@
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-04-07 16:57:10 (-0400)
+# Last Modified: Thu 2010-04-22 23:35:44 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -41,10 +41,12 @@ usage() #{{{1
 {
     # doc usage {{{
     #
-    # Display usage information.
+    # Display usage information and exit with the given error code.
     #
     # Will automatically populate certain sections if things like verbose or
     # interactive modes are set (either on or off).
+    #
+    # Usage: usage [ERROR]
     #
     # Required variables:
     #
@@ -103,18 +105,8 @@ usage() #{{{1
             fi
         } | squeeze_lines >&2
     fi
-}
 
-usage_exit() #{{{1
-{
-    # doc usage_exit {{{
-    #
-    # Usage: usage_exit [ERROR]
-    # Display usage information and exit with the given error code.
-    #
-    # doc-end usage_exit }}}
-
-    usage; exit ${1:-0}
+    exit ${1:-0}
 }
 
 error() #{{{1
@@ -148,14 +140,14 @@ error() #{{{1
     fi
 }
 
-error_exit() #{{{1
+die() #{{{1
 {
-    # doc error_exit {{{
+    # doc die {{{
     #
-    # Usage: error_exit [MESSAGE] [ERROR]
+    # Usage: die [MESSAGE] [ERROR]
     # Displays an error message and exits with the given error code.
     #
-    # doc-end error_exit }}}
+    # doc-end die }}}
 
     error "$1"; exit ${2:-1}
 }
@@ -223,6 +215,36 @@ warn() #{{{1
     else
         info "${term_fg_yellow}WARNING: ${msg}${term_reset}"
     fi
+}
+
+check() #{{{1
+{
+    # doc check {{{
+    #
+    # Check if a variable is set.
+    # If given values, it will be set to the first non-empty one.
+    # Returns with error if variable is empty.
+    #
+    # Usage: check VARIABLE [VALUE...]
+    #
+    # doc-end check }}}
+
+    local var=$1; shift
+    eval "${var}=$(first "${!var}" "$@")"
+    [[ ${!var} ]] || return 1
+}
+
+require() #{{{1
+{
+    # doc require {{{
+    #
+    # Works like check, but will exit with an error on failure.
+    #
+    # Usage: require VARIABLE [VALUE...]
+    #
+    # doc-end require }}}
+
+    check "$@" || die "Variable '$1' not provided."
 }
 
 #}}}1
