@@ -3,7 +3,7 @@
 # Filename:      bashful-execute.sh
 # Description:   Functions for building commands.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-03-28 23:27:13 (-0400)
+# Last Modified: Fri 2010-04-23 12:54:19 (-0400)
 
 # doc bashful-execute {{{
 #
@@ -35,8 +35,8 @@ execute() #{{{1
     #
     # This will be the same as EXECUTE_CMD after execution. If EXECUTE_CMD is
     # not set, this variable will be used for execution. The intention is that
-    # you can run execute multiple times an it use the same command, but as
-    # soon as you start adding more arguments with execute_push(), it get's
+    # you can run execute multiple times and it will use the same command, but
+    # as soon as you start adding more arguments with execute_push(), it get's
     # reset.
     #
     # Usage: execute [ARGUMENT...]
