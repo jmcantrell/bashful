@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-04-19 01:07:17 (-0400)
+# Last Modified: Mon 2010-05-03 14:01:50 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -55,6 +55,12 @@ title() #{{{1
 
 detox() #{{{1
 {
+    # doc detox {{{
+    #
+    # Make text from stdin slightly less insane.
+    #
+    # doc-end detox }}}
+
     sed 's/[[:punct:]]/ /g' |
     sed 's/[^A-Za-z0-9 ]/ /g' |
     squeeze | sed 's/ /_/g' | lower
@@ -201,12 +207,24 @@ trim() #{{{1
 
 ltrim() #{{{1
 {
+    # doc ltrim {{{
+    #
+    # Removes all leading whitespace (from the left).
+    #
+    # doc-end ltrim }}}
+
     local char=${1:-[:space:]}
     sed "s%^[${char//%/\\%}]*%%"
 }
 
 rtrim() #{{{1
 {
+    # doc rtrim {{{
+    #
+    # Removes all trailing whitespace (from the right).
+    #
+    # doc-end rtrim }}}
+
     local char=${1:-[:space:]}
     sed "s%[${char//%/\\%}]*$%%"
 }
@@ -252,7 +270,7 @@ variables() #{{{1
 {
     # doc variables {{{
     #
-    # Pulls all variable names from the input.
+    # Pulls all variable names from stdin.
     #
     # doc-end variables }}}
 
@@ -265,7 +283,7 @@ functions() #{{{1
 {
     # doc functions {{{
     #
-    # Pulls all function names from the input.
+    # Pulls all function names from stdin.
     #
     # doc-end functions }}}
 
@@ -317,6 +335,10 @@ commonprefix() #{{{1
     #
     # Gets the common prefix of the strings passed on stdin.
     #
+    # Usage examples:
+    #     echo -e "spam\nspace"   | commonprefix  #==> spa
+    #     echo -e "foo\nbar\nbaz" | commonprefix  #==>
+    #
     # doc-end commonprefix }}}
 
     local i compare prefix
@@ -347,7 +369,9 @@ sort_list() #{{{1
 {
     # doc sort_list {{{
     #
-    # Sorts a list.
+    # Sorts a list from stdin.
+    #
+    # Usage: sort_list [-ur] [DELIMITER]
     #
     # Usage examples:
     #     echo "c b a"     | sort_list       #==> a b c
@@ -383,7 +407,11 @@ split_string() #{{{1
 {
     # doc split_string {{{
     #
-    # Split a given string into a list.
+    # Split text from stdin into a list.
+    #
+    # DELIMITER defaults to ",".
+    #
+    # Usage: split_string [DELIMITER]
     #
     # Usage examples:
     #     echo "foo, bar, baz" | split_string      #==> foo\nbar\nbaz
@@ -407,7 +435,11 @@ join_lines() #{{{1
 {
     # doc join_lines {{{
     #
-    # Joins a list into a string.
+    # Joins lines from stdin into a string.
+    #
+    # DELIMITER defaults to ", ".
+    #
+    # Usage: join_lines [DELIMITER]
     #
     # Usage examples:
     #     echo -e "foo\nbar\nbaz" | join_lines      #==> foo, bar, baz
@@ -460,6 +492,12 @@ flatten() #{{{1
 
 timestamp() #{{{1
 {
+    # doc timestamp {{{
+    #
+    # Nothing special, really. Just a frequently used date format.
+    #
+    # doc-end timestamp }}}
+
     date +%Y%m%d%H%M%S
 }
 

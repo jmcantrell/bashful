@@ -3,7 +3,7 @@
 # Filename:      bashful-modes.sh
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-03-28 22:41:50 (-0400)
+# Last Modified: Mon 2010-05-03 11:28:02 (-0400)
 
 # doc bashful-modes {{{
 #
@@ -51,10 +51,11 @@ gui() #{{{1
 {
     # doc gui {{{
     #
-    # Usage: gui [VALUE]
     # With no arguments, test if gui mode is enabled.
     # With one argument, set gui mode to given value.
     # Will only enable gui mode if X is running.
+    #
+    # Usage: gui [VALUE]
     #
     # doc-end gui }}}
 
@@ -72,9 +73,10 @@ interactive() #{{{1
 {
     # doc interactive {{{
     #
-    # Usage: interactive [VALUE]
     # With no arguments, test if interactive mode is enabled.
     # With one argument, set interactive mode to given value.
+    #
+    # Usage: interactive [VALUE]
     #
     # doc-end interactive }}}
 
@@ -90,9 +92,10 @@ interactive_echo() #{{{1
 {
     # doc interactive_echo {{{
     #
-    # Usage: interactive_echo [TRUE_VALUE] [FALSE_VALUE]
     # Will only echo the first argument if interactive mode is enabled.
     # Otherwise, echo the second argument.
+    #
+    # Usage: interactive_echo [TRUE_VALUE] [FALSE_VALUE]
     #
     # doc-end interactive_echo }}}
 
@@ -114,9 +117,10 @@ verbose() #{{{1
 {
     # doc verbose {{{
     #
-    # Usage: verbose [VALUE]
     # With no arguments, test if verbose mode is enabled.
     # With one argument, set verbose mode to given value.
+    #
+    # Usage: verbose [VALUE]
     #
     # doc-end verbose }}}
 
@@ -132,9 +136,10 @@ verbose_echo() #{{{1
 {
     # doc verbose_echo {{{
     #
-    # Usage: verbose_echo [TRUE_VALUE] [FALSE_VALUE]
     # Will only echo the first argument if verbose mode is enabled.
     # Otherwise, echo the second argument.
+    #
+    # Usage: verbose_echo [TRUE_VALUE] [FALSE_VALUE]
     #
     # doc-end verbose_echo }}}
 
@@ -156,9 +161,10 @@ verbose_execute() #{{{1
 {
     # doc verbose_execute {{{
     #
-    # Usage: verbose_execute [COMMAND]
     # Will execute the given command and only display the output if verbose
     # mode is enabled.
+    #
+    # Usage: verbose_execute [COMMAND]
     #
     # doc-end verbose_execute }}}
 

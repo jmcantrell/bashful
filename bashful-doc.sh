@@ -3,7 +3,7 @@
 # Filename:      bashful-doc.sh
 # Description:   Functions for extracting embedded documentation.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-01 00:13:20 (-0500)
+# Last Modified: Mon 2010-05-03 14:05:13 (-0400)
 
 # doc bashful-doc {{{
 #
@@ -37,8 +37,9 @@ doc() #{{{1
 {
     # doc doc {{{
     #
-    # Usage: doc NAME [FILE...]
     # Retrieve embedded documentation from scripts.
+    #
+    # Usage: doc NAME [FILE...]
     #
     # doc-end doc }}}
 
@@ -51,8 +52,9 @@ doc_help() #{{{1
 {
     # doc doc_help {{{
     #
-    # Usage: doc_help SCRIPT [COMMAND]
     # Display full documentation for a given script/command.
+    #
+    # Usage: doc_help SCRIPT [COMMAND]
     #
     # doc-end doc_help }}}
 
@@ -76,11 +78,6 @@ doc_execute() #{{{1
 {
     # doc doc_execute {{{
     #
-    # Usage:
-    #     doc_execute SCRIPT
-    #     doc_execute SCRIPT help [COMMAND]
-    #     doc_execute SCRIPT [COMMAND] [OPTIONS] [ARGUMENTS]
-    #
     # Display the documentation for a given script if there are no arguments
     # or the only argument is "help".
     #
@@ -89,6 +86,11 @@ doc_execute() #{{{1
     #
     # If not using one of the help methods, the given command will be executed
     # as if it were run directly.
+    #
+    # Usage:
+    #     doc_execute SCRIPT
+    #     doc_execute SCRIPT help [COMMAND]
+    #     doc_execute SCRIPT [COMMAND] [OPTIONS] [ARGUMENTS]
     #
     # doc-end doc_execute }}}
 
@@ -106,8 +108,9 @@ doc_commands() #{{{1
 {
     # doc doc_commands {{{
     #
-    # Usage: doc_commands [FILE...]
     # Show all doc tags in given files.
+    #
+    # Usage: doc_commands [FILE...]
     #
     # doc-end doc_commands }}}
 

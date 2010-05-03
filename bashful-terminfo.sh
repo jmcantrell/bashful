@@ -3,12 +3,60 @@
 # Filename:      bashful-terminfo.sh
 # Description:   Sets terminal strings for things like color, bold, etc.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-04-15 00:07:50 (-0400)
+# Last Modified: Mon 2010-05-03 13:20:31 (-0400)
 
 # doc bashful-terminfo {{{
 #
 # The terminfo library provides variables for altering the appearance of
 # terminal output (bold, standout, underline, colors, etc).
+#
+# If available to the terminal, the 8 standard color names are loaded
+# initially, along with things like bold, underline, etc.
+#
+# It's recommended that any access to colors/formatting be used through these
+# convenience functions:
+#
+# These functions will print text in a given color. One handles foreground,
+# the other handles background. Any colors beyond the standard 8 are loaded on
+# first access and cached for later use.
+#
+# Usage examples:
+#     FG green "This foreground is green"
+#     BG black "This background is black"
+#     FG green "$(BG black "This text is green and black")"
+#
+# Although, if you don't care about any colors beyond the first 8 named ones,
+# you could just as easily do:
+#
+#     echo "${term_fg_green}${term_bg_black}TEXT${term_reset}"
+#
+# This is also true for the formatting strings below (reset, bold, etc).
+#
+# You can also use numbered colors from 1 to the maximum number your terminal
+# supports.
+#
+#     FG 255 "This foreground is whatever 255 is"
+#
+# In addition to the FG and BG functions, there's also a function that will
+# apply formatting options like bold, underline, etc.
+#
+#     FX FORMAT TEXT
+#
+# Where FORMAT is one of:
+#
+#     reset
+#     bold
+#     dim
+#     standout
+#     italic
+#     underline
+#     blink
+#     reverse
+#
+# Don't be surprised if a lot of the formatting strings don't work. 99% of the
+# time, it's because your terminal doesn't support it, or you don't have the
+# right TERM setting. My best advice is to use xterm and set TERM to
+# xterm-256color.
 #
 # doc-end bashful-terminfo }}}
 

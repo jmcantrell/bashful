@@ -3,7 +3,7 @@
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-04-22 23:35:44 (-0400)
+# Last Modified: Mon 2010-05-03 11:22:36 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -42,7 +42,6 @@ usage() #{{{1
     # doc usage {{{
     #
     # Display usage information and exit with the given error code.
-    #
     # Will automatically populate certain sections if things like verbose or
     # interactive modes are set (either on or off).
     #
@@ -113,8 +112,9 @@ error() #{{{1
 {
     # doc error {{{
     #
-    # Usage: error [-c] [MESSAGE]
     # Displays a colorized (if available) error message.
+    #
+    # Usage: error [-c] [MESSAGE]
     #
     # doc-end error }}}
 
@@ -144,8 +144,9 @@ die() #{{{1
 {
     # doc die {{{
     #
-    # Usage: die [MESSAGE] [ERROR]
     # Displays an error message and exits with the given error code.
+    #
+    # Usage: die [MESSAGE] [ERROR]
     #
     # doc-end die }}}
 
@@ -156,8 +157,9 @@ info() #{{{1
 {
     # doc info {{{
     #
-    # Usage: info [-c] [MESSAGE]
     # Displays a colorized (if available) informational message.
+    #
+    # Usage: info [-c] [MESSAGE]
     #
     # doc-end info }}}
 
@@ -190,8 +192,9 @@ warn() #{{{1
 {
     # doc warn {{{
     #
-    # Usage: warn [-c] [MESSAGE]
     # Displays a colorized (if available) warning message.
+    #
+    # Usage: warn [-c] [MESSAGE]
     #
     # doc-end warn }}}
 

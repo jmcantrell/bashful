@@ -3,7 +3,7 @@
 # Filename:      bashful-profile.sh
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-03-18 00:54:42 (-0400)
+# Last Modified: Mon 2010-05-03 12:49:22 (-0400)
 
 # doc bashful-profile {{{
 #
@@ -56,6 +56,23 @@
 #     Run as root:    /usr/local/etc/$SCRIPT_NAME
 #     PREFIX is set:  $PREFIX/$SCRIPT_NAME
 #
+# Certain actions (currently: create, edit, delete) allow you to add commands
+# that will be run before (pre) and/or after (post) the action. The format of
+# these hook functions are:
+#
+#     profile_<action>_<hook>()
+#     {
+#         # CODE GOES HERE
+#     }
+#
+# For example, the following function would take place after any profile is
+# created:
+#
+#     profile_create_post()
+#     {
+#         echo "Profile '$PROFILE' has been created."
+#     }
+#
 # In summary, before any functionality can be used, you must do the following:
 #
 #     source bashful-profile
@@ -83,6 +100,14 @@ source bashful-utils
 
 profile_hook() #{{{1
 {
+    # doc profile_hook {{{
+    #
+    # Execute a specified profile hook.
+    #
+    # Usage: profile_hook ACTION HOOK
+    #
+    # doc-end profile_hook }}}
+
     local command=profile_${1}_${2}
     if type $command &>/dev/null; then
         $command
@@ -91,6 +116,12 @@ profile_hook() #{{{1
 
 profile_actions() #{{{1
 {
+    # doc profile_actions {{{
+    #
+    # Lists all available profile actions.
+    #
+    # doc-end profile_actions }}}
+
     declare -F |
     awk '{print $NF}' |
     grep '^profile_' |
@@ -103,6 +134,7 @@ profile_choose() #{{{1
     # doc profile_choose {{{
     #
     # Prompt user for a profile.
+    #
     # If interactive mode is not enabled, you better have already set the
     # profile or it's errors for everyone.
     #
@@ -129,6 +161,12 @@ profile_choose() #{{{1
 
 profile_clear() #{{{1
 {
+    # doc profile_clear {{{
+    #
+    # Unsets all variables from a profile.
+    #
+    # doc-end profile_clear }}}
+
     local var
     for var in $(profile_variables); do
         unset $var
@@ -233,6 +271,8 @@ profile_init() #{{{1
 {
     # doc profile_init {{{
     #
+    # Initialize the profile environment.
+    #
     # This function should be called in the script before any other
     # functionality is used. If prefix was set, use that.
     # Otherwise use a prefix appropriate for the user's permissions.
@@ -271,12 +311,18 @@ profile_list() #{{{1
 {
     # doc profile_list {{{
     #
-    # profile_list [PATTERN]
     # List profiles.
+    #
     # If called with no argument and PROFILE is not set, then all profiles
     # will be listed. If PROFILE is set, then it will be used as
     # a pattern to filter the list. If a pattern is passed, it will override
     # anything that PROFILE is set to.
+    #
+    # Usage: profile_list [PATTERN]
+    #
+    # Usage examples:
+    #     profile_list bash-.*  # List all profiles starting with "bash-"
+    #     profile_list .*       # Equivalent to: profile_list
     #
     # doc-end profile_list }}}
 
@@ -328,11 +374,23 @@ profile_load() #{{{1
 
 profile_variables() #{{{1
 {
+    # doc profile_variables {{{
+    #
+    # List all variables available to a profile (set or not).
+    #
+    # doc-end profile_variables }}}
+
     variables <<<"$PROFILE_DEFAULT"
 }
 
 profile_variables_required() #{{{1
 {
+    # doc profile_variables_required {{{
+    #
+    # List all required variables available to a profile (set or not).
+    #
+    # doc-end profile_variables_required }}}
+
     grep -v '^[[:space:]]*#' <<<"$PROFILE_DEFAULT" | variables
 }
 

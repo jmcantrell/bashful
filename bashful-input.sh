@@ -3,7 +3,7 @@
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-04-17 23:59:01 (-0400)
+# Last Modified: Mon 2010-05-03 11:21:09 (-0400)
 
 # doc bashful-input {{{
 #
@@ -35,8 +35,9 @@ input() #{{{1
 {
     # doc input {{{
     #
-    # Usage: input [-cs] [-p PROMPT] [-d DEFAULT]
     # Prompts the user to input text.
+    #
+    # Usage: input [-cs] [-p PROMPT] [-d DEFAULT]
     #
     # Usage examples:
     #
@@ -97,8 +98,9 @@ input_lines() #{{{1
 {
     # doc input_lines {{{
     #
-    # Usage: input_lines [-c] [-p PROMPT]
     # Prompts the user to input text lists.
+    #
+    # Usage: input_lines [-c] [-p PROMPT]
     #
     # doc-end input_lines }}}
 
@@ -134,10 +136,11 @@ question() #{{{1
 {
     # doc question {{{
     #
-    # Usage: question [-c] [-p PROMPT] [-d DEFAULT]
     # Prompts the user with a yes/no question.
     # The default value can be anything that evaluates to true/false.
     # See documentation for the "truth" command for more info.
+    #
+    # Usage: question [-c] [-p PROMPT] [-d DEFAULT]
     #
     # Usage examples:
     #
@@ -183,9 +186,10 @@ choice() #{{{1
 {
     # doc choice {{{
     #
-    # Usage: choice [-c] [-p PROMPT] [CHOICE...]
     # Prompts the user to choose from a set of choices.
     # If there is only one choice, it will be returned immediately.
+    #
+    # Usage: choice [-c] [-p PROMPT] [CHOICE...]
     #
     # Usage examples:
     #     choice -p "Choose your favorite color" red green blue

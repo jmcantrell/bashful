@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 10:56:16 (-0400)
+# Last Modified: Mon 2010-05-03 11:20:28 (-0400)
 
 # doc bashful-files {{{
 #
@@ -27,9 +27,10 @@ commonpath() #{{{1
 {
     # doc commonpath {{{
     #
-    # Usage: commonpath [PATH...]
     # Gets the common path of the paths passed on stdin.
     # Alternatively, paths can be passed as arguments.
+    #
+    # Usage: commonpath [PATH...]
     #
     # doc-end commonpath }}}
 
@@ -66,12 +67,15 @@ extname() #{{{1
 {
     # doc extname {{{
     #
-    # Usage: extname [-n LEVELS] FILENAME
     # Get the extension of the given filename.
     #
+    # Usage: extname [-n LEVELS] FILENAME
+    #
     # Usage examples:
-    #     extname     foo.tar.gz  #==> .gz
+    #     extname     foo.txt     #==> .txt
     #     extname -n2 foo.tar.gz  #==> .tar.gz
+    #     extname     foo.tar.gz  #==> .tar.gz
+    #     extname -n1 foo.tar.gz  #==> .gz
     #
     # doc-end extname }}}
 
@@ -111,12 +115,15 @@ filename() #{{{1
 {
     # doc filename {{{
     #
-    # Usage: filename [-n LEVELS] FILENAME
     # Gets the filename of the given path.
+    #
+    # Usage: filename [-n LEVELS] FILENAME
     #
     # Usage examples:
     #     filename     /path/to/file.txt     #==> file
     #     filename -n2 /path/to/file.tar.gz  #==> file
+    #     filename     /path/to/file.tar.gz  #==> file
+    #     filename -n1 /path/to/file.tar.gz  #==> file.tar
     #
     # doc-end filename }}}
 
@@ -142,12 +149,14 @@ increment_file() #{{{1
 {
     # doc increment_file {{{
     #
-    # Usage: increment_file FILENAME
     # Get the next filename in line for the given file.
+    #
+    # Usage: increment_file FILENAME
     #
     # Usage examples:
     #     increment_file does_not_exist  #==> does_not_exist
     #     increment_file does_exist      #==> does_exist (1)
+    #     increment_file does_exist      #==> does_exist (2)
     #
     # doc-end increment_file }}}
 
@@ -166,9 +175,10 @@ listdir() #{{{1
 {
     # doc listdir {{{
     #
-    # Usage: listdir DIR [OPTIONS]
     # List the files in the given directory (1 level deep).
     # Accepts the same options as the find command.
+    #
+    # Usage: listdir DIR [OPTIONS]
     #
     # doc-end listdir }}}
 
@@ -180,8 +190,9 @@ mimetype() #{{{1
 {
     # doc mimetype {{{
     #
-    # Usage: mimetype FILE
     # Get the mimetype of the given file.
+    #
+    # Usage: mimetype FILE
     #
     # doc-end mimetype }}}
 
@@ -192,8 +203,9 @@ mount_file() #{{{1
 {
     # doc mount_file {{{
     #
-    # Usage: mount_file FILE
     # Get the mount path that contains the given file.
+    #
+    # Usage: mount_file FILE
     #
     # doc-end mount_file }}}
 
@@ -210,8 +222,9 @@ mount_path() #{{{1
 {
     # doc mount_path {{{
     #
-    # Usage: mount_device DEVICE
     # Get the mount path for the given device.
+    #
+    # Usage: mount_device DEVICE
     #
     # doc-end mount_path }}}
 
@@ -222,8 +235,9 @@ mount_device() #{{{1
 {
     # doc mount_device {{{
     #
-    # Usage: mount_device PATH
     # Get the device for the given mount path.
+    #
+    # Usage: mount_device PATH
     #
     # doc-end mount_device }}}
 
@@ -235,8 +249,9 @@ mounted_same() #{{{1
 {
     # doc mounted_same {{{
     #
-    # Usage: mounted_same [FILE...]
     # Determine if all given files are on the same mount path.
+    #
+    # Usage: mounted_same [FILE...]
     #
     # doc-end mounted_same }}}
 
@@ -255,8 +270,9 @@ mounted_path() #{{{1
 {
     # doc mounted_path {{{
     #
-    # Usage: mounted_path [PATH]
     # Check to see if a given path is mounted.
+    #
+    # Usage: mounted_path [PATH]
     #
     # doc-end mounted_path }}}
 
@@ -267,8 +283,9 @@ mounted_device() #{{{1
 {
     # doc mounted_device {{{
     #
-    # Usage: mounted_device DEVICE
     # Check to see if a given device is mounted.
+    #
+    # Usage: mounted_device DEVICE
     #
     # doc-end mounted_device }}}
 
@@ -279,9 +296,11 @@ abspath() #{{{1
 {
     # doc abspath {{{
     #
-    # Usage: abspath [PATH]
     # Gets the absolute path of the given path.
     # Will resolve paths that contain '.' and '..'.
+    # Think readlink without the symlink resolution.
+    #
+    # Usage: abspath [PATH]
     #
     # doc-end abspath }}}
 
@@ -323,10 +342,11 @@ relpath() #{{{1
 {
     # doc relpath {{{
     #
-    # Usage: relpath [DESTINATION] [SOURCE]
     # Gets the relative path from SOURCE to DESTINATION.
     # Output should mirror the python function os.path.relpath().
     # All arguments default to the current directory.
+    #
+    # Usage: relpath [DESTINATION] [SOURCE]
     #
     # Usage examples:
     #     relpath /home/user     /home/user/bin  #==> bin
@@ -334,6 +354,7 @@ relpath() #{{{1
     #     relpath /foo/bar/baz   /               #==> ../../..
     #     relpath /foo/bar       /baz            #==> ../../baz
     #     relpath /home/user     /home/user      #==> .
+    #     relpath                                #==> .
     #
     # doc-end relpath }}}
 
@@ -370,9 +391,9 @@ link() #{{{1
 {
     # doc link {{{
     #
-    # Usage: link SOURCE [DESTINATION]
     # Version of ln that respects the interactive/verbose settings.
-    # Accepts the same options/arguments as ln.
+    #
+    # Usage: link SOURCE [DESTINATION]
     #
     # doc-end link }}}
 
@@ -431,9 +452,10 @@ trash() #{{{1
 {
     # doc trash {{{
     #
-    # Usage: trash [FILE...]
     # Put files in gnome trash if it's on the same partition.
     # If on a different partition, remove as normal.
+    #
+    # Usage: trash [FILE...]
     #
     # doc-end trash }}}
 
@@ -499,11 +521,13 @@ truncate() #{{{1
 {
     # doc truncate {{{
     #
-    # Usage: truncate PREFIX SUFFIX [EXCLUDED_PREFIX...]
     # Removes all similar unused files.
-    #
     # The only assumption is that the prefix is separated from the identifier
     # by a single hyphen (-).
+    #
+    # Usage: truncate PREFIX SUFFIX [EXCLUDED_PREFIX...]
+    #
+    # Usage examples:
     #
     # Given the following files:
     #
