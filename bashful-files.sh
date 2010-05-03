@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-03-29 17:44:24 (-0400)
+# Last Modified: Mon 2010-05-03 10:56:16 (-0400)
 
 # doc bashful-files {{{
 #
@@ -75,7 +75,7 @@ extname() #{{{1
     #
     # doc-end extname }}}
 
-    local levels=1
+    local levels
 
     unset OPTIND
     while getopts ":n:" option; do
@@ -88,7 +88,16 @@ extname() #{{{1
     local fn=$filename
     local exts ext
 
-    for i in $(seq 1 $levels); do
+    # Detect some common multi-extensions
+    if [[ ! $levels ]]; then
+        case $(lower <<<$filename) in
+            *.tar.gz|*.tar.bz2) levels=2 ;;
+        esac
+    fi
+
+    levels=${levels:-1}
+
+    for (( i=0; i<$levels; i++ )); do
         ext=.${fn##*.}
         exts=$ext$exts
         fn=${fn%$ext}
