@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 11:20:28 (-0400)
+# Last Modified: Thu 2010-05-13 00:13:30 (-0400)
 
 # doc bashful-files {{{
 #
@@ -127,16 +127,7 @@ filename() #{{{1
     #
     # doc-end filename }}}
 
-    local levels=1
-
-    unset OPTIND
-    while getopts ":n:" option; do
-        case $option in
-            n) levels=$OPTARG ;;
-        esac
-    done && shift $(($OPTIND - 1))
-
-    local ext=$(extname -n $levels "$1")
+    local ext=$(extname "$@")
 
     if [[ $ext ]]; then
         basename "$1" $ext
