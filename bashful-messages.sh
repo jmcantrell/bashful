@@ -3,7 +3,7 @@
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 11:22:36 (-0400)
+# Last Modified: Mon 2010-05-17 23:13:44 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -30,12 +30,6 @@ fi
 source bashful-modes
 source bashful-terminfo
 source bashful-utils
-
-z() #{{{1
-{
-    local text=$1; shift
-    zenity --title="$text" --text="$text:" "$@"
-}
 
 usage() #{{{1
 {
@@ -220,36 +214,6 @@ warn() #{{{1
     fi
 }
 
-check() #{{{1
-{
-    # doc check {{{
-    #
-    # Check if a variable is set.
-    # If given values, it will be set to the first non-empty one.
-    # Returns with error if variable is empty.
-    #
-    # Usage: check VARIABLE [VALUE...]
-    #
-    # doc-end check }}}
-
-    local var=$1; shift
-    eval "${var}=$(first "${!var}" "$@")"
-    [[ ${!var} ]] || return 1
-}
-
-require() #{{{1
-{
-    # doc require {{{
-    #
-    # Works like check, but will exit with an error on failure.
-    #
-    # Usage: require VARIABLE [VALUE...]
-    #
-    # doc-end require }}}
-
-    check "$@" || die "Variable '$1' not provided."
-}
-
-#}}}1
+#}}}
 
 BASHFUL_MESSAGES_LOADED=1

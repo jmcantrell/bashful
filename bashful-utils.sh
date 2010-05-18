@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 14:01:50 (-0400)
+# Last Modified: Mon 2010-05-17 23:13:35 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -18,6 +18,12 @@ if (( ${BASH_LINENO:-0} == 0 )); then
 fi
 
 [[ $BASHFUL_UTILS_LOADED ]] && return
+
+z() #{{{1
+{
+    local text=$1; shift
+    zenity --title="$text" --text="$text:" "$@"
+}
 
 lower() #{{{1
 {
@@ -81,9 +87,10 @@ first() #{{{1
     for value in "$@"; do
         if [[ $value ]]; then
             echo "$value"
-            return
+            return 0
         fi
     done
+    return 1
 }
 
 named() #{{{1

@@ -3,7 +3,7 @@
 # Filename:      bashful-execute.sh
 # Description:   Functions for building commands.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Fri 2010-04-23 12:54:19 (-0400)
+# Last Modified: Mon 2010-05-17 13:19:49 (-0400)
 
 # doc bashful-execute {{{
 #
@@ -81,7 +81,7 @@ execute_push() #{{{1
     #
     # doc-end execute_push }}}
 
-    EXECUTE_CMD=("${EXECUTE_CMD[@]}" "$@")
+    EXECUTE_CMD+=("$@")
 }
 
 execute_pop() #{{{1

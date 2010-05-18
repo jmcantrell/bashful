@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-05-13 00:13:30 (-0400)
+# Last Modified: Tue 2010-05-18 19:42:28 (-0400)
 
 # doc bashful-files {{{
 #
@@ -232,8 +232,7 @@ mount_device() #{{{1
     #
     # doc-end mount_device }}}
 
-    grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab |
-    awk '{print $1}'
+    grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $1}'
 }
 
 mounted_same() #{{{1
