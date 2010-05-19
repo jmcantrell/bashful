@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2010-05-18 19:42:28 (-0400)
+# Last Modified: Wed 2010-05-19 00:42:42 (-0400)
 
 # doc bashful-files {{{
 #
@@ -89,6 +89,9 @@ extname() #{{{1
     done && shift $(($OPTIND - 1))
 
     local filename=${1##*/}
+
+    [[ $filename == *.* ]] || return
+
     local fn=$filename
     local exts ext
 
@@ -105,7 +108,7 @@ extname() #{{{1
         ext=.${fn##*.}
         exts=$ext$exts
         fn=${fn%$ext}
-        [[ $exts == $filename ]] && return 1
+        [[ $exts == $filename ]] && return
     done
 
     echo "$exts"
@@ -127,13 +130,7 @@ filename() #{{{1
     #
     # doc-end filename }}}
 
-    local ext=$(extname "$@")
-
-    if [[ $ext ]]; then
-        basename "$1" $ext
-    else
-        basename "$1"
-    fi
+    basename "$1" $(extname "$@")
 }
 
 increment_file() #{{{1
