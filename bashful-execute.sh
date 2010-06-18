@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Filename:      bashful-execute.sh
 # Description:   Functions for building commands.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-17 13:19:49 (-0400)
+# Last Modified: Wed 2010-06-16 00:54:29 (-0400)
 
 # doc bashful-execute {{{
 #

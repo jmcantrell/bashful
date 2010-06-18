@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-17 23:13:44 (-0400)
+# Last Modified: Wed 2010-06-16 00:52:26 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -11,7 +11,6 @@
 #
 # All functions are sensitive to the following variables:
 #
-#     GUI      # If set/true, try to use gui dialogs.
 #     VERBOSE  # If unset/false, the user will not see notifications.
 #
 # The VERBOSE variable only matters if the function is used with the verbose
@@ -127,11 +126,7 @@ error() #{{{1
 
     local msg=${1:-An error has occurred.}
 
-    if gui; then
-        z "$msg" --error
-    else
-        info "${term_fg_red}${term_bold}ERROR: ${msg}${term_reset}"
-    fi
+    info "${term_fg_red}${term_bold}ERROR: ${msg}${term_reset}"
 }
 
 die() #{{{1
@@ -175,11 +170,7 @@ info() #{{{1
     # Shorten home paths, if they exist.
     msg=${msg//$HOME/\~}
 
-    if gui; then
-        z "$msg" --info
-    else
-        echo -e "${term_bold}${msg}${term_reset}" >&2
-    fi
+    echo -e "${term_bold}${msg}${term_reset}" >&2
 }
 
 warn() #{{{1
@@ -207,11 +198,7 @@ warn() #{{{1
 
     local msg=${1:-A warning has occurred.}
 
-    if gui; then
-        z "$msg" --warning
-    else
-        info "${term_fg_yellow}WARNING: ${msg}${term_reset}"
-    fi
+    info "${term_fg_yellow}WARNING: ${msg}${term_reset}"
 }
 
 #}}}

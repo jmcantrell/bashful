@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 11:21:09 (-0400)
+# Last Modified: Wed 2010-06-16 00:51:50 (-0400)
 
 # doc bashful-input {{{
 #
@@ -11,7 +11,6 @@
 #
 # All functions are sensitive to the following variables:
 #
-#     GUI          # If set/true, try to use gui dialogs.
 #     INTERACTIVE  # If unset/false, the user will not be prompted.
 #
 # The INTERACTIVE variable only matters if the function is used with the
@@ -61,19 +60,11 @@ input() #{{{1
             p) p=$OPTARG ;;
             d) d=$OPTARG ;;
             c) c=1 ;;
-            s) s=1 ;;
+            s) s=-s ;;
         esac
     done && shift $(($OPTIND - 1))
 
-    if truth $s; then
-        if gui; then
-            s="--hide-text"
-        else
-            s="-s"
-        fi
-    fi
-
-    truth $s && unset d
+    [[ $s ]] && unset d
 
     if truth $c && ! interactive; then
         echo "$d"
@@ -83,13 +74,9 @@ input() #{{{1
     # Shorten home paths, if they exist.
     p=${p//$HOME/~}
 
-    if gui; then
-        reply=$(z "$p" --entry $s --entry-text="$d") || return 1
-    else
-        [[ $s ]] || p="${p}${d:+ [$d]}"
-        read $s -ep "$p: " reply || return 1
-        [[ $s ]] && echo >&2
-    fi
+    [[ $s ]] || p="${p}${d:+ [$d]}"
+    read $s -ep "$p: " reply || return 1
+    [[ $s ]] && echo >&2
 
     echo "${reply:-$d}"
 }
@@ -124,12 +111,8 @@ input_lines() #{{{1
     # Shorten home paths, if they exist.
     p=${p//$HOME/~}
 
-    if gui; then
-        z "$p" --text-info --editable
-    else
-        echo "$p:" >&2
-        cat  # Accept input until EOF (ctrl-d)
-    fi
+    echo "$p:" >&2
+    cat  # Accept input until EOF (ctrl-d)
 }
 
 question() #{{{1
@@ -173,13 +156,7 @@ question() #{{{1
     # Shorten home paths, if they exist.
     p=${p//$HOME/~}
 
-    if gui; then
-        z "$p" --question
-    else
-        truth $(input -d $d -p "$p")
-    fi
-
-    return $?
+    truth $(input -d $d -p "$p")
 }
 
 choice() #{{{1
@@ -219,18 +196,13 @@ choice() #{{{1
     # Shorten home paths, if they exist.
     p=${p//$HOME/~}
 
-    if gui; then
-        printf "%s\n" "$@" |
-        z "$p" --list --column="Choices" || return 1
-    else
-        echo "$p:" >&2
-        select choice in "$@"; do
-            if [[ $choice ]]; then
-                echo "$choice"
-                break
-            fi
-        done
-    fi
+    echo "$p:" >&2
+    select choice in "$@"; do
+        if [[ $choice ]]; then
+            echo "$choice"
+            break
+        fi
+    done
 }
 
 pause() #{{{1
@@ -243,11 +215,7 @@ pause() #{{{1
     #
     # doc-end pause }}}
 
-    if gui; then
-        local p="Click OK to continue."
-    else
-        local p="Press any key to continue..."
-    fi
+    local p="Press any key to continue..."
     local c
 
     unset OPTIND
@@ -262,11 +230,7 @@ pause() #{{{1
         return
     fi
 
-    if gui; then
-        zenity --info --text "$p"
-    else
-        read -s -p "$p" -n1 && echo >&2
-    fi
+    read -s -p "$p" -n1 && echo >&2
 }
 
 #}}}1

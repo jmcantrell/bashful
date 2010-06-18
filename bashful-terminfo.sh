@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Filename:      bashful-terminfo.sh
 # Description:   Sets terminal strings for things like color, bold, etc.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 13:20:31 (-0400)
+# Last Modified: Wed 2010-06-16 00:54:29 (-0400)
 
 # doc bashful-terminfo {{{
 #

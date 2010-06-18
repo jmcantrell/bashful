@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Filename:      bashful-modes.sh
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 11:28:02 (-0400)
+# Last Modified: Wed 2010-06-16 00:53:13 (-0400)
 
 # doc bashful-modes {{{
 #
@@ -11,13 +11,11 @@
 #
 # The modes are controlled by the following variables:
 #
-#     GUI          # If set/true, try to use gui dialogs.
 #     INTERACTIVE  # If unset/false, the user will not be prompted.
 #     VERBOSE      # If unset/false, the user will not see notifications.
 #
 # The following commands get/set these variables:
 #
-#     gui
 #     interactive
 #     verbose
 #
@@ -46,28 +44,6 @@ fi
 
 source bashful-execute
 source bashful-utils
-
-gui() #{{{1
-{
-    # doc gui {{{
-    #
-    # With no arguments, test if gui mode is enabled.
-    # With one argument, set gui mode to given value.
-    # Will only enable gui mode if X is running.
-    #
-    # Usage: gui [VALUE]
-    #
-    # doc-end gui }}}
-
-    if (( $# == 0 )); then
-        if [[ $DISPLAY ]]; then
-            truth $GUI && return 0
-        fi
-        return 1
-    fi
-
-    export GUI=$(truth_value $1)
-}
 
 interactive() #{{{1
 {

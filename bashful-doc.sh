@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Filename:      bashful-doc.sh
 # Description:   Functions for extracting embedded documentation.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-05-03 14:05:13 (-0400)
+# Last Modified: Wed 2010-06-16 00:26:50 (-0400)
 
 # doc bashful-doc {{{
 #

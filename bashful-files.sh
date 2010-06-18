@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-05-19 00:42:42 (-0400)
+# Last Modified: Wed 2010-06-16 00:54:29 (-0400)
 
 # doc bashful-files {{{
 #
@@ -387,7 +387,7 @@ link() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    ln -snT $(interactive_option) $(verbose_echo -v) "$1" "${2:-$(basename "$1")}"
+    ln -sn $(interactive_option) $(verbose_echo -v) "$1" "${2:-$(basename "$1")}"
 }
 
 move() #{{{1
@@ -402,7 +402,7 @@ move() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    mv -T $(interactive_option) $(verbose_echo -v) "$@"
+    mv $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 copy() #{{{1
@@ -417,7 +417,7 @@ copy() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    cp -rT $(interactive_option) $(verbose_echo -v) "$@"
+    cp -r $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 remove() #{{{1
@@ -433,39 +433,6 @@ remove() #{{{1
     verbose     ${VERBOSE:-1}
 
     rm -r $(interactive_option) $(verbose_echo -v) "$@"
-}
-
-trash() #{{{1
-{
-    # doc trash {{{
-    #
-    # Put files in gnome trash if it's on the same partition.
-    # If on a different partition, remove as normal.
-    #
-    # Usage: trash [FILE...]
-    #
-    # doc-end trash }}}
-
-    local td=$HOME/.local/share/Trash
-
-    mkdir -p "$td/info"
-    mkdir -p "$td/files"
-
-    for f in "$@"; do
-        [[ -e $f ]] || continue
-        # Only trash files if they are on the same partition
-        if mounted_same "$td" "$f"; then
-            nf=$(increment_file "${f##*/}" ".{num}")
-            {
-                echo "[Trash Info]"
-                echo "Path=$(readlink -f "$f")"
-                echo "DeletionDate=$(date)"
-            } >$td/info/$nf.trashinfo
-            move "$f" "$td/files/$nf"
-        else
-            remove "$f"
-        fi
-    done
 }
 
 cleanup() #{{{1
