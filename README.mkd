@@ -1,6 +1,16 @@
 Bashful is a collection of libraries intended simplify writing bash scripts.
 
-To install, run the 'install' script:
+It requires GNU coreutils, GNU sed, and GNU awk. If you're using a Linux system such as Debian or
+Ubuntu, you don't need to do anything. If you're using MacOS, you'll need to
+install it and make sure it's symlinked to the proper names. The simplest way
+to do this is to use the homebrew package manager:
+
+    brew install coreutils gnu-sed gawk
+
+The binaries are installed with a 'g' prefixed. You will need to symlink these
+to the same name without the 'g'.
+
+To install bashful, run the 'install' script:
 
     install [DIR]
 

@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-06-16 00:54:29 (-0400)
+# Last Modified: Fri 2010-06-18 00:32:35 (-0400)
 
 # doc bashful-files {{{
 #
@@ -387,7 +387,7 @@ link() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    ln -sn $(interactive_option) $(verbose_echo -v) "$1" "${2:-$(basename "$1")}"
+    ln -snT $(interactive_option) $(verbose_echo -v) "$1" "${2:-$(basename "$1")}"
 }
 
 move() #{{{1
@@ -402,7 +402,7 @@ move() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    mv $(interactive_option) $(verbose_echo -v) "$@"
+    mv -T $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 copy() #{{{1
@@ -417,7 +417,7 @@ copy() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    cp -r $(interactive_option) $(verbose_echo -v) "$@"
+    cp -Tr $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 remove() #{{{1
