@@ -1,17 +1,26 @@
 Bashful is a collection of libraries intended simplify writing bash scripts.
 
-It requires GNU coreutils. If you're using a Linux system such as Debian or
+Installation
+------------
+
+Bashful requires GNU coreutils. If you're using a Linux system such as Debian or
 Ubuntu, you don't need to do anything. If you're using MacOS, you'll need to
 install it. The simplest way to do this is to use the homebrew package
 manager:
 
     brew install --default-names coreutils
 
-To install bashful, run the included install script:
+To install, run the included install script:
 
     ./install [DIR]
 
-This will install the scripts to DIR, or to ~/bin if not specified.
+To install for yourself only (~/bin will need to be in your PATH):
+
+    ./install
+
+To install for everyone:
+
+    sudo ./install /usr/local/bin
 
 To get documentation:
 
