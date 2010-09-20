@@ -3,7 +3,7 @@
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-06-16 00:52:26 (-0400)
+# Last Modified: Sun 2010-09-19 20:32:53 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -49,7 +49,7 @@ usage() #{{{1
     #     SCRIPT_ARGS
     #     SCRIPT_DESCRIPTION
     #     SCRIPT_EXAMPLES
-    #     SCRIPT_OPTS
+    #     SCRIPT_OPTIONS
     #     SCRIPT_USAGE
     #
     # doc-end usage }}}
@@ -89,11 +89,11 @@ usage() #{{{1
                 echo "${p}-q    Be quiet."
             fi
 
-            if [[ $SCRIPT_OPTS ]]; then
+            if [[ $SCRIPT_OPTIONS ]]; then
                 echo
                 echo "APPLICATION OPTIONS"
                 echo
-                echo -e "$SCRIPT_OPTS" | sed "s/^/${p}/"
+                echo -e "$SCRIPT_OPTIONS" | sed "s/^/${p}/"
             fi
         } | squeeze_lines >&2
     fi
