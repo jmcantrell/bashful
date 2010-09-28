@@ -5,7 +5,6 @@ A collection of libraries to simplify writing bash scripts.
 
 It's separated into the following libraries:
 
-    bashful-core
     bashful-doc
     bashful-execute
     bashful-files
