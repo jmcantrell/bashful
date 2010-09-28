@@ -3,7 +3,6 @@
 # Filename:      bashful-core.sh
 # Description:   All other bashful libs source me.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-09-27 20:38:33 (-0400)
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
