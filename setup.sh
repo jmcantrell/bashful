@@ -17,7 +17,7 @@ CP='cp -v'
 RM='rm -vf'
 LN_S='ln -vsf'
 
-if (( $# = 0 )); then
+if (( $# == 0 )); then
     echo "$USAGE"
     exit 1
 fi
