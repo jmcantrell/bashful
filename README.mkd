@@ -1,7 +1,7 @@
 Bashful
 =======
 
-A collection of libraries to simplify writing bash scripts
+A collection of libraries to simplify writing bash scripts.
 
 It's separated into the following libraries:
 
