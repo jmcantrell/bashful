@@ -3,7 +3,7 @@
 # Filename:      bashful-input.sh
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-06-16 00:51:50 (-0400)
+# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
 
 # doc bashful-input {{{
 #
@@ -26,6 +26,7 @@ fi
 
 [[ $BASHFUL_INPUT_LOADED ]] && return
 
+source bashful-core
 source bashful-messages
 source bashful-modes
 source bashful-utils

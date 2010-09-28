@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-06-16 00:54:29 (-0400)
+# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -19,11 +19,7 @@ fi
 
 [[ $BASHFUL_UTILS_LOADED ]] && return
 
-z() #{{{1
-{
-    local text=$1; shift
-    zenity --title="$text" --text="$text:" "$@"
-}
+source bashful-core
 
 lower() #{{{1
 {
@@ -295,7 +291,7 @@ functions() #{{{1
     # doc-end functions }}}
 
     sed 's/[[:space:];]/\n/g' |
-    egrep '^[a-zA-Z0-9_-]+\(\)' |
+    grep -E '^[a-zA-Z0-9_-]+\(\)' |
     sed 's/().*$//' | sort -u
 }
 
@@ -333,7 +329,7 @@ lines() #{{{1
     #
     # doc-end lines }}}
 
-    egrep -v '^[[:space:]]*#|^[[:space:]]*$' "$@"
+    grep -E -v '^[[:space:]]*#|^[[:space:]]*$' "$@"
 }
 
 commonprefix() #{{{1

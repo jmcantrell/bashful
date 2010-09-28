@@ -3,7 +3,7 @@
 # Filename:      bashful-modes.sh
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-06-16 00:53:13 (-0400)
+# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
 
 # doc bashful-modes {{{
 #
@@ -42,6 +42,7 @@ fi
 
 [[ $BASHFUL_MODES_LOADED ]] && return
 
+source bashful-core
 source bashful-execute
 source bashful-utils
 

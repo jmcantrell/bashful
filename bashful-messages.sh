@@ -3,7 +3,7 @@
 # Filename:      bashful-messages.sh
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-09-19 20:32:53 (-0400)
+# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -26,6 +26,7 @@ fi
 
 [[ $BASHFUL_MESSAGES_LOADED ]] && return
 
+source bashful-core
 source bashful-modes
 source bashful-terminfo
 source bashful-utils

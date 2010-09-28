@@ -3,7 +3,7 @@
 # Filename:      bashful-execute.sh
 # Description:   Functions for building commands.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-06-16 00:54:29 (-0400)
+# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
 
 # doc bashful-execute {{{
 #
@@ -18,6 +18,8 @@ if (( ${BASH_LINENO:-0} == 0 )); then
 fi
 
 [[ $BASHFUL_EXECUTE_LOADED ]] && return
+
+source bashful-core
 
 execute() #{{{1
 {

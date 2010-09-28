@@ -3,7 +3,7 @@
 # Filename:      bashful-profile.sh
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Wed 2010-06-16 00:53:29 (-0400)
+# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
 
 # doc bashful-profile {{{
 #
@@ -92,6 +92,7 @@ fi
 
 [[ $BASHFUL_PROFILE_LOADED ]] && return
 
+source bashful-core
 source bashful-files
 source bashful-input
 source bashful-messages

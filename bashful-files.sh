@@ -3,7 +3,7 @@
 # Filename:      bashful-files.sh
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Fri 2010-06-18 00:32:35 (-0400)
+# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
 
 # doc bashful-files {{{
 #
@@ -19,6 +19,7 @@ fi
 
 [[ $BASHFUL_FILES_LOADED ]] && return
 
+source bashful-core
 source bashful-messages
 source bashful-modes
 source bashful-utils
@@ -172,111 +173,6 @@ listdir() #{{{1
 
     local dir=$1; shift
     find "$dir" -maxdepth 1 -mindepth 1 "$@"
-}
-
-mimetype() #{{{1
-{
-    # doc mimetype {{{
-    #
-    # Get the mimetype of the given file.
-    #
-    # Usage: mimetype FILE
-    #
-    # doc-end mimetype }}}
-
-    file -ibL "$1" | awk -F";" '{print $1}'
-}
-
-mount_file() #{{{1
-{
-    # doc mount_file {{{
-    #
-    # Get the mount path that contains the given file.
-    #
-    # Usage: mount_file FILE
-    #
-    # doc-end mount_file }}}
-
-    local f=$(readlink -f "$1")
-
-    for m in $(mount | awk '{print $3}' | sort); do
-        if [[ $f == $m/* ]]; then
-            echo "$m"
-        fi
-    done | tail -n1
-}
-
-mount_path() #{{{1
-{
-    # doc mount_path {{{
-    #
-    # Get the mount path for the given device.
-    #
-    # Usage: mount_device DEVICE
-    #
-    # doc-end mount_path }}}
-
-    grep "^$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $2}'
-}
-
-mount_device() #{{{1
-{
-    # doc mount_device {{{
-    #
-    # Get the device for the given mount path.
-    #
-    # Usage: mount_device PATH
-    #
-    # doc-end mount_device }}}
-
-    grep "[[:space:]]$(readlink -f "$1")[[:space:]]" /etc/fstab | awk '{print $1}'
-}
-
-mounted_same() #{{{1
-{
-    # doc mounted_same {{{
-    #
-    # Determine if all given files are on the same mount path.
-    #
-    # Usage: mounted_same [FILE...]
-    #
-    # doc-end mounted_same }}}
-
-    local prev cur
-
-    for f in "$@"; do
-        cur=$(mount_file "$f")
-        [[ $prev && $cur != $prev ]] && return 1
-        prev=$cur
-    done
-
-    return 0
-}
-
-mounted_path() #{{{1
-{
-    # doc mounted_path {{{
-    #
-    # Check to see if a given path is mounted.
-    #
-    # Usage: mounted_path [PATH]
-    #
-    # doc-end mounted_path }}}
-
-    mount | awk '{print $3}' | grep -q "^$(readlink -f "${1:-/}")$"
-}
-
-mounted_device() #{{{1
-{
-    # doc mounted_device {{{
-    #
-    # Check to see if a given device is mounted.
-    #
-    # Usage: mounted_device DEVICE
-    #
-    # doc-end mounted_device }}}
-
-    mount | awk '{print $1}' | grep -q "^$(readlink -f "${1:-/}")$"
 }
 
 abspath() #{{{1
