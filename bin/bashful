@@ -3,13 +3,13 @@
 # Filename:      bashful.sh
 # Description:   An interface to bashful for non-bash scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-09-27 23:48:19 (-0400)
+# Last Modified: Mon 2010-09-27 23:56:06 (-0400)
 
 # doc bashful {{{
 #
 # Bashful is a collection of libraries to simplify writing bash scripts.
 #
-# Its separated into the following libraries:
+# It's separated into the following libraries:
 #
 #     bashful-core
 #     bashful-doc

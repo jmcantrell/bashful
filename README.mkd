@@ -1,47 +1,20 @@
-Bashful is a collection of libraries intended simplify writing bash scripts.
+Bashful - A collection of libraries to simplify writing bash scripts
 
-Installation
-------------
+It's separated into the following libraries:
 
-Bashful requires GNU coreutils. If you're using a Linux system such as Debian or
-Ubuntu, you don't need to do anything. If you're using MacOS, you'll need to
-install it. The simplest way to do this is to use the homebrew package
-manager:
+    bashful-core
+    bashful-doc
+    bashful-execute
+    bashful-files
+    bashful-input
+    bashful-messages
+    bashful-modes
+    bashful-profile
+    bashful-terminfo
+    bashful-utils
 
-    brew install --default-names coreutils
+To get full documentation on each, just invoke it at the command line with
+the first argument as 'help'. For example, to get documentation on the input
+library:
 
-To install, run the included install script:
-
-    ./install [DIR]
-
-To install for yourself only (~/bin will need to be in your PATH):
-
-    ./install
-
-To install for everyone:
-
-    sudo ./install /usr/local/bin
-
-To get documentation:
-
-    bashful help [COMMAND]
-
-This will display documentation on COMMAND. If no COMMAND is specified,
-general help and a list of all libraries/commands will be given.
-
-To get documentation for a specific library:
-
-    bashful-input help [COMMAND]
-
-This works exactly like the previous documentation command except it is
-specific to the input library.
-
-To use within a bash script, simply source the needed library:
-
-    source bashful-input
-
-At this point, all functions in the input library are available to the script.
-
-To test out a command or to use in a non-bash context:
-
-    bashful COMMAND [OPTIONS] [ARGUMENTS]
+    $ bashful-input help
