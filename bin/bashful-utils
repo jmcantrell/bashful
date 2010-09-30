@@ -3,7 +3,7 @@
 # Filename:      bashful-utils.sh
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
+# Last Modified: Thu 2010-09-30 01:14:11 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -18,8 +18,6 @@ if (( ${BASH_LINENO:-0} == 0 )); then
 fi
 
 [[ $BASHFUL_UTILS_LOADED ]] && return
-
-source bashful-core
 
 lower() #{{{1
 {
@@ -304,6 +302,17 @@ editor() #{{{1
     # doc-end editor }}}
 
     $(first "$VISUAL" "$EDITOR" "vi") "$@"
+}
+
+pager() #{{{1
+{
+    # doc pager {{{
+    #
+    # Execute the preferred pager.
+    #
+    # doc-end pager }}}
+
+    $(first "$PAGER" "less")
 }
 
 repeat() #{{{1

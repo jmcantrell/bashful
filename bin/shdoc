@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Filename:      shdoc.sh
+# Description:   Extracts documentation from shell scripts.
+# Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+# Last Modified: Thu 2010-09-30 01:18:10 (-0400)
+
+# doc shdoc {{{
+#
+# Extracts documentation from shell scripts.
+#
+# Usage: shdoc [OPTIONS] COMMAND [SECTION]
+#
+# doc-end shdoc }}}
+
+source bashful-doc
+source bashful-messages
+source bashful-utils
+
+SCRIPT_NAME=$(basename "$0" .sh)
+SCRIPT_USAGE="Extracts documentation from shell scripts."
+SCRIPT_ARGS="COMMAND [SECTION]"
+
+unset OPTIND
+while getopts ":h" option; do
+    case $option in
+        h) usage 0 ;;
+        *) usage 1 ;;
+    esac
+done && shift $(($OPTIND - 1))
+
+if (( $# == 0 )) || [[ $1 == help ]]; then
+    set - "$0"
+fi
+
+doc_help "$@"

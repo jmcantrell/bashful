@@ -3,7 +3,7 @@
 # Filename:      bashful-doc.sh
 # Description:   Functions for extracting embedded documentation.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-09-27 22:59:49 (-0400)
+# Last Modified: Thu 2010-09-30 01:15:15 (-0400)
 
 # doc bashful-doc {{{
 #
@@ -31,7 +31,6 @@ fi
 
 [[ $BASHFUL_DOC_LOADED ]] && return
 
-source bashful-core
 source bashful-utils
 
 doc() #{{{1
@@ -63,16 +62,18 @@ doc_help() #{{{1
     local cmd=$2
     local cmds
 
-    if [[ $cmd ]]; then
-        doc "$cmd" "$src"
-    else
-        doc "$(basename "$src" .sh)" "$src"
-        cmds=$(doc_commands "$src")
-        if [[ $cmds ]]; then
-            echo -e "\nAvailable commands:\n"
-            echo "$cmds" | sed 's/^/    /'
+    {
+        if [[ $cmd ]]; then
+            doc "$cmd" "$src"
+        else
+            doc "$(basename "$src" .sh)" "$src"
+            cmds=$(doc_commands "$src")
+            if [[ $cmds ]]; then
+                echo -e "\nAvailable commands:\n"
+                echo "$cmds" | sed 's/^/    /'
+            fi
         fi
-    fi
+    } | pager
 }
 
 doc_execute() #{{{1

@@ -3,7 +3,7 @@
 # Filename:      bashful-terminfo.sh
 # Description:   Sets terminal strings for things like color, bold, etc.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Mon 2010-09-27 20:30:31 (-0400)
+# Last Modified: Thu 2010-09-30 00:43:13 (-0400)
 
 # doc bashful-terminfo {{{
 #
@@ -67,8 +67,6 @@ if (( ${BASH_LINENO:-0} == 0 )); then
 fi
 
 [[ $BASHFUL_TERMINFO_LOADED ]] && return
-
-source bashful-core
 
 if [[ ! $TERM ]]; then
     tput() { return; }
