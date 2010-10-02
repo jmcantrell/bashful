@@ -3,7 +3,7 @@
 # Filename:      bashful-messages
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:33:27 (-0400)
+# Last Modified: Sat 2010-10-02 15:00:35 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -46,7 +46,7 @@ usage() #{{{1
     #
     # Optional variables:
     #
-    #     SCRIPT_ARGS
+    #     SCRIPT_ARGUMENTS
     #     SCRIPT_DESCRIPTION
     #     SCRIPT_EXAMPLES
     #     SCRIPT_OPTIONS
@@ -57,7 +57,7 @@ usage() #{{{1
     if [[ $SCRIPT_NAME ]]; then
         local p="    "
         {
-            echo "Usage: $SCRIPT_NAME [OPTIONS] $SCRIPT_ARGS"
+            echo "Usage: $SCRIPT_NAME [OPTIONS] $SCRIPT_ARGUMENTS"
             [[ $SCRIPT_USAGE ]] && echo "$SCRIPT_USAGE"
 
             if [[ $SCRIPT_DESCRIPTION ]]; then
