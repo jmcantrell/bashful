@@ -3,7 +3,7 @@
 # Filename:      shdoc.sh
 # Description:   Extracts documentation from shell scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-09-30 01:18:10 (-0400)
+# Last Modified: Sat 2010-10-02 15:07:36 (-0400)
 
 # doc shdoc {{{
 #
@@ -19,7 +19,7 @@ source bashful-utils
 
 SCRIPT_NAME=$(basename "$0" .sh)
 SCRIPT_USAGE="Extracts documentation from shell scripts."
-SCRIPT_ARGS="COMMAND [SECTION]"
+SCRIPT_ARGUMENTS="COMMAND [SECTION]"
 
 unset OPTIND
 while getopts ":h" option; do
