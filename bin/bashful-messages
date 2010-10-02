@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Filename:      bashful-messages.sh
+# Filename:      bashful-messages
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-09-30 00:43:03 (-0400)
+# Last Modified: Sat 2010-10-02 14:33:27 (-0400)
 
 # doc bashful-messages {{{
 #

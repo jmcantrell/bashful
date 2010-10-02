@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Filename:      bashful-files.sh
+# Filename:      bashful-files
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-09-30 00:42:55 (-0400)
+# Last Modified: Sat 2010-10-02 14:04:32 (-0400)
 
 # doc bashful-files {{{
 #
@@ -282,7 +282,14 @@ link() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    ln -snT $(interactive_option) $(verbose_echo -v) "$1" "${2:-$(basename "$1")}"
+    ln -snT $(interactive_option) $(verbose_echo -v) "$@"
+}
+
+stow() #{{{1
+{
+    local name=${2:-$(basename "$1")}
+    mkdir -p "$(dirname "$name")"
+    link "$1" "$name"
 }
 
 move() #{{{1

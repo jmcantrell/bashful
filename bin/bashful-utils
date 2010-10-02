@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Filename:      bashful-utils.sh
+# Filename:      bashful-utils
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-09-30 01:48:16 (-0400)
+# Last Modified: Sat 2010-10-02 14:33:50 (-0400)
 
 # doc bashful-utils {{{
 #
