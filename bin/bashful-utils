@@ -3,7 +3,7 @@
 # Filename:      bashful-utils
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:33:50 (-0400)
+# Last Modified: Sun 2010-10-03 16:09:51 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -502,6 +502,42 @@ flatten() #{{{1
     echo "$t"
 }
 
+flatten_file() #{{{1
+{
+    # doc flatten_file {{{
+    #
+    # Substitute variable names with variables in a file.
+    #
+    # The default is to try to substitute all environment variables, but if
+    # any names are given, it will be limited to just those.
+    #
+    # The placeholder syntax can be changed by setting the following variables:
+    #
+    #     FLATTEN_L  # Default: {{
+    #     FLATTEN_R  # Default: }}
+    #
+    # Usage: flatten_file FILE [VAR...]
+    #
+    # doc-end flatten_file }}}
+
+    local fn=$1; shift
+
+    [[ -f $fn ]] || return 1
+
+    local n
+
+    local fl=${FLATTEN_L:-\{\{}
+    local fr=${FLATTEN_R:-\}\}}
+
+    if (( $# == 0 )); then
+        IFS=$'\n' set -- $(set | variables)
+    fi
+
+    for n in "$@"; do
+        sed -i "s%${fl}${n//%/\%}${fr}%${!n}%g" "$fn"
+    done
+}
+
 timestamp() #{{{1
 {
     # doc timestamp {{{
@@ -511,6 +547,16 @@ timestamp() #{{{1
     # doc-end timestamp }}}
 
     date +%Y%m%d%H%M%S
+}
+
+actions() #{{{1
+{
+    local name=${1:-$SCRIPT_NAME}
+    declare -F |
+    awk '{print $NF}' |
+    grep "^${name}_" |
+    sed "s/^${name}_//" |
+    sort -u
 }
 
 #}}}
