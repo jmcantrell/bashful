@@ -3,7 +3,7 @@
 # Filename:      bashful-doc
 # Description:   Functions for extracting embedded documentation.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-10-07 01:26:55 (-0400)
+# Last Modified: Thu 2010-10-07 01:35:40 (-0400)
 
 # doc bashful-doc {{{
 #
@@ -120,7 +120,8 @@ doc_topics() #{{{1
     local t="doc"
 
     sed -n "/^\s*#\s\+$t\s/p" "$src" |
-    sed "s/^.*\s$t\s\+\([^[:space:]]\+\).*$/\1/" | sort -u
+    sed "s/^.*\s$t\s\+\([^[:space:]]\+\).*$/\1/" | sort -u |
+    grep -v "^$(basename "$src")$"
 }
 
 #}}}1
