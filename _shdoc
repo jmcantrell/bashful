@@ -1,0 +1,15 @@
+#compdef shdoc
+
+local context state line config_dir
+typeset -A opt_args
+
+_arguments -s -S \
+    "-h[Display help message]" \
+    "1::command:->command" \
+    "2::topic:->topic" \
+    && return 0
+
+case $state in
+    'command') _command ;;
+    'topic')   _values 'topics' $(shdoc -L $words[2]) ;;
+esac

@@ -3,7 +3,7 @@
 # Filename:      bashful-doc
 # Description:   Functions for extracting embedded documentation.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:33:15 (-0400)
+# Last Modified: Thu 2010-10-07 01:26:55 (-0400)
 
 # doc bashful-doc {{{
 #
@@ -52,9 +52,9 @@ doc_help() #{{{1
 {
     # doc doc_help {{{
     #
-    # Display full documentation for a given script/command.
+    # Display full documentation for a given script/topic.
     #
-    # Usage: doc_help SCRIPT [COMMAND]
+    # Usage: doc_help SCRIPT [TOPIC]
     #
     # doc-end doc_help }}}
 
@@ -67,9 +67,9 @@ doc_help() #{{{1
             doc "$cmd" "$src"
         else
             doc "$(basename "$src" .sh)" "$src"
-            cmds=$(doc_commands "$src")
+            cmds=$(doc_topics "$src")
             if [[ $cmds ]]; then
-                echo -e "\nAvailable commands:\n"
+                echo -e "\nAvailable topics:\n"
                 echo "$cmds" | sed 's/^/    /'
             fi
         fi
@@ -83,16 +83,16 @@ doc_execute() #{{{1
     # Display the documentation for a given script if there are no arguments
     # or the only argument is "help".
     #
-    # Display the documentation for a given
-    # command if the first two arguments are "help" and the command.
+    # Display the documentation for a given topic if the first two arguments
+    # are "help" and the topic.
     #
     # If not using one of the help methods, the given command will be executed
     # as if it were run directly.
     #
     # Usage:
     #     doc_execute SCRIPT
-    #     doc_execute SCRIPT help [COMMAND]
-    #     doc_execute SCRIPT [COMMAND] [OPTIONS] [ARGUMENTS]
+    #     doc_execute SCRIPT help [TOPIC]
+    #     doc_execute SCRIPT [TOPIC/COMMAND] [OPTIONS] [ARGUMENTS]
     #
     # doc-end doc_execute }}}
 
@@ -106,28 +106,21 @@ doc_execute() #{{{1
     fi
 }
 
-doc_commands() #{{{1
+doc_topics() #{{{1
 {
-    # doc doc_commands {{{
+    # doc doc_topics {{{
     #
     # Show all doc tags in given files.
     #
-    # Usage: doc_commands [FILE...]
+    # Usage: doc_topics [FILE...]
     #
-    # doc-end doc_commands }}}
+    # doc-end doc_topics }}}
 
-    local f cmd
-
-    local libs=$(
-        for f in "$@"; do
-            basename "$f" .sh
-        done
-        )
-
+    local src=$(type -p "$1")
     local t="doc"
-    sed -n "/^\s*#\s\+$t\s/p" "$@" |
-    sed "s/^.*\s$t\s\+\([^[:space:]]\+\).*$/\1/" | sort -u |
-    grep -v "$libs"
+
+    sed -n "/^\s*#\s\+$t\s/p" "$src" |
+    sed "s/^.*\s$t\s\+\([^[:space:]]\+\).*$/\1/" | sort -u
 }
 
 #}}}1

@@ -3,7 +3,7 @@
 # Filename:      shdoc
 # Description:   Extracts documentation from shell scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 15:07:36 (-0400)
+# Last Modified: Thu 2010-10-07 01:24:57 (-0400)
 
 # doc shdoc {{{
 #
@@ -21,9 +21,12 @@ SCRIPT_NAME=$(basename "$0" .sh)
 SCRIPT_USAGE="Extracts documentation from shell scripts."
 SCRIPT_ARGUMENTS="COMMAND [SECTION]"
 
+ACTION=doc_help
+
 unset OPTIND
-while getopts ":h" option; do
+while getopts ":hL" option; do
     case $option in
+        L) ACTION=doc_topics ;;
         h) usage 0 ;;
         *) usage 1 ;;
     esac
@@ -33,4 +36,4 @@ if (( $# == 0 )) || [[ $1 == help ]]; then
     set - "$0"
 fi
 
-doc_help "$@"
+$ACTION "$@"
