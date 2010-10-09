@@ -3,7 +3,7 @@
 # Filename:      bashful-messages
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 15:00:35 (-0400)
+# Last Modified: Fri 2010-10-08 22:35:32 (-0400)
 
 # doc bashful-messages {{{
 #
@@ -101,34 +101,6 @@ usage() #{{{1
     exit ${1:-0}
 }
 
-error() #{{{1
-{
-    # doc error {{{
-    #
-    # Displays a colorized (if available) error message.
-    #
-    # Usage: error [-c] [MESSAGE]
-    #
-    # doc-end error }}}
-
-    local c
-
-    unset OPTIND
-    while getopts ":c" option; do
-        case $option in
-            c) c=1 ;;
-        esac
-    done && shift $(($OPTIND - 1))
-
-    if truth $c && ! verbose; then
-        return
-    fi
-
-    local msg=${1:-An error has occurred.}
-
-    info "${term_fg_red}${term_bold}ERROR: ${msg}${term_reset}"
-}
-
 die() #{{{1
 {
     # doc die {{{
@@ -170,7 +142,7 @@ info() #{{{1
     # Shorten home paths, if they exist.
     msg=${msg//$HOME/\~}
 
-    echo -e "${term_bold}${msg}${term_reset}" >&2
+    echo -e "${term_bold}${term_fg_blue}==> ${term_fg_white}${msg}${term_reset}" >&2
 }
 
 warn() #{{{1
@@ -198,7 +170,35 @@ warn() #{{{1
 
     local msg=${1:-A warning has occurred.}
 
-    info "${term_fg_yellow}WARNING: ${msg}${term_reset}"
+    echo -e "${term_bold}${term_fg_yellow}WARNING: ${term_fg_white}${msg}${term_reset}" >&2
+}
+
+error() #{{{1
+{
+    # doc error {{{
+    #
+    # Displays a colorized (if available) error message.
+    #
+    # Usage: error [-c] [MESSAGE]
+    #
+    # doc-end error }}}
+
+    local c
+
+    unset OPTIND
+    while getopts ":c" option; do
+        case $option in
+            c) c=1 ;;
+        esac
+    done && shift $(($OPTIND - 1))
+
+    if truth $c && ! verbose; then
+        return
+    fi
+
+    local msg=${1:-An error has occurred.}
+
+    echo -e "${term_bold}${term_fg_red}ERROR: ${term_fg_white}${msg}${term_reset}" >&2
 }
 
 #}}}
