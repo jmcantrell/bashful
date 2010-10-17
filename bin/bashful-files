@@ -3,7 +3,7 @@
 # Filename:      bashful-files
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:04:32 (-0400)
+# Last Modified: Sun 2010-10-17 00:46:06 (-0400)
 
 # doc bashful-files {{{
 #
@@ -189,11 +189,11 @@ abspath() #{{{1
     local path=${1:-$PWD}
 
     # Path looks like: ~user/...
+    # Gods of bash, forgive me for using eval
     if [[ $path =~ ~[a-zA-Z] ]]; then
-        local name=${path##\~}
-        name=${name%%/*}
-        local home=$(grep "^$name:" /etc/passwd | awk -F: '{print $6}')
-        path=${path/~$name/$home}
+        if [[ ${path%%/*} =~ ^~[[:alpha:]_][[:alnum:]_]*$ ]]; then
+            path=$(eval echo $path)
+        fi
     fi
 
     # Path looks like: ~/...
@@ -283,6 +283,21 @@ link() #{{{1
     verbose     ${VERBOSE:-1}
 
     ln -snT $(interactive_option) $(verbose_echo -v) "$@"
+}
+
+link_relative() #{{{1
+{
+    # doc link_relative {{{
+    #
+    # Like link, but uses relpath to make the paths relative.
+    #
+    # Usage: link_relative SOURCE [DESTINATION]
+    #
+    # doc-end link }}}
+
+    local dir=$(relpath "${@%/*}")/
+    dir=${dir##./}
+    link "${dir}${1##*/}" "$2"
 }
 
 stow() #{{{1
