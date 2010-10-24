@@ -3,7 +3,7 @@
 # Filename:      bashful-utils
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-10-03 16:09:51 (-0400)
+# Last Modified: Sun 2010-10-24 01:25:47 (-0400)
 
 # doc bashful-utils {{{
 #
@@ -65,6 +65,31 @@ detox() #{{{1
     sed 's/[^A-Za-z0-9 ]/ /g' |
     squeeze | sed 's/ /_/g' | lower
 }
+
+camel() #{{{1
+{
+    # doc camel {{{
+    #
+    # Make text from stdin camel case.
+    #
+    # doc-end camel }}}
+
+    sed 's/_/ /g' |
+    sed 's/\<\(.\)/\U\1/g' |
+    sed 's/ //g'
+}
+
+snake() #{{{1
+{
+    # doc snake {{{
+    #
+    # Make text from stdin snake case.
+    #
+    # doc-end snake }}}
+
+    sed 's/\([[:upper:]]\)/ \1/g' | detox
+}
+
 
 first() #{{{1
 {
