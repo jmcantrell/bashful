@@ -3,7 +3,7 @@
 # Filename:      bashful-files
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-10-17 00:46:06 (-0400)
+# Last Modified: Thu 2010-10-28 23:47:20 (-0400)
 
 # doc bashful-files {{{
 #
@@ -370,22 +370,35 @@ tempfile() #{{{1
 {
     # doc tempfile {{{
     #
-    # Creates and keeps track of temp files/dirs.
-    # Accepts the same options/arguments as mktemp.
+    # Creates and keeps track of temp files.
     #
     # Usage examples:
-    #     tempfile     # $TEMPFILE is now a regular file
-    #     tempfile -d  # $TEMPFILE is now a directory
+    #     tempfile    # $TEMPFILE is now a regular file
     #
     # doc-end tempfile }}}
 
     TEMPFILE=$(mktemp "$@")
     if [[ ! $TEMPFILE ]]; then
-        error "Could not create temp file."
+        error "Could not create temporary file."
         return 1
     fi
     CLEANUP_FILES=("${CLEANUP_FILES[@]}" "$TEMPFILE")
     trap cleanup INT TERM EXIT
+}
+
+tempdir() #{{{1
+{
+    # doc tempdir {{{
+    #
+    # Creates and keeps track of temp directories.
+    #
+    # Usage examples:
+    #     tempdir    # $TEMPDIR is now a directory
+    #
+    # doc-end tempdir }}}
+
+    tempfile -d -t "$(basename "$0").XXXXXX"
+    TEMPDIR=$TEMPFILE
 }
 
 truncate() #{{{1
