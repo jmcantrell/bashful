@@ -3,7 +3,7 @@
 # Filename:      bashful-files
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-10-28 23:47:20 (-0400)
+# Last Modified: Thu 2010-11-11 23:33:53 (-0500)
 
 # doc bashful-files {{{
 #
@@ -298,13 +298,6 @@ link_relative() #{{{1
     local dir=$(relpath "${@%/*}")/
     dir=${dir##./}
     link "${dir}${1##*/}" "$2"
-}
-
-stow() #{{{1
-{
-    local name=${2:-$(basename "$1")}
-    mkdir -p "$(dirname "$name")"
-    link "$1" "$name"
 }
 
 move() #{{{1
