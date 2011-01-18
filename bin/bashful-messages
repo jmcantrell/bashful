@@ -3,7 +3,7 @@
 # Filename:      bashful-messages
 # Description:   A set of functions for giving the user information.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Fri 2010-10-08 22:35:32 (-0400)
+# Last Modified: Mon 2011-01-17 21:51:57 (-0500)
 
 # doc bashful-messages {{{
 #
@@ -170,6 +170,9 @@ warn() #{{{1
 
     local msg=${1:-A warning has occurred.}
 
+    # Shorten home paths, if they exist.
+    msg=${msg//$HOME/\~}
+
     echo -e "${term_bold}${term_fg_yellow}WARNING: ${term_fg_white}${msg}${term_reset}" >&2
 }
 
@@ -197,6 +200,9 @@ error() #{{{1
     fi
 
     local msg=${1:-An error has occurred.}
+
+    # Shorten home paths, if they exist.
+    msg=${msg//$HOME/\~}
 
     echo -e "${term_bold}${term_fg_red}ERROR: ${term_fg_white}${msg}${term_reset}" >&2
 }
