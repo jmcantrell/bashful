@@ -2,9 +2,8 @@
 
 set -e
 
-NAME=bashful
+HERE=$(dirname "$0")
 
-# DESTDIR is provided for staged installs (used for packagers only)
 DESTDIR=${DESTDIR:-}
 PREFIX=${PREFIX:-/usr/local}
 
@@ -12,10 +11,6 @@ BINDIR="${DESTDIR}${PREFIX}/bin"
 MANDIR="${DESTDIR}${PREFIX}/share/man/man1"
 
 USAGE="Usage: setup.sh install|uninstall"
-
-CP='cp -v'
-RM='rm -vf'
-LN_S='ln -vsf'
 
 if (( $# == 0 )); then
     echo "$USAGE"
@@ -35,13 +30,14 @@ cd "$(dirname "$0")"
 
 case $1 in
     uninstall)
-        $RM "$BINDIR"/bashful*
-        $RM "$MANDIR"/bashful*.1
+        for fn in $HERE/bin/* $HERE/share/man/man1/*; do
+            rm -rf "$fn"
+        done
         ;;
     install)
         mkdir -p "$BINDIR" "$MANDIR"
-        $CP bin/bashful* "$BINDIR"
-        $CP share/man/man1/bashful*.1 "$MANDIR"
+        cp -v $HERE/bin/* "$BINDIR"
+        cp -v $HERE/share/man/man1/* "$MANDIR"
         ;;
     *)
         echo "$USAGE"

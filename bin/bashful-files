@@ -3,7 +3,7 @@
 # Filename:      bashful-files
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-11-11 23:33:53 (-0500)
+# Last Modified: Sun 2011-02-13 22:50:05 (-0500)
 
 # doc bashful-files {{{
 #
@@ -61,6 +61,40 @@ commonpath() #{{{1
     fi
 
     echo "$prefix"
+}
+
+commontail() #{{{1
+{
+    # doc commontail {{{
+    #
+    # Gets the common tails of the paths passed on stdin.
+    # Alternatively, paths can be passed as arguments.
+    #
+    # Usage: commontail [PATH...]
+    #
+    # Usage examples:
+    #     commontail /foo/bar /boo/bar  #==> bar
+    #     commontail /foo/bar /boo/far  #==>
+    #
+    # doc-end commontail }}}
+
+    local path
+
+    # Make sure command line args go to stdin
+    if (( $# > 0 )); then
+        for path in "$@"; do
+            echo "$path"
+        done | commontail
+        return
+    fi
+
+    local suffix=$(
+        while read -r; do
+            echo "$(abspath "$REPLY")"
+        done | commonsuffix
+    )
+
+    echo "${suffix#*/}"
 }
 
 extname() #{{{1
@@ -133,20 +167,20 @@ filename() #{{{1
     basename "$1" $(extname "$@")
 }
 
-increment_file() #{{{1
+increment() #{{{1
 {
-    # doc increment_file {{{
+    # doc increment {{{
     #
     # Get the next filename in line for the given file.
     #
-    # Usage: increment_file FILENAME
+    # Usage: increment FILENAME
     #
     # Usage examples:
-    #     increment_file does_not_exist  #==> does_not_exist
-    #     increment_file does_exist      #==> does_exist (1)
-    #     increment_file does_exist      #==> does_exist (2)
+    #     increment does_not_exist  #==> does_not_exist
+    #     increment does_exist      #==> does_exist (1)
+    #     increment does_exist      #==> does_exist (2)
     #
-    # doc-end increment_file }}}
+    # doc-end increment }}}
 
     local file=$1
     local count=1
@@ -174,6 +208,22 @@ listdir() #{{{1
     find "$dir" -maxdepth 1 -mindepth 1 "$@"
 }
 
+files() #{{{1
+{
+    # doc files {{{
+    #
+    # List all the files in the given directory (recursively).
+    # Will not display hidden files.
+    # Accepts the same options as the find command.
+    #
+    # Usage: files DIR [OPTIONS]
+    #
+    # doc-end files }}}
+
+    local dir=$1; shift
+    find "$dir" \( -type f -o -type l \) \! -wholename "*/.*" "$@"
+}
+
 abspath() #{{{1
 {
     # doc abspath {{{
@@ -199,13 +249,14 @@ abspath() #{{{1
     # Path looks like: ~/...
     [[ $path == ~* ]] && path=${path/\~/$HOME}
 
-    [[ $path == /*  ]] || path=$PWD/$path
+    # Path is not absolute
+    [[ $path != /* ]] && path=$PWD/$path
 
     path=$(squeeze "/" <<<"$path")
 
     local elms=()
     local elm
-    OIFS=$IFS; IFS="/"
+    local OIFS=$IFS; IFS="/"
     for elm in $path; do
         IFS=$OIFS
         [[ $elm == . ]] && continue
@@ -285,13 +336,13 @@ link() #{{{1
     ln -snT $(interactive_option) $(verbose_echo -v) "$@"
 }
 
-link_relative() #{{{1
+linkrel() #{{{1
 {
-    # doc link_relative {{{
+    # doc linkrel {{{
     #
     # Like link, but uses relpath to make the paths relative.
     #
-    # Usage: link_relative SOURCE [DESTINATION]
+    # Usage: linkrel SOURCE [DESTINATION]
     #
     # doc-end link }}}
 
@@ -328,6 +379,26 @@ copy() #{{{1
     verbose     ${VERBOSE:-1}
 
     cp -Tr $(interactive_option) $(verbose_echo -v) "$@"
+}
+
+stow() #{{{1
+{
+    # doc stow {{{
+    #
+    # Replicate a directory tree and link regular files.
+    #
+    # doc-end stow }}}
+
+    local src=$1
+    local dst=${2:-$PWD}
+
+    local OIFS=$IFS; IFS=$'\n'
+    for f in $(files "$src"); do
+        IFS=$OIFS
+        local nf=$dst/${f#$src/}
+        mkdir -p "$(dirname "$nf")"
+        linkrel "$f" "$nf"
+    done
 }
 
 remove() #{{{1
