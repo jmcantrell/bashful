@@ -2,23 +2,23 @@
 
 set -e
 
-HERE=$(dirname "$0")
+ME=${0##*/}
+HERE=${0%/*}
+
+DIRS=(
+    'bin'
+    'share/man/man1'
+    'share/zsh/functions'
+)
 
 DESTDIR=${DESTDIR:-}
 PREFIX=${PREFIX:-/usr/local}
 
-BINDIR="${DESTDIR}${PREFIX}/bin"
-MANDIR="${DESTDIR}${PREFIX}/share/man/man1"
-
-USAGE="Usage: setup.sh install|uninstall"
+USAGE="Usage: $ME install|uninstall"
 
 if (( $# == 0 )); then
     echo "$USAGE"
     exit 1
-fi
-
-if [[ -n $DESTDIR && ! -d $DESTDIR ]]; then
-    mkdir -p "$DESTDIR"
 fi
 
 if [[ ! -d $PREFIX ]]; then
@@ -30,14 +30,17 @@ cd "$(dirname "$0")"
 
 case $1 in
     uninstall)
-        for fn in $HERE/bin/* $HERE/share/man/man1/*; do
-            rm -rf "$fn"
+        for dir in "${DIRS[@]}"; do
+            for fn in "$HERE/$dir"/*; do
+                rm -vf "$DESTDIR$PREFIX/$dir/${fn##*/}"
+            done
         done
         ;;
     install)
-        mkdir -p "$BINDIR" "$MANDIR"
-        cp -v $HERE/bin/* "$BINDIR"
-        cp -v $HERE/share/man/man1/* "$MANDIR"
+        for dir in "${DIRS[@]}"; do
+            mkdir -p "$DESTDIR$PREFIX/$dir"
+            cp -v "$HERE/$dir"/* "$DESTDIR$PREFIX/$dir"
+        done
         ;;
     *)
         echo "$USAGE"
