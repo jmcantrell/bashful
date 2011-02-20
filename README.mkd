@@ -19,4 +19,4 @@ To get full documentation on each, just invoke it at the command line with
 the first argument as 'help'. For example, to get documentation on the input
 library:
 
-    $ bashful-input help
+    bashful-input help
