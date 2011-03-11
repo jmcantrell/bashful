@@ -333,7 +333,7 @@ link() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    ln -snT $(interactive_option) $(verbose_echo -v) "$@"
+    $SUDO ln -snT $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 linkrel() #{{{1
@@ -363,7 +363,7 @@ move() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    mv -T $(interactive_option) $(verbose_echo -v) "$@"
+    $SUDO mv -T $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 copy() #{{{1
@@ -378,7 +378,7 @@ copy() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    cp -Tr $(interactive_option) $(verbose_echo -v) "$@"
+    $SUDO cp -Tr $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 stow() #{{{1
@@ -413,7 +413,7 @@ remove() #{{{1
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
 
-    rm -r $(interactive_option) $(verbose_echo -v) "$@"
+    $SUDO rm -r $(interactive_option) $(verbose_echo -v) "$@"
 }
 
 cleanup() #{{{1
@@ -426,7 +426,7 @@ cleanup() #{{{1
     # doc-end cleanup }}}
 
     for file in "${CLEANUP_FILES[@]}"; do
-        rm -rf "$file"
+        $SUDO rm -rf "$file"
     done
 }
 
