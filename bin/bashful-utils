@@ -61,7 +61,6 @@ detox() #{{{1
     #
     # doc-end detox }}}
 
-    sed 's/[[:punct:]]/ /g' |
     sed 's/[^A-Za-z0-9 ]/ /g' |
     squeeze | sed 's/ /_/g' | lower
 }
