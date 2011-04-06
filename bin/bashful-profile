@@ -177,7 +177,7 @@ profile_create() #{{{1
     #
     # doc-end profile_create }}}
 
-    [[ $PROFILE ]] || PROFILE=$(input -c -p "Enter profile")
+    [[ $PROFILE ]] || PROFILE=$(input -c -p "Enter profile" -d "${PWD##*/}")
 
     profile_file || return 1
 
