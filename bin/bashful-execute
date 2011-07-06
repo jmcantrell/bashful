@@ -3,13 +3,13 @@
 # Filename:      bashful-execute
 # Description:   Functions for building commands.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:33:02 (-0400)
+# Last Modified: Tue 2011-07-05 19:38:57 (-0400)
 
-# doc bashful-execute {{{
+# <doc:bashful-execute> {{{
 #
 # The execute library provides functions for building and executing commands.
 #
-# doc-end bashful-execute }}}
+# </doc:bashful-execute> }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -21,7 +21,7 @@ fi
 
 execute() #{{{1
 {
-    # doc execute {{{
+    # <doc:execute> {{{
     #
     # Execute a given command or stored command.
     #
@@ -41,7 +41,7 @@ execute() #{{{1
     #
     # Usage: execute [ARGUMENT...]
     #
-    # doc-end execute }}}
+    # </doc:execute> }}}
 
     if (( ${#EXECUTE_CMD[@]} > 0 )); then
         "${EXECUTE_CMD[@]}" "$@"
@@ -57,13 +57,13 @@ execute() #{{{1
 
 execute_in() #{{{1
 {
-    # doc execute_in {{{
+    # <doc:execute_in> {{{
     #
     # Execute a command in a given directory.
     #
     # Usage: execute_in DIRECTORY [COMMAND...]
     #
-    # doc-end execute_in }}}
+    # </doc:execute_in> }}}
 
     local OPWD=$PWD; cd "$1"; shift
     execute "$@"; error=$?
@@ -73,26 +73,26 @@ execute_in() #{{{1
 
 execute_push() #{{{1
 {
-    # doc execute_push {{{
+    # <doc:execute_push> {{{
     #
     # Add an argument to the stored command.
     #
     # Usage: execute_push [ARGUMENT...]
     #
-    # doc-end execute_push }}}
+    # </doc:execute_push> }}}
 
     EXECUTE_CMD+=("$@")
 }
 
 execute_pop() #{{{1
 {
-    # doc execute_pop {{{
+    # <doc:execute_pop> {{{
     #
     # Remove the last (or given number) argument for the stored command.
     #
     # Usage: execute_pop [NUM_OF_ARGS]
     #
-    # doc-end execute_pop }}}
+    # </doc:execute_pop> }}}
 
     local i
     for (( i=0; i<${1:-1}; i++ )); do
@@ -102,13 +102,13 @@ execute_pop() #{{{1
 
 execute_clear() #{{{1
 {
-    # doc execute_clear {{{
+    # <doc:execute_clear> {{{
     #
     # Clear stored commands.
     #
     # Usage: execute_clear
     #
-    # doc-end execute_clear }}}
+    # </doc:execute_clear> }}}
 
     unset EXECUTE_CMD
     unset EXECUTE_CMD_PREV

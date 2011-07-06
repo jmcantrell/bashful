@@ -3,13 +3,13 @@
 # Filename:      bashful-utils
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2011-02-12 21:56:01 (-0500)
+# Last Modified: Tue 2011-07-05 19:54:11 (-0400)
 
-# doc bashful-utils {{{
+# <doc:bashful-utils> {{{
 #
 # The utils library provides miscellaneous functions.
 #
-# doc-end bashful-utils }}}
+# </doc:bashful-utils> }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -21,33 +21,33 @@ fi
 
 lower() #{{{1
 {
-    # doc lower {{{
+    # <doc:lower> {{{
     #
     # Convert stdin to lowercase.
     #
-    # doc-end lower }}}
+    # </doc:lower> }}}
 
     tr '[:upper:]' '[:lower:]'
 }
 
 upper() #{{{1
 {
-    # doc upper {{{
+    # <doc:upper> {{{
     #
     # Convert stdin to uppercase.
     #
-    # doc-end upper }}}
+    # </doc:upper> }}}
 
     tr '[:lower:]' '[:upper:]'
 }
 
 title() #{{{1
 {
-    # doc title {{{
+    # <doc:title> {{{
     #
     # Convert stdin to titlecase.
     #
-    # doc-end title }}}
+    # </doc:title> }}}
 
     lower | sed 's/\<./\u&/g' |
     sed "s/'[[:upper:]]/\L&\l/g"
@@ -55,11 +55,11 @@ title() #{{{1
 
 detox() #{{{1
 {
-    # doc detox {{{
+    # <doc:detox> {{{
     #
     # Make text from stdin slightly less insane.
     #
-    # doc-end detox }}}
+    # </doc:detox> }}}
 
     sed 's/[^A-Za-z0-9 ]/ /g' |
     squeeze | sed 's/ /_/g' | lower
@@ -67,11 +67,11 @@ detox() #{{{1
 
 camel() #{{{1
 {
-    # doc camel {{{
+    # <doc:camel> {{{
     #
     # Make text from stdin camel case.
     #
-    # doc-end camel }}}
+    # </doc:camel> }}}
 
     sed 's/_/ /g' |
     sed 's/\<\(.\)/\U\1/g' |
@@ -80,11 +80,11 @@ camel() #{{{1
 
 snake() #{{{1
 {
-    # doc snake {{{
+    # <doc:snake> {{{
     #
     # Make text from stdin snake case.
     #
-    # doc-end snake }}}
+    # </doc:snake> }}}
 
     sed 's/\([[:upper:]]\)/ \1/g' | detox
 }
@@ -92,14 +92,14 @@ snake() #{{{1
 
 first() #{{{1
 {
-    # doc first {{{
+    # <doc:first> {{{
     #
     # Get the first value that is non-empty.
     #
     # Usage examples:
     #     EDITOR=$(first "$VISUAL" "$EDITOR" vi)
     #
-    # doc-end first }}}
+    # </doc:first> }}}
 
     local value
     for value in "$@"; do
@@ -113,7 +113,7 @@ first() #{{{1
 
 named() #{{{1
 {
-    # doc named {{{
+    # <doc:named> {{{
     #
     # Get the value of the variable named the passed argument.
     #
@@ -134,14 +134,14 @@ named() #{{{1
     #
     # Which eliminates the need for an intermediate variable.
     #
-    # doc-end named }}}
+    # </doc:named> }}}
 
     echo "${!1}"
 }
 
 truth() #{{{1
 {
-    # doc truth {{{
+    # <doc:truth> {{{
     #
     # Determine the "truthiness" of the given value.
     #
@@ -153,7 +153,7 @@ truth() #{{{1
     #     truth on     #==> true
     #     truth spam   #==> false
     #
-    # doc-end truth }}}
+    # </doc:truth> }}}
 
     case $(lower <<<"$1") in
         yes|y|true|t|on|1) return 0 ;;
@@ -163,12 +163,12 @@ truth() #{{{1
 
 truth_echo() #{{{1
 {
-    # doc truth_echo {{{
+    # <doc:truth_echo> {{{
     #
     # Depending on the "truthiness" of the given value, echo the first (true)
     # or second (false) value.
     #
-    # doc-end truth_echo }}}
+    # </doc:truth_echo> }}}
 
     if truth "$1"; then
         [[ $2 ]] && echo "$2"
@@ -179,18 +179,18 @@ truth_echo() #{{{1
 
 truth_value() #{{{1
 {
-    # doc truth_value {{{
+    # <doc:truth_value> {{{
     #
     # Gets a value that represents the "truthiness" of the given value.
     #
-    # doc-end truth_value }}}
+    # </doc:truth_value> }}}
 
     truth_echo "$1" 1 0
 }
 
 squeeze() #{{{1
 {
-    # doc squeeze {{{
+    # <doc:squeeze> {{{
     #
     # Removes leading/trailing whitespace and condenses all other consecutive
     # whitespace into a single space.
@@ -198,7 +198,7 @@ squeeze() #{{{1
     # Usage examples:
     #     echo "  foo  bar   baz  " | squeeze  #==> "foo bar baz"
     #
-    # doc-end squeeze }}}
+    # </doc:squeeze> }}}
 
     local char=${1:-[[:space:]]}
     sed "s%\(${char//%/\\%}\)\+%\1%g" | trim "$char"
@@ -206,37 +206,37 @@ squeeze() #{{{1
 
 squeeze_lines() #{{{1
 {
-    # doc squeeze_lines {{{
+    # <doc:squeeze_lines> {{{
     #
     # Removes all leading/trailing blank lines and condenses all other
     # consecutive blank lines into a single blank line.
     #
-    # doc-end squeeze_lines }}}
+    # </doc:squeeze_lines> }}}
 
     sed '/^[[:space:]]\+$/s/.*//g' | cat -s | trim_lines
 }
 
 trim() #{{{1
 {
-    # doc trim {{{
+    # <doc:trim> {{{
     #
     # Removes all leading/trailing whitespace
     #
     # Usage examples:
     #     echo "  foo  bar baz " | trim  #==> "foo  bar baz"
     #
-    # doc-end trim }}}
+    # </doc:trim> }}}
 
     ltrim "$1" | rtrim "$1"
 }
 
 ltrim() #{{{1
 {
-    # doc ltrim {{{
+    # <doc:ltrim> {{{
     #
     # Removes all leading whitespace (from the left).
     #
-    # doc-end ltrim }}}
+    # </doc:ltrim> }}}
 
     local char=${1:-[:space:]}
     sed "s%^[${char//%/\\%}]*%%"
@@ -244,11 +244,11 @@ ltrim() #{{{1
 
 rtrim() #{{{1
 {
-    # doc rtrim {{{
+    # <doc:rtrim> {{{
     #
     # Removes all trailing whitespace (from the right).
     #
-    # doc-end rtrim }}}
+    # </doc:rtrim> }}}
 
     local char=${1:-[:space:]}
     sed "s%[${char//%/\\%}]*$%%"
@@ -256,7 +256,7 @@ rtrim() #{{{1
 
 trim_lines() #{{{1
 {
-    # doc trim_lines {{{
+    # <doc:trim_lines> {{{
     #
     # Removes all leading/trailing blank lines.
     #
@@ -273,19 +273,19 @@ trim_lines() #{{{1
     #     s/^[[:space:]]*\n//  # Remove all leading whitespace (blank lines).
     #     s/\n[[:space:]]*$//  # Remove all trailing whitespace (blank lines).
     #
-    # doc-end trim_lines }}}
+    # </doc:trim_lines> }}}
 
     sed ':a;$!{N;ba;};s/^[[:space:]]*\n//;s/\n[[:space:]]*$//'
 }
 
 sleep_until() #{{{1
 {
-    # doc sleep_until {{{
+    # <doc:sleep_until> {{{
     #
     # Causes the running process to wait until the given date.
     # If the date is in the past, it immediately returns.
     #
-    # doc-end sleep_until }}}
+    # </doc:sleep_until> }}}
 
     local secs=$(($(date -d "$1" +%s) - $(date +%s)))
     (( secs > 0 )) && sleep $secs
@@ -293,59 +293,59 @@ sleep_until() #{{{1
 
 variables() #{{{1
 {
-    # doc variables {{{
+    # <doc:variables> {{{
     #
     # Pulls all variable names from stdin.
     #
-    # doc-end variables }}}
+    # </doc:variables> }}}
 
-    sed 's/[[:space:];]/\n/g' |
+    sed 's/[[:space:];]/\n/g' "$@" |
     egrep '^[a-zA-Z0-9_]+=' |
     sed 's/=.*$//' | sort -u
 }
 
 functions() #{{{1
 {
-    # doc functions {{{
+    # <doc:functions> {{{
     #
     # Pulls all function names from stdin.
     #
-    # doc-end functions }}}
+    # </doc:functions> }}}
 
-    sed 's/[[:space:];]/\n/g' |
+    sed 's/[[:space:];]/\n/g' "$@" |
     grep -E '^[a-zA-Z0-9_-]+\(\)' |
     sed 's/().*$//' | sort -u
 }
 
 editor() #{{{1
 {
-    # doc editor {{{
+    # <doc:editor> {{{
     #
     # Execute the preferred editor.
     #
-    # doc-end editor }}}
+    # </doc:editor> }}}
 
     $(first "$VISUAL" "$EDITOR" "vi") "$@"
 }
 
 pager() #{{{1
 {
-    # doc pager {{{
+    # <doc:pager> {{{
     #
     # Execute the preferred pager.
     #
-    # doc-end pager }}}
+    # </doc:pager> }}}
 
     $(first "$PAGER" "less")
 }
 
 repeat() #{{{1
 {
-    # doc repeat {{{
+    # <doc:repeat> {{{
     #
     # Repeat a command a given number of times.
     #
-    # doc-end repeat }}}
+    # </doc:repeat> }}}
 
     local count=$1; shift
     local i
@@ -356,18 +356,71 @@ repeat() #{{{1
 
 lines() #{{{1
 {
-    # doc lines {{{
+    # <doc:lines>
     #
     # Get all lines except for comments and blank lines.
     #
-    # doc-end lines }}}
+    # Usage: lines [FILE...]
+    #
+    # </doc:lines>
 
     grep -E -v '^[[:space:]]*#|^[[:space:]]*$' "$@"
 }
 
+eval_embedded() #{{{1
+{
+    # <doc:eval_embedded> {{{
+    #
+    # Eval embedded code contained in a given tag.
+    #
+    # Usage: eval_embedded NAME [FILE...]
+    #
+    # </doc:eval_embedded> }}}
+
+    local name=$1; shift
+    eval "$(embedded_tag "eval:$name" "$@")"
+}
+
+embedded() #{{{1
+{
+    local c="#$1"; c="^[[:space:]]*$c[[:space:]]*"
+    sed -n "/$c/p" "$@" | sed "s/$c//" | squeeze_lines
+}
+
+embedded_range() #{{{1
+{
+    # <doc:embedded_range> {{{
+    #
+    # Get embedded text between a given range.
+    #
+    # Usage: embedded_range START END [FILE...]
+    #
+    # </doc:embedded_range> }}}
+
+    local s=${1//\//\\/}; shift
+    local e=${1//\//\\/}; shift
+    local c="^[[:space:]]*#[[:space:]]*"
+
+    sed -n "/$c$s/,/$c$e/p" "$@" | sed '1d;$d' | sed "s/$c//" | squeeze_lines
+}
+
+embedded_tag() #{{{1
+{
+    # <doc:embedded_tag> {{{
+    #
+    # Get the embedded text between a start and end XML-like tag.
+    #
+    # Usage: embedded_tag NAME
+    #
+    # </doc:embedded_tag> }}}
+
+    local name=$1; shift
+    embedded_range "<$name>" "</$name>" "$@"
+}
+
 commonprefix() #{{{1
 {
-    # doc commonprefix {{{
+    # <doc:commonprefix> {{{
     #
     # Gets the common prefix of the strings passed on stdin.
     #
@@ -375,7 +428,7 @@ commonprefix() #{{{1
     #     echo -e "spam\nspace"   | commonprefix  #==> spa
     #     echo -e "foo\nbar\nbaz" | commonprefix  #==>
     #
-    # doc-end commonprefix }}}
+    # </doc:commonprefix> }}}
 
     local i compare prefix
 
@@ -403,7 +456,7 @@ commonprefix() #{{{1
 
 commonsuffix() #{{{1
 {
-    # doc commonsuffix {{{
+    # <doc:commonsuffix> {{{
     #
     # Gets the common suffix of the strings passed on stdin.
     #
@@ -411,7 +464,7 @@ commonsuffix() #{{{1
     #     echo -e "foobar\nbabar" | commonsuffix  #==> bar
     #     echo -e "broom\ngroom"  | commonsuffix  #==> room
     #
-    # doc-end commonsuffix }}}
+    # </doc:commonsuffix> }}}
 
     if (( $# > 0 )); then
         local str
@@ -426,7 +479,7 @@ commonsuffix() #{{{1
 
 sort_list() #{{{1
 {
-    # doc sort_list {{{
+    # <doc:sort_list> {{{
     #
     # Sorts a list from stdin.
     #
@@ -438,7 +491,7 @@ sort_list() #{{{1
     #     echo "c b b b a" | sort_list -u    #==> a b c
     #     echo "c b a"     | sort_list -r    #==> c b a
     #
-    # doc-end sort_list }}}
+    # </doc:sort_list> }}}
 
     local r u
 
@@ -464,7 +517,7 @@ sort_list() #{{{1
 
 split_string() #{{{1
 {
-    # doc split_string {{{
+    # <doc:split_string> {{{
     #
     # Split text from stdin into a list.
     #
@@ -476,7 +529,7 @@ split_string() #{{{1
     #     echo "foo, bar, baz" | split_string      #==> foo\nbar\nbaz
     #     echo "foo|bar|baz"   | split_string "|"  #==> foo\nbar\nbaz
     #
-    # doc-end split_string }}}
+    # </doc:split_string> }}}
 
     local delim=${1:-,}
     local line str
@@ -492,7 +545,7 @@ split_string() #{{{1
 
 join_lines() #{{{1
 {
-    # doc join_lines {{{
+    # <doc:join_lines> {{{
     #
     # Joins lines from stdin into a string.
     #
@@ -504,7 +557,7 @@ join_lines() #{{{1
     #     echo -e "foo\nbar\nbaz" | join_lines      #==> foo, bar, baz
     #     echo -e "foo\nbar\nbaz" | join_lines "|"  #==> foo|bar|baz
     #
-    # doc-end join_lines }}}
+    # </doc:join_lines> }}}
 
     local delim=${1:-, }
 
@@ -516,7 +569,7 @@ join_lines() #{{{1
 
 flatten() #{{{1
 {
-    # doc flatten {{{
+    # <doc:flatten> {{{
     #
     # Substitute variable names with variables.
     #
@@ -530,7 +583,7 @@ flatten() #{{{1
     #
     # Usage: flatten TEXT [VAR...]
     #
-    # doc-end flatten }}}
+    # </doc:flatten> }}}
 
     local t=$1; shift
     local n
@@ -551,7 +604,7 @@ flatten() #{{{1
 
 flatten_file() #{{{1
 {
-    # doc flatten_file {{{
+    # <doc:flatten_file> {{{
     #
     # Substitute variable names with variables in a file.
     #
@@ -565,7 +618,7 @@ flatten_file() #{{{1
     #
     # Usage: flatten_file FILE [VAR...]
     #
-    # doc-end flatten_file }}}
+    # </doc:flatten_file> }}}
 
     local fn=$1; shift
 
@@ -587,17 +640,25 @@ flatten_file() #{{{1
 
 timestamp() #{{{1
 {
-    # doc timestamp {{{
+    # <doc:timestamp> {{{
     #
     # Nothing special, really. Just a frequently used date format.
     #
-    # doc-end timestamp }}}
+    # </doc:timestamp> }}}
 
     date +%Y%m%d%H%M%S
 }
 
 actions() #{{{1
 {
+    # <doc:actions> {{{
+    #
+    # Show all functions that are prefixed with SCRIPT_NAME (stripped off).
+    #
+    # Usage: actions [NAME]
+    #
+    # </doc:actions> }}}
+
     local name=${1:-$SCRIPT_NAME}
     declare -F |
     awk '{print $NF}' |

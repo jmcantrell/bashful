@@ -3,9 +3,9 @@
 # Filename:      bashful-modes
 # Description:   Set of functions to interact with different script modes.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:33:32 (-0400)
+# Last Modified: Tue 2011-07-05 19:38:58 (-0400)
 
-# doc bashful-modes {{{
+# <doc:bashful-modes> {{{
 #
 # The modes library provides functions for using getting/setting mode values.
 #
@@ -32,7 +32,7 @@
 #
 #     verbose && echo "Verbose mode is set!"
 #
-# doc-end bashful-modes }}}
+# </doc:bashful-modes> }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -47,14 +47,14 @@ source bashful-utils
 
 interactive() #{{{1
 {
-    # doc interactive {{{
+    # <doc:interactive> {{{
     #
     # With no arguments, test if interactive mode is enabled.
     # With one argument, set interactive mode to given value.
     #
     # Usage: interactive [VALUE]
     #
-    # doc-end interactive }}}
+    # </doc:interactive> }}}
 
     if (( $# == 0 )); then
         truth $INTERACTIVE && return 0
@@ -66,39 +66,39 @@ interactive() #{{{1
 
 interactive_echo() #{{{1
 {
-    # doc interactive_echo {{{
+    # <doc:interactive_echo> {{{
     #
     # Will only echo the first argument if interactive mode is enabled.
     # Otherwise, echo the second argument.
     #
     # Usage: interactive_echo [TRUE_VALUE] [FALSE_VALUE]
     #
-    # doc-end interactive_echo }}}
+    # </doc:interactive_echo> }}}
 
     truth_echo "$INTERACTIVE" "$1" "$2"
 }
 
 interactive_option() #{{{1
 {
-    # doc interactive_option {{{
+    # <doc:interactive_option> {{{
     #
     # Echo the appropriate flag depending on the state of interactive mode.
     #
-    # doc-end interactive_option }}}
+    # </doc:interactive_option> }}}
 
     interactive_echo "-i" "-f"
 }
 
 verbose() #{{{1
 {
-    # doc verbose {{{
+    # <doc:verbose> {{{
     #
     # With no arguments, test if verbose mode is enabled.
     # With one argument, set verbose mode to given value.
     #
     # Usage: verbose [VALUE]
     #
-    # doc-end verbose }}}
+    # </doc:verbose> }}}
 
     if (( $# == 0 )); then
         truth $VERBOSE && return 0
@@ -110,39 +110,39 @@ verbose() #{{{1
 
 verbose_echo() #{{{1
 {
-    # doc verbose_echo {{{
+    # <doc:verbose_echo> {{{
     #
     # Will only echo the first argument if verbose mode is enabled.
     # Otherwise, echo the second argument.
     #
     # Usage: verbose_echo [TRUE_VALUE] [FALSE_VALUE]
     #
-    # doc-end verbose_echo }}}
+    # </doc:verbose_echo> }}}
 
     truth_echo "$VERBOSE" "$1" "$2"
 }
 
 verbose_option() #{{{1
 {
-    # doc verbose_option {{{
+    # <doc:verbose_option> {{{
     #
     # Echo the appropriate flag depending on the state of verbose mode.
     #
-    # doc-end verbose_option }}}
+    # </doc:verbose_option> }}}
 
     verbose_echo "-v" "-q"
 }
 
 verbose_execute() #{{{1
 {
-    # doc verbose_execute {{{
+    # <doc:verbose_execute> {{{
     #
     # Will execute the given command and only display the output if verbose
     # mode is enabled.
     #
     # Usage: verbose_execute [COMMAND]
     #
-    # doc-end verbose_execute }}}
+    # </doc:verbose_execute> }}}
 
     if verbose; then
         execute "$@"
@@ -153,14 +153,14 @@ verbose_execute() #{{{1
 
 verbose_execute_in() #{{{1
 {
-    # doc verbose_execute_in {{{
+    # <doc:verbose_execute_in> {{{
     #
     # Will execute the given command in the given directory and only display
     # the output if verbose mode is enabled.
     #
     # Usage: verbose_execute_in DIRECTORY [COMMAND]
     #
-    # doc-end verbose_execute_in }}}
+    # </doc:verbose_execute_in> }}}
 
     if verbose; then
         execute_in "$@"
@@ -171,14 +171,14 @@ verbose_execute_in() #{{{1
 
 elevated() #{{{1
 {
-    # doc elevated {{{
+    # <doc:elevated> {{{
     #
     # With no arguments, test if elevated mode is enabled.
     # With one argument, set elevated mode to given value.
     #
     # Usage: elevated [VALUE]
     #
-    # doc-end elevated }}}
+    # </doc:elevated> }}}
 
     if (( $# == 0 )); then
         truth $ELEVATED && return 0

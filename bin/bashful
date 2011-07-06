@@ -3,9 +3,9 @@
 # Filename:      bashful
 # Description:   An interface to bashful for non-bash scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:33:20 (-0400)
+# Last Modified: Tue 2011-07-05 19:38:57 (-0400)
 
-# doc bashful {{{
+# <doc:bashful> {{{
 #
 # Bashful is a collection of libraries to simplify writing bash scripts.
 #
@@ -28,7 +28,7 @@
 #
 #     $ bashful-input help
 #
-# doc-end bashful-doc }}}
+# </doc:bashful> }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc

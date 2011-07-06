@@ -3,13 +3,13 @@
 # Filename:      bashful-files
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2011-02-13 22:50:05 (-0500)
+# Last Modified: Tue 2011-07-05 19:38:57 (-0400)
 
-# doc bashful-files {{{
+# <doc:bashful-files> {{{
 #
 # The files library provides functions for working with files/directories.
 #
-# doc-end bashful-files }}}
+# </doc:bashful-files> }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -25,14 +25,14 @@ source bashful-utils
 
 commonpath() #{{{1
 {
-    # doc commonpath {{{
+    # <doc:commonpath> {{{
     #
     # Gets the common path of the paths passed on stdin.
     # Alternatively, paths can be passed as arguments.
     #
     # Usage: commonpath [PATH...]
     #
-    # doc-end commonpath }}}
+    # </doc:commonpath> }}}
 
     local path
 
@@ -65,7 +65,7 @@ commonpath() #{{{1
 
 commontail() #{{{1
 {
-    # doc commontail {{{
+    # <doc:commontail> {{{
     #
     # Gets the common tails of the paths passed on stdin.
     # Alternatively, paths can be passed as arguments.
@@ -76,7 +76,7 @@ commontail() #{{{1
     #     commontail /foo/bar /boo/bar  #==> bar
     #     commontail /foo/bar /boo/far  #==>
     #
-    # doc-end commontail }}}
+    # </doc:commontail> }}}
 
     local path
 
@@ -99,7 +99,7 @@ commontail() #{{{1
 
 extname() #{{{1
 {
-    # doc extname {{{
+    # <doc:extname> {{{
     #
     # Get the extension of the given filename.
     #
@@ -111,7 +111,7 @@ extname() #{{{1
     #     extname     foo.tar.gz  #==> .tar.gz
     #     extname -n1 foo.tar.gz  #==> .gz
     #
-    # doc-end extname }}}
+    # </doc:extname> }}}
 
     local levels
 
@@ -150,7 +150,7 @@ extname() #{{{1
 
 filename() #{{{1
 {
-    # doc filename {{{
+    # <doc:filename> {{{
     #
     # Gets the filename of the given path.
     #
@@ -162,14 +162,14 @@ filename() #{{{1
     #     filename     /path/to/file.tar.gz  #==> file
     #     filename -n1 /path/to/file.tar.gz  #==> file.tar
     #
-    # doc-end filename }}}
+    # </doc:filename> }}}
 
     basename "$1" $(extname "$@")
 }
 
 increment() #{{{1
 {
-    # doc increment {{{
+    # <doc:increment> {{{
     #
     # Get the next filename in line for the given file.
     #
@@ -180,7 +180,7 @@ increment() #{{{1
     #     increment does_exist      #==> does_exist (1)
     #     increment does_exist      #==> does_exist (2)
     #
-    # doc-end increment }}}
+    # </doc:increment> }}}
 
     local file=$1
     local count=1
@@ -195,14 +195,14 @@ increment() #{{{1
 
 listdir() #{{{1
 {
-    # doc listdir {{{
+    # <doc:listdir> {{{
     #
     # List the files in the given directory (1 level deep).
     # Accepts the same options as the find command.
     #
     # Usage: listdir DIR [OPTIONS]
     #
-    # doc-end listdir }}}
+    # </doc:listdir> }}}
 
     local dir=$1; shift
     find "$dir" -maxdepth 1 -mindepth 1 "$@"
@@ -210,7 +210,7 @@ listdir() #{{{1
 
 files() #{{{1
 {
-    # doc files {{{
+    # <doc:files> {{{
     #
     # List all the files in the given directory (recursively).
     # Will not display hidden files.
@@ -218,7 +218,7 @@ files() #{{{1
     #
     # Usage: files DIR [OPTIONS]
     #
-    # doc-end files }}}
+    # </doc:files> }}}
 
     local dir=$1; shift
     find "$dir" \( -type f -o -type l \) \! -wholename "*/.*" "$@"
@@ -226,7 +226,7 @@ files() #{{{1
 
 abspath() #{{{1
 {
-    # doc abspath {{{
+    # <doc:abspath> {{{
     #
     # Gets the absolute path of the given path.
     # Will resolve paths that contain '.' and '..'.
@@ -234,7 +234,7 @@ abspath() #{{{1
     #
     # Usage: abspath [PATH]
     #
-    # doc-end abspath }}}
+    # </doc:abspath> }}}
 
     local path=${1:-$PWD}
 
@@ -273,7 +273,7 @@ abspath() #{{{1
 
 relpath() #{{{1
 {
-    # doc relpath {{{
+    # <doc:relpath> {{{
     #
     # Gets the relative path from SOURCE to DESTINATION.
     # Output should mirror the python function os.path.relpath().
@@ -289,7 +289,7 @@ relpath() #{{{1
     #     relpath /home/user     /home/user      #==> .
     #     relpath                                #==> .
     #
-    # doc-end relpath }}}
+    # </doc:relpath> }}}
 
     local dst=$(abspath "$1")
     local src=$(abspath "$2")
@@ -322,13 +322,13 @@ relpath() #{{{1
 
 link() #{{{1
 {
-    # doc link {{{
+    # <doc:link> {{{
     #
     # Version of ln that respects the interactive/verbose settings.
     #
     # Usage: link SOURCE [DESTINATION]
     #
-    # doc-end link }}}
+    # </doc:link> }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -338,13 +338,13 @@ link() #{{{1
 
 linkrel() #{{{1
 {
-    # doc linkrel {{{
+    # <doc:linkrel> {{{
     #
     # Like link, but uses relpath to make the paths relative.
     #
     # Usage: linkrel SOURCE [DESTINATION]
     #
-    # doc-end link }}}
+    # </doc:link> }}}
 
     local dir=$(relpath "${@%/*}")/
     dir=${dir##./}
@@ -353,12 +353,12 @@ linkrel() #{{{1
 
 move() #{{{1
 {
-    # doc move {{{
+    # <doc:move> {{{
     #
     # Version of mv that respects the interactive/verbose settings.
     # Accepts the same options/arguments as mv.
     #
-    # doc-end name }}}
+    # </doc:name> }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -368,12 +368,12 @@ move() #{{{1
 
 copy() #{{{1
 {
-    # doc copy {{{
+    # <doc:copy> {{{
     #
     # Version of cp that respects the interactive/verbose settings.
     # Accepts the same options/arguments as cp.
     #
-    # doc-end copy }}}
+    # </doc:copy> }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -383,11 +383,11 @@ copy() #{{{1
 
 stow() #{{{1
 {
-    # doc stow {{{
+    # <doc:stow> {{{
     #
     # Replicate a directory tree and link regular files.
     #
-    # doc-end stow }}}
+    # </doc:stow> }}}
 
     local src=$1
     local dst=${2:-$PWD}
@@ -403,12 +403,12 @@ stow() #{{{1
 
 remove() #{{{1
 {
-    # doc remove {{{
+    # <doc:remove> {{{
     #
     # Version of rm that respects the interactive/verbose settings.
     # Accepts the same options/arguments as rm.
     #
-    # doc-end remove }}}
+    # </doc:remove> }}}
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -418,12 +418,12 @@ remove() #{{{1
 
 cleanup() #{{{1
 {
-    # doc cleanup {{{
+    # <doc:cleanup> {{{
     #
     # Cleans up any temp files lying around.
     # Intended to be used alongside tempfile() and not to be called directly.
     #
-    # doc-end cleanup }}}
+    # </doc:cleanup> }}}
 
     for file in "${CLEANUP_FILES[@]}"; do
         $SUDO rm -rf "$file"
@@ -432,14 +432,14 @@ cleanup() #{{{1
 
 tempfile() #{{{1
 {
-    # doc tempfile {{{
+    # <doc:tempfile> {{{
     #
     # Creates and keeps track of temp files.
     #
     # Usage examples:
     #     tempfile    # $TEMPFILE is now a regular file
     #
-    # doc-end tempfile }}}
+    # </doc:tempfile> }}}
 
     TEMPFILE=$(mktemp "$@")
     if [[ ! $TEMPFILE ]]; then
@@ -452,14 +452,14 @@ tempfile() #{{{1
 
 tempdir() #{{{1
 {
-    # doc tempdir {{{
+    # <doc:tempdir> {{{
     #
     # Creates and keeps track of temp directories.
     #
     # Usage examples:
     #     tempdir    # $TEMPDIR is now a directory
     #
-    # doc-end tempdir }}}
+    # </doc:tempdir> }}}
 
     tempfile -d -t "$(basename "$0").XXXXXX"
     TEMPDIR=$TEMPFILE
@@ -467,7 +467,7 @@ tempdir() #{{{1
 
 truncate() #{{{1
 {
-    # doc truncate {{{
+    # <doc:truncate> {{{
     #
     # Removes all similar unused files.
     # The only assumption is that the prefix is separated from the identifier
@@ -505,7 +505,7 @@ truncate() #{{{1
     #
     #     truncate file .txt file-foo file-bar
     #
-    # doc-end truncate }}}
+    # </doc:truncate> }}}
 
     local prefix=$1; shift
     local suffix=$1; shift

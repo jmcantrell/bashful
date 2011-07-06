@@ -3,9 +3,9 @@
 # Filename:      bashful-profile
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2010-10-03 14:51:08 (-0400)
+# Last Modified: Tue 2011-07-05 00:58:02 (-0400)
 
-# doc bashful-profile {{{
+# <doc:bashful-profile> {{{
 #
 # The profile library provides functions for using profiles in scripts.
 #
@@ -82,7 +82,7 @@
 #
 #     profile_init  # This will return non-zero exit code on error.
 #
-# doc-end bashful-profile }}}
+# </doc:bashful-profile> }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -100,13 +100,13 @@ source bashful-utils
 
 profile_hook() #{{{1
 {
-    # doc profile_hook {{{
+    # <doc:profile_hook> {{{
     #
     # Execute a specified profile hook.
     #
     # Usage: profile_hook ACTION HOOK
     #
-    # doc-end profile_hook }}}
+    # </doc:profile_hook> }}}
 
     local command=profile_${1}_${2}
     if type $command &>/dev/null; then
@@ -116,25 +116,25 @@ profile_hook() #{{{1
 
 profile_actions() #{{{1
 {
-    # doc profile_actions {{{
+    # <doc:profile_actions> {{{
     #
     # Lists all available profile actions.
     #
-    # doc-end profile_actions }}}
+    # </doc:profile_actions> }}}
 
     actions "profile"
 }
 
 profile_choose() #{{{1
 {
-    # doc profile_choose {{{
+    # <doc:profile_choose> {{{
     #
     # Prompt user for a profile.
     #
     # If interactive mode is not enabled, you better have already set the
     # profile or it's errors for everyone.
     #
-    # doc-end profile_choose }}}
+    # </doc:profile_choose> }}}
 
     if (( $(profile_list | wc -l) == 0 )); then
         error "No profiles available."
@@ -157,11 +157,11 @@ profile_choose() #{{{1
 
 profile_clear() #{{{1
 {
-    # doc profile_clear {{{
+    # <doc:profile_clear> {{{
     #
     # Unsets all variables from a profile.
     #
-    # doc-end profile_clear }}}
+    # </doc:profile_clear> }}}
 
     local var
     for var in $(profile_variables); do
@@ -171,11 +171,11 @@ profile_clear() #{{{1
 
 profile_create() #{{{1
 {
-    # doc profile_create {{{
+    # <doc:profile_create> {{{
     #
     # Creates a new profile.
     #
-    # doc-end profile_create }}}
+    # </doc:profile_create> }}}
 
     [[ $PROFILE ]] || PROFILE=$(input -c -p "Enter profile" -d "${PWD##*/}")
 
@@ -215,11 +215,11 @@ profile_create() #{{{1
 
 profile_delete() #{{{1
 {
-    # doc profile_delete {{{
+    # <doc:profile_delete> {{{
     #
     # Deletes an existing profile.
     #
-    # doc-end profile_delete }}}
+    # </doc:profile_delete> }}}
 
     profile_verify || return 1
     question -c -p "Are you sure you want to delete '$PROFILE'?" || return 1
@@ -231,11 +231,11 @@ profile_delete() #{{{1
 
 profile_edit() #{{{1
 {
-    # doc profile_edit {{{
+    # <doc:profile_edit> {{{
     #
     # Edits an existing profile.
     #
-    # doc-end profile_edit }}}
+    # </doc:profile_edit> }}}
 
     profile_verify || return 1
     profile_hook edit pre
@@ -245,11 +245,11 @@ profile_edit() #{{{1
 
 profile_file() #{{{1
 {
-    # doc profile_file {{{
+    # <doc:profile_file> {{{
     #
     # Make sure the profile file is set before continuing.
     #
-    # doc-end profile_file }}}
+    # </doc:profile_file> }}}
 
     if [[ ! $PROFILE ]]; then
         PROFILE=$(profile_choose) || return 1
@@ -265,7 +265,7 @@ profile_file() #{{{1
 
 profile_init() #{{{1
 {
-    # doc profile_init {{{
+    # <doc:profile_init> {{{
     #
     # Initialize the profile environment.
     #
@@ -273,7 +273,7 @@ profile_init() #{{{1
     # functionality is used. If prefix was set, use that.
     # Otherwise use a prefix appropriate for the user's permissions.
     #
-    # doc-end profile_init }}}
+    # </doc:profile_init> }}}
 
     if (( EUID == 0 )); then
         PREFIX=${PREFIX:-/usr/local}
@@ -305,7 +305,7 @@ profile_init() #{{{1
 
 profile_list() #{{{1
 {
-    # doc profile_list {{{
+    # <doc:profile_list> {{{
     #
     # List profiles.
     #
@@ -320,7 +320,7 @@ profile_list() #{{{1
     #     profile_list bash-.*  # List all profiles starting with "bash-"
     #     profile_list .*       # Equivalent to: profile_list
     #
-    # doc-end profile_list }}}
+    # </doc:profile_list> }}}
 
     local profile=${1:-$PROFILE}
 
@@ -333,7 +333,7 @@ profile_list() #{{{1
 
 profile_load() #{{{1
 {
-    # doc profile_load {{{
+    # <doc:profile_load> {{{
     #
     # Load a profile.
     #
@@ -345,7 +345,7 @@ profile_load() #{{{1
     # The uncommented default profile settings are considered required, and
     # uncommented settings are considered optional.
     #
-    # doc-end profile_load }}}
+    # </doc:profile_load> }}}
 
     profile_verify || return 1
 
@@ -370,33 +370,33 @@ profile_load() #{{{1
 
 profile_variables() #{{{1
 {
-    # doc profile_variables {{{
+    # <doc:profile_variables> {{{
     #
     # List all variables available to a profile (set or not).
     #
-    # doc-end profile_variables }}}
+    # </doc:profile_variables> }}}
 
     variables <<<"$PROFILE_DEFAULT"
 }
 
 profile_variables_required() #{{{1
 {
-    # doc profile_variables_required {{{
+    # <doc:profile_variables_required> {{{
     #
     # List all required variables available to a profile (set or not).
     #
-    # doc-end profile_variables_required }}}
+    # </doc:profile_variables_required> }}}
 
     grep -v '^[[:space:]]*#' <<<"$PROFILE_DEFAULT" | variables
 }
 
 profile_verify() #{{{1
 {
-    # doc profile_verify {{{
+    # <doc:profile_verify> {{{
     #
     # Make sure the profile file exists before continuing.
     #
-    # doc-end profile_verify }}}
+    # </doc:profile_verify> }}}
 
     profile_file || return 1
 

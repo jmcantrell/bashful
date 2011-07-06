@@ -3,9 +3,9 @@
 # Filename:      bashful-input
 # Description:   A set of functions for interacting with the user.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sat 2010-10-02 14:32:54 (-0400)
+# Last Modified: Tue 2011-07-05 19:38:57 (-0400)
 
-# doc bashful-input {{{
+# <doc:bashful-input> {{{
 #
 # The input library provides functions for taking user input.
 #
@@ -16,7 +16,7 @@
 # The INTERACTIVE variable only matters if the function is used with the
 # interactive mode check option (-c).
 #
-# doc-end bashful-input }}}
+# </doc:bashful-input> }}}
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -32,7 +32,7 @@ source bashful-utils
 
 input() #{{{1
 {
-    # doc input {{{
+    # <doc:input> {{{
     #
     # Prompts the user to input text.
     #
@@ -49,7 +49,7 @@ input() #{{{1
     # Input will be hidden:
     #     input -s -p "Enter password"
     #
-    # doc-end input }}}
+    # </doc:input> }}}
 
     local p="Enter value"
     local d c s reply
@@ -83,13 +83,13 @@ input() #{{{1
 
 input_lines() #{{{1
 {
-    # doc input_lines {{{
+    # <doc:input_lines> {{{
     #
     # Prompts the user to input text lists.
     #
     # Usage: input_lines [-c] [-p PROMPT]
     #
-    # doc-end input_lines }}}
+    # </doc:input_lines> }}}
 
     local p="Enter values"
     local c reply
@@ -117,7 +117,7 @@ input_lines() #{{{1
 
 question() #{{{1
 {
-    # doc question {{{
+    # <doc:question> {{{
     #
     # Prompts the user with a yes/no question.
     # The default value can be anything that evaluates to true/false.
@@ -133,7 +133,7 @@ question() #{{{1
     # User will only be prompted if interactive mode is enabled:
     #     question -c -p "Continue?"
     #
-    # doc-end question }}}
+    # </doc:question> }}}
 
     local p="Are you sure you want to proceed?"
     local d c reply choice
@@ -161,7 +161,7 @@ question() #{{{1
 
 choice() #{{{1
 {
-    # doc choice {{{
+    # <doc:choice> {{{
     #
     # Prompts the user to choose from a set of choices.
     # If there is only one choice, it will be returned immediately.
@@ -171,7 +171,7 @@ choice() #{{{1
     # Usage examples:
     #     choice -p "Choose your favorite color" red green blue
     #
-    # doc-end choice }}}
+    # </doc:choice> }}}
 
     local p="Select from these choices"
     local c
@@ -207,13 +207,13 @@ choice() #{{{1
 
 pause() #{{{1
 {
-    # doc pause {{{
+    # <doc:pause> {{{
     #
     # Pause and wait for user interaction.
     #
     # Usage: pause [OPTIONS]
     #
-    # doc-end pause }}}
+    # </doc:pause> }}}
 
     local p="Press any key to continue..."
     local c

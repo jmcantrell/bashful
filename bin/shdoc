@@ -3,15 +3,15 @@
 # Filename:      shdoc
 # Description:   Extracts documentation from shell scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2010-10-07 01:24:57 (-0400)
+# Last Modified: Tue 2011-07-05 19:38:58 (-0400)
 
-# doc shdoc {{{
+# <doc:shdoc> {{{
 #
 # Extracts documentation from shell scripts.
 #
 # Usage: shdoc [OPTIONS] COMMAND [SECTION]
 #
-# doc-end shdoc }}}
+# </doc:shdoc> }}}
 
 source bashful-doc
 source bashful-messages
