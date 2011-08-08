@@ -3,7 +3,7 @@
 # Filename:      bashful-utils
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2011-07-05 19:54:11 (-0400)
+# Last Modified: Sun 2011-08-07 20:21:58 (-0400)
 
 # <doc:bashful-utils> {{{
 #
@@ -665,6 +665,14 @@ actions() #{{{1
     grep "^${name}_" |
     sed "s/^${name}_//" |
     sort -u
+}
+
+unset_var() #{{{1
+{
+    local var=$1; [[ $var ]] || return 1
+    for var in $(export | variables | egrep "^($var|${var}_.+)$"); do
+        unset $var
+    done
 }
 
 #}}}
