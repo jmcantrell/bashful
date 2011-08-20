@@ -3,7 +3,7 @@
 # Filename:      bashful-files
 # Description:   Miscellaneous utility functions for dealing with files.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2011-08-07 22:32:04 (-0400)
+# Last Modified: Fri 2011-08-19 23:59:45 (-0400)
 
 # <doc:bashful-files> {{{
 #
@@ -221,7 +221,7 @@ files() #{{{1
     # </doc:files> }}}
 
     local dir=$1; shift
-    find "$dir/" \( -type f -o -type l \) \! -wholename "*/.*" "$@"
+    find "$dir" \( -type f -o -type l \) \! -wholename "*/.*" "$@"
 }
 
 abspath() #{{{1
