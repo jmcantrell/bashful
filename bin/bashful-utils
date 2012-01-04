@@ -3,7 +3,7 @@
 # Filename:      bashful-utils
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2011-08-07 20:21:58 (-0400)
+# Last Modified: Tue 2012-01-03 22:39:27 (-0500)
 
 # <doc:bashful-utils> {{{
 #
@@ -669,10 +669,39 @@ actions() #{{{1
 
 unset_var() #{{{1
 {
+    # <doc:unset_var> {{{
+    #
+    # Unset a variable and any similar variables.
+    #
+    # Usage: unset_var VAR
+    #
+    # </doc:unset_var> }}}
+
     local var=$1; [[ $var ]] || return 1
     for var in $(export | variables | egrep "^($var|${var}_.+)$"); do
         unset $var
     done
+}
+
+find_above() #{{{1
+{
+    # <doc:find_above> {{{
+    #
+    # Find the nearest file/directory above the current directory.
+    # Takes the same options as find.
+    #
+    # Usage: find_above [OPTIONS]
+    #
+    # </doc:find_above> }}}
+
+    local OPWD=$PWD
+    local result
+    while true; do
+        find "$PWD" -maxdepth 1 -mindepth 1 "$@"
+        [[ $PWD == / ]] && break
+        cd ..
+    done
+    cd "$OPWD"
 }
 
 #}}}
