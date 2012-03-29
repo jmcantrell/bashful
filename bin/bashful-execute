@@ -3,7 +3,7 @@
 # Filename:      bashful-execute
 # Description:   Functions for building commands.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Tue 2011-07-05 19:38:57 (-0400)
+# Last Modified: Wed 2012-03-28 22:33:16 (-0400)
 
 # <doc:bashful-execute> {{{
 #
@@ -25,34 +25,11 @@ execute() #{{{1
     #
     # Execute a given command or stored command.
     #
-    # There are a couple of variables that affect the behavior.
-    #
-    #     EXECUTE_CMD
-    #
-    # If set, this will be executed and then unset.
-    #
-    #     EXECUTE_CMD_PREV
-    #
-    # This will be the same as EXECUTE_CMD after execution. If EXECUTE_CMD is
-    # not set, this variable will be used for execution. The intention is that
-    # you can run execute multiple times and it will use the same command, but
-    # as soon as you start adding more arguments with execute_push(), it get's
-    # reset.
-    #
     # Usage: execute [ARGUMENT...]
     #
     # </doc:execute> }}}
 
-    if (( ${#EXECUTE_CMD[@]} > 0 )); then
-        "${EXECUTE_CMD[@]}" "$@"
-    elif (( ${#EXECUTE_CMD_PREV[@]} > 0 )); then
-        "${EXECUTE_CMD_PREV[@]}" "$@"
-    else
-        "$@"
-    fi
-
-    EXECUTE_CMD_PREV=("${EXECUTE_CMD[@]}")
-    unset EXECUTE_CMD
+    "${EXECUTE_CMD[@]}" "$@"
 }
 
 execute_in() #{{{1
@@ -111,7 +88,6 @@ execute_clear() #{{{1
     # </doc:execute_clear> }}}
 
     unset EXECUTE_CMD
-    unset EXECUTE_CMD_PREV
 }
 
 #}}}1
