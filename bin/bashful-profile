@@ -3,7 +3,7 @@
 # Filename:      bashful-profile
 # Description:   Utilities for using script profiles.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Sun 2011-08-07 20:18:37 (-0400)
+# Last Modified: Thu 2012-06-07 20:59:27 (-0400)
 
 # <doc:bashful-profile> {{{
 #
@@ -165,11 +165,11 @@ profile_clear() #{{{1
 
     local var
     for var in $(profile_variables); do
-        unset_var $var
+        unset $var
     done
     if [[ $PROFILE_VARIABLES ]]; then
         for var in "${PROFILE_VARIABLES[@]}"; do
-            unset_var $var
+            unset $var
         done
     fi
 }
