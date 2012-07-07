@@ -3,7 +3,7 @@
 # Filename:      bashful-utils
 # Description:   Miscellaneous utility functions for use in other scripts.
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
-# Last Modified: Thu 2012-06-07 20:59:27 (-0400)
+# Last Modified: Fri 2012-07-06 18:24:20 (-0400)
 
 # <doc:bashful-utils> {{{
 #
@@ -689,5 +689,8 @@ find_above() #{{{1
 }
 
 #}}}
+
+# Convenience (indicates when script was executed)
+TIMESTAMP=$(timestamp)
 
 BASHFUL_UTILS_LOADED=1
