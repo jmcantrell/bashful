@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "description": "A collection of libraries to simplify writing bash scripts",
   "global": "true",
-  "install": "./setup.sh install"
+  "install": "make install"
 }
 
