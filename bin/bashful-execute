@@ -90,6 +90,42 @@ execute_clear() #{{{1
     unset EXECUTE_CMD
 }
 
+check_rc() #{{{1
+{
+  # <doc:check_rc> {{{
+  #
+  # Checks return code and either errors out or prints message.
+  #
+  # Usage: check_rc [-m MESSAGE] [-e EXIT]
+  #
+  # </doc:execute_clear> }}}
+  local rc=$?
+  local msg
+  local ex=1
+
+  unset OPTIND
+  while getopts ":m:e" option; do
+      case $option in
+          n) msg=$OPTARG ;;
+          e) ex=$OPTARG ;;
+      esac
+  done && shift $(($OPTIND - 1))
+
+  if [[ $rc -gt 0 ]]; then
+    if [[ -z $msg ]]; then
+      # Display message if exists
+      echo -e $msg
+    fi
+    if [[ truth $msg -eq 1 ]];
+      # When exiting, do
+      exit $rc
+    else
+      # Bounce RC back if no exit is used
+      return $rc
+    fi
+  fi
+}
+
 #}}}1
 
 BASHFUL_EXECUTE_LOADED=1
