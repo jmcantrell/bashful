@@ -6,9 +6,9 @@ Bashful is an incredable library, but It has alot of overhead. I often need just
 
 ## Install
 * **download** the bashful\_gpp files  _tarball_   
-`$ curl -o bashful_gpp.tar.gz https://github.com/slugbyte/bashful-gpp/raw/master/bashful_gpp.tar.gz`
+**$**`curl -o bashful_gpp.tar.gz https://github.com/slugbyte/bashful-gpp/raw/master/bashful_gpp.tar.gz`
 * **extract** the bashful\_gpp files  
-`$ tar -vxzf bashful_gpp.tar.gz`
+**$**`tar -vxzf bashful_gpp.tar.gz`
 
 Bashful
 =======
