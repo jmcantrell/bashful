@@ -1,6 +1,6 @@
 #!/bin/bash
 shopt -s extglob
-source ../bin/bashful
+source bin/bashful
 
 function cat_betwen(){
   local file start_line end_line
@@ -73,18 +73,16 @@ function find_files_that_use_func(){
   remove_space_around_paren_in_files $search_glob
 }
 
-file_glob="./tmp/*"
-
-rm $file_glob
-cp ../gpp-bashful-*/* ./tmp/
-
 #find_files_that_use_func ./tmp/gpp-verbose.sh "./tmp/!(gpp-verbose.sh)"
 
-function add_include_macros(){
+function add_include_macros(){ 
+  local file_glob source_file_basename need_include include_path
+  file_glob="$1"
   for source_file in $file_glob;do
     source_file_basename=$(basename "$source_file")
     echo "source_file_basename: $source_file_basename"
-    need_include=$(find_files_that_use_func "$source_file" "./tmp/!($source_file_basename)")
+    exclude_path=$(dirname "$source_file")
+    need_include=$(find_files_that_use_func "$source_file" "$exclude_path/!($source_file_basename)")
     #find_files_that_use_func "$source_file" "./tmp/!($source_file_basename)"
     #echo "need_include"
     for file in $(echo "$need_include");do
@@ -94,3 +92,9 @@ function add_include_macros(){
      done
   done
 }
+
+mkdir lib/tmp
+cp lib/gpp*/*.sh lib/tmp
+file_glob="lib/tmp/*"
+add_include_macros "$file_glob"
+#rm -rf lib/tmp
