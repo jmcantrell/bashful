@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-utils/gpp-lower.sh"
 #ifndeff UPPER
 #define UPPER
 upper() #{{{1

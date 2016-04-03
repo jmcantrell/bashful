@@ -1,3 +1,5 @@
+#include "./lib/gpp-bashful-modes/gpp-verbose.sh"
+#include "./lib/gpp-bashful-modes/gpp-execute_in.sh"
 #ifndeff VERBOSE_EXECUTE_IN
 #define VERBOSE_EXECUTE_IN
 verbose_execute_in() #{{{1

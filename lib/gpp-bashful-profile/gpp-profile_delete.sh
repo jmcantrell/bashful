@@ -1,3 +1,7 @@
+#include "./lib/gpp-bashful-profile/gpp-question.sh"
+#include "./lib/gpp-bashful-profile/gpp-profile_verify.sh"
+#include "./lib/gpp-bashful-profile/gpp-profile_hook.sh"
+#include "./lib/gpp-bashful-profile/gpp-info.sh"
 #ifndeff PROFILE_DELETE
 #define PROFILE_DELETE
 profile_delete() #{{{1

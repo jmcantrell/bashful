@@ -93,11 +93,20 @@ function add_include_macros(){
   done
 }
 
-mkdir .tmp
-file_glob="$1"
-for file in $file_glob;do
-  cp "$file" .tmp/
-done
-#add_include_macros "./tmp/*"
+temp_dir="$(date +"%s")-tmp"
 
-#rm -rf lib/tmp
+mkdir "$temp_dir"
+file_glob="$1"
+
+for file in $file_glob;do
+  cp "$file" "$temp_dir/"
+done
+
+add_include_macros "./$temp_dir/*"
+
+for file in $file_glob;do
+  file_basename=$(basename $file)
+  file_dirname=$(dirname $file)
+  mv "$temp_dir/$file_basename" "$file"
+  sed -i '' "s:$temp_dir:$file_dirname:g" "$file"
+done

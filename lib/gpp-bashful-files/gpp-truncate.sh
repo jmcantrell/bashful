@@ -1,3 +1,6 @@
+#include "./lib/gpp-bashful-files/gpp-remove.sh"
+#include "./lib/gpp-bashful-files/gpp-filename.sh"
+#include "./lib/gpp-bashful-files/gpp-error.sh"
 #ifndeff TRUNCATE
 #define TRUNCATE
 truncate() #{{{1

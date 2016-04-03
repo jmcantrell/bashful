@@ -1,3 +1,7 @@
+#include "./lib/gpp-bashful-files/gpp-verbose_echo.sh"
+#include "./lib/gpp-bashful-files/gpp-verbose.sh"
+#include "./lib/gpp-bashful-files/gpp-interactive_option.sh"
+#include "./lib/gpp-bashful-files/gpp-interactive.sh"
 #ifndeff LINK
 #define LINK
 link() #{{{1

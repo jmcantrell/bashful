@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-terminfo/gpp-P.sh"
 #ifndeff C
 #define C
 C()

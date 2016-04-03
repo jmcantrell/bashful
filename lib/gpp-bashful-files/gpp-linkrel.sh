@@ -1,3 +1,5 @@
+#include "./lib/gpp-bashful-files/gpp-relpath.sh"
+#include "./lib/gpp-bashful-files/gpp-link.sh"
 #ifndeff LINKREL
 #define LINKREL
 linkrel() #{{{1

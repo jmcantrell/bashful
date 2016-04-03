@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-files/gpp-tempfile.sh"
 #ifndeff TEMPDIR
 #define TEMPDIR
 tempdir() #{{{1

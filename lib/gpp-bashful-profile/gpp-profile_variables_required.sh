@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-profile/gpp-variables.sh"
 #ifndeff PROFILE_VARIABLES_REQUIRED
 #define PROFILE_VARIABLES_REQUIRED
 profile_variables_required() #{{{1

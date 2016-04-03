@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-utils/gpp-truth.sh"
 #ifndeff TRUTH_ECHO
 #define TRUTH_ECHO
 truth_echo() #{{{1

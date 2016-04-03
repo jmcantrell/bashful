@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-terminfo/gpp-C.sh"
 #ifndeff P
 #define P
 P() { echo "${1}${2}${term_reset}"; }

@@ -9,3 +9,4 @@ install:
 
 gpp_build:
 	./tool/get_function.sh "./bin/*" lib
+	./tool/depend-clac.sh "./lib/gpp*/*"

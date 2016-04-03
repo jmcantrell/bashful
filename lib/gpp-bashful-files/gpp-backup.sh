@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-files/gpp-copy.sh"
 #ifndeff BACKUP
 #define BACKUP
 backup() #{{{1

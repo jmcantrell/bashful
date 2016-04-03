@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-profile/gpp-actions.sh"
 #ifndeff PROFILE_ACTIONS
 #define PROFILE_ACTIONS
 profile_actions() #{{{1

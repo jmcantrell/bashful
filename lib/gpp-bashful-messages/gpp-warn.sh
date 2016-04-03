@@ -1,3 +1,5 @@
+#include "./lib/gpp-bashful-messages/gpp-verbose.sh"
+#include "./lib/gpp-bashful-messages/gpp-truth.sh"
 #ifndeff WARN
 #define WARN
 warn() #{{{1

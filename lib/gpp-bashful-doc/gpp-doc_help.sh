@@ -1,3 +1,6 @@
+#include "./lib/gpp-bashful-doc/gpp-pager.sh"
+#include "./lib/gpp-bashful-doc/gpp-doc_topics.sh"
+#include "./lib/gpp-bashful-doc/gpp-doc.sh"
 #ifndeff DOC_HELP
 #define DOC_HELP
 doc_help() #{{{1

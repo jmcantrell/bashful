@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-utils/gpp-variables.sh"
 #ifndeff FLATTEN
 #define FLATTEN
 flatten() #{{{1

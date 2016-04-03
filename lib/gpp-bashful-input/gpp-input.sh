@@ -1,3 +1,5 @@
+#include "./lib/gpp-bashful-input/gpp-truth.sh"
+#include "./lib/gpp-bashful-input/gpp-interactive.sh"
 #ifndeff INPUT
 #define INPUT
 input() #{{{1

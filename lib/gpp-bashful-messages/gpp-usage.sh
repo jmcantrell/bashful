@@ -1,3 +1,6 @@
+#include "./lib/gpp-bashful-messages/gpp-verbose.sh"
+#include "./lib/gpp-bashful-messages/gpp-squeeze_lines.sh"
+#include "./lib/gpp-bashful-messages/gpp-actions.sh"
 #ifndeff USAGE
 #define USAGE
 usage() #{{{1

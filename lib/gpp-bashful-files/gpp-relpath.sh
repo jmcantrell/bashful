@@ -1,3 +1,5 @@
+#include "./lib/gpp-bashful-files/gpp-commonpath.sh"
+#include "./lib/gpp-bashful-files/gpp-abspath.sh"
 #ifndeff RELPATH
 #define RELPATH
 relpath() #{{{1

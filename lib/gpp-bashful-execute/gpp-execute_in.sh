@@ -1,3 +1,5 @@
+#include "./lib/gpp-bashful-execute/gpp-execute.sh"
+#include "./lib/gpp-bashful-execute/gpp-error.sh"
 #ifndeff EXECUTE_IN
 #define EXECUTE_IN
 execute_in() #{{{1

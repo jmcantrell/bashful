@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-messages/gpp-error.sh"
 #ifndeff DIE
 #define DIE
 die() #{{{1

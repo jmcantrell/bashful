@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-utils/gpp-first.sh"
 #ifndeff PAGER
 #define PAGER
 pager() #{{{1

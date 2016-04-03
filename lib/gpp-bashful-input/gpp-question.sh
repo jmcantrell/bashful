@@ -1,3 +1,7 @@
+#include "./lib/gpp-bashful-input/gpp-truth.sh"
+#include "./lib/gpp-bashful-input/gpp-interactive.sh"
+#include "./lib/gpp-bashful-input/gpp-input.sh"
+#include "./lib/gpp-bashful-input/gpp-choice.sh"
 #ifndeff QUESTION
 #define QUESTION
 question() #{{{1

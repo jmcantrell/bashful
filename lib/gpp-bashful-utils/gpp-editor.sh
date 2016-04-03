@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-utils/gpp-first.sh"
 #ifndeff EDITOR
 #define EDITOR
 editor() #{{{1

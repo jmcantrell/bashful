@@ -1,3 +1,4 @@
+#include "./lib/gpp-bashful-files/gpp-squeeze.sh"
 #ifndeff ABSPATH
 #define ABSPATH
 abspath() #{{{1

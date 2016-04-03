@@ -1,3 +1,5 @@
+#include "./lib/gpp-bashful-utils/gpp-rtrim.sh"
+#include "./lib/gpp-bashful-utils/gpp-ltrim.sh"
 #ifndeff TRIM
 #define TRIM
 trim() #{{{1
