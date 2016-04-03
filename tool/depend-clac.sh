@@ -93,8 +93,11 @@ function add_include_macros(){
   done
 }
 
-mkdir lib/tmp
-cp lib/gpp*/*.sh lib/tmp
-file_glob="lib/tmp/*"
-add_include_macros "$file_glob"
+mkdir .tmp
+file_glob="$1"
+for file in $file_glob;do
+  cp "$file" .tmp/
+done
+#add_include_macros "./tmp/*"
+
 #rm -rf lib/tmp
