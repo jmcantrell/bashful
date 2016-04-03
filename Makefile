@@ -14,5 +14,5 @@ gpp_clean:
 
 gpp_build: gpp_clean
 	./tool/get_function.sh "./bin/*" lib
-	./tool/depend-clac.sh "./lib/gpp*/*"
+	./tool/depend-clac.sh "./lib/*/*"
 	rm -rf lib

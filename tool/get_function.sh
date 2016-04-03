@@ -51,11 +51,11 @@ function macro_maker(){
   local output_dir_base="$4"
 
   local source_file_dir_name=$(filename "$source_file");
-  local output_dir="${output_dir_base}/gpp-${source_file_dir_name}"
+  local output_dir="${output_dir_base}/${source_file_dir_name}"
 
   local func_name_upper=$(echo $func_name |upper)
 
-  local gpp_file="${output_dir}/gpp-${func_name}.sh"
+  local gpp_file="${output_dir}/${func_name}.sh"
 
   [[ -d "$output_dir" ]] || mkdir "$output_dir"
   touch "$gpp_file"
@@ -102,11 +102,10 @@ function clean_func_files(){
 function extract_functions_for_gpp(){
   loop_target="$1"
   output_dir_base=$(relpath "$2")
-  echo "loop_target" $loop_target
   for file in $(echo $loop_target);do
     echo "$file"
     for func in $(functions "$file");do
-      echo "found function: ${func}"
+      echo "function: ${func}"
       get_func_file "$file" "$func" "$output_dir_base"
     done
   done
