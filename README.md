@@ -1,6 +1,6 @@
 Bashful-GPP
 ===========
-> the functions in bashful seporated into their own files and wraped in gpp macros
+> the functions in bashful seporated into their own files and wraped in gpp macros  
 Bashful is an incredable library, but It has alot of overhead. I often need just a single function and its dependencies, but end up having to source way more than my program will use. This is fine when the scritps stay withing my own comuter, however as soon as I want to share a script, I usual have to packagage it with all of bashful. Using gpp I can `#include "function_name.sh"` and I can compile a script that only contains the code it uses.  
 
 ## Install
