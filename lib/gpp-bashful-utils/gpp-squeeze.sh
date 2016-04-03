@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-trim.sh"
-#ifndeff SQUEEZE
+#ifndef SQUEEZE
 #define SQUEEZE
 squeeze() #{{{1
 {

@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-modes/gpp-interactive_echo.sh"
-#ifndeff INTERACTIVE_OPTION
+#ifndef INTERACTIVE_OPTION
 #define INTERACTIVE_OPTION
 interactive_option() #{{{1
 {

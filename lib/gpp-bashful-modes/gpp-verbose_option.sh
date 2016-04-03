@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-modes/gpp-verbose_echo.sh"
-#ifndeff VERBOSE_OPTION
+#ifndef VERBOSE_OPTION
 #define VERBOSE_OPTION
 verbose_option() #{{{1
 {

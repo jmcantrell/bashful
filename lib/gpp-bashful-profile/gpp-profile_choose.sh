@@ -1,7 +1,4 @@
-#include "./lib/gpp-bashful-profile/gpp-profile_list.sh"
-#include "./lib/gpp-bashful-profile/gpp-error.sh"
-#include "./lib/gpp-bashful-profile/gpp-choice.sh"
-#ifndeff PROFILE_CHOOSE
+#ifndef PROFILE_CHOOSE
 #define PROFILE_CHOOSE
 profile_choose() #{{{1
 {

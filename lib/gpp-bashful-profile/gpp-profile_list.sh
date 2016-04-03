@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-profile/gpp-listdir.sh"
-#ifndeff PROFILE_LIST
+#ifndef PROFILE_LIST
 #define PROFILE_LIST
 profile_list() #{{{1
 {

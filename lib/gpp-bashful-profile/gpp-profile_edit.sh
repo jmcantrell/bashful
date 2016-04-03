@@ -1,7 +1,4 @@
-#include "./lib/gpp-bashful-profile/gpp-profile_verify.sh"
-#include "./lib/gpp-bashful-profile/gpp-profile_hook.sh"
-#include "./lib/gpp-bashful-profile/gpp-editor.sh"
-#ifndeff PROFILE_EDIT
+#ifndef PROFILE_EDIT
 #define PROFILE_EDIT
 profile_edit() #{{{1
 {

@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-messages/gpp-verbose.sh"
-#include "./lib/gpp-bashful-messages/gpp-truth.sh"
-#ifndeff ERROR
+#ifndef ERROR
 #define ERROR
 error() #{{{1
 {

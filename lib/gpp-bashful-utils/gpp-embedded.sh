@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-squeeze_lines.sh"
-#ifndeff EMBEDDED
+#ifndef EMBEDDED
 #define EMBEDDED
 embedded() #{{{1
 {

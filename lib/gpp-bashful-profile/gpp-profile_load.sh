@@ -1,10 +1,4 @@
-#include "./lib/gpp-bashful-profile/gpp-profile_verify.sh"
-#include "./lib/gpp-bashful-profile/gpp-profile_variables_required.sh"
-#include "./lib/gpp-bashful-profile/gpp-profile_variables.sh"
-#include "./lib/gpp-bashful-profile/gpp-profile_hook.sh"
-#include "./lib/gpp-bashful-profile/gpp-profile_clear.sh"
-#include "./lib/gpp-bashful-profile/gpp-error.sh"
-#ifndeff PROFILE_LOAD
+#ifndef PROFILE_LOAD
 #define PROFILE_LOAD
 profile_load() #{{{1
 {

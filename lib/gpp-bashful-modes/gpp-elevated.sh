@@ -1,7 +1,4 @@
-#include "./lib/gpp-bashful-modes/gpp-truth_value.sh"
-#include "./lib/gpp-bashful-modes/gpp-truth_echo.sh"
-#include "./lib/gpp-bashful-modes/gpp-truth.sh"
-#ifndeff ELEVATED
+#ifndef ELEVATED
 #define ELEVATED
 elevated() #{{{1
 {

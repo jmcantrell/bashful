@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-files/gpp-error.sh"
-#include "./lib/gpp-bashful-files/gpp-cleanup.sh"
-#ifndeff TEMPFILE
+#ifndef TEMPFILE
 #define TEMPFILE
 tempfile() #{{{1
 {

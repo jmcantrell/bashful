@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-files/gpp-commonprefix.sh"
-#include "./lib/gpp-bashful-files/gpp-abspath.sh"
-#ifndeff COMMONPATH
+#ifndef COMMONPATH
 #define COMMONPATH
 commonpath() #{{{1
 {

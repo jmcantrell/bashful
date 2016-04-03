@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-squeeze.sh"
-#include "./lib/gpp-bashful-utils/gpp-lower.sh"
-#ifndeff DETOX
+#ifndef DETOX
 #define DETOX
 detox() #{{{1
 {

@@ -59,7 +59,7 @@ function macro_maker(){
 
   [[ -d "$output_dir" ]] || mkdir "$output_dir"
   touch "$gpp_file"
-  echo "#ifndeff $func_name_upper"       >> "$gpp_file"
+  echo "#ifndef $func_name_upper"       >> "$gpp_file"
   echo "#define $func_name_upper"        >> "$gpp_file"
   cat "$file"                            >> "$gpp_file"
   echo "#endif"                          >> "$gpp_file"
@@ -111,5 +111,7 @@ function extract_functions_for_gpp(){
     done
   done
 }
+
+[[ -d "$2" ]] || mkdir "$2"
 
 extract_functions_for_gpp "$1" "$2"

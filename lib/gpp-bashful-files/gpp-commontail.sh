@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-files/gpp-commonsuffix.sh"
-#include "./lib/gpp-bashful-files/gpp-abspath.sh"
-#ifndeff COMMONTAIL
+#ifndef COMMONTAIL
 #define COMMONTAIL
 commontail() #{{{1
 {

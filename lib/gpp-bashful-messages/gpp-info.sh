@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-messages/gpp-verbose.sh"
-#include "./lib/gpp-bashful-messages/gpp-truth.sh"
-#ifndeff INFO
+#ifndef INFO
 #define INFO
 info() #{{{1
 {

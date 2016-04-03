@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-profile/gpp-profile_variables.sh"
-#ifndeff PROFILE_CLEAR
+#ifndef PROFILE_CLEAR
 #define PROFILE_CLEAR
 profile_clear() #{{{1
 {

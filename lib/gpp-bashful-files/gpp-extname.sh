@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-files/gpp-lower.sh"
-#include "./lib/gpp-bashful-files/gpp-filename.sh"
-#ifndeff EXTNAME
+#ifndef EXTNAME
 #define EXTNAME
 extname() #{{{1
 {

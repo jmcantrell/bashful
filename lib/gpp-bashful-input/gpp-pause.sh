@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-input/gpp-truth.sh"
-#include "./lib/gpp-bashful-input/gpp-interactive.sh"
-#ifndeff PAUSE
+#ifndef PAUSE
 #define PAUSE
 pause() #{{{1
 {

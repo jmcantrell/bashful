@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-modes/gpp-truth_echo.sh"
-#ifndeff INTERACTIVE_ECHO
+#ifndef INTERACTIVE_ECHO
 #define INTERACTIVE_ECHO
 interactive_echo() #{{{1
 {

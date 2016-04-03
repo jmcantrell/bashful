@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-modes/gpp-truth_value.sh"
-#include "./lib/gpp-bashful-modes/gpp-truth.sh"
-#ifndeff INTERACTIVE
+#ifndef INTERACTIVE
 #define INTERACTIVE
 interactive() #{{{1
 {

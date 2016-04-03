@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-squeeze_lines.sh"
-#ifndeff EMBEDDED_RANGE
+#ifndef EMBEDDED_RANGE
 #define EMBEDDED_RANGE
 embedded_range() #{{{1
 {

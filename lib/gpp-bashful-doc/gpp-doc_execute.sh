@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-doc/gpp-doc_help.sh"
-#ifndeff DOC_EXECUTE
+#ifndef DOC_EXECUTE
 #define DOC_EXECUTE
 doc_execute() #{{{1
 {

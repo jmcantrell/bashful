@@ -1,15 +1,4 @@
-#include "./lib/gpp-bashful-profile/gpp-warn.sh"
-#include "./lib/gpp-bashful-profile/gpp-variables.sh"
-#include "./lib/gpp-bashful-profile/gpp-squeeze_lines.sh"
-#include "./lib/gpp-bashful-profile/gpp-profile_hook.sh"
-#include "./lib/gpp-bashful-profile/gpp-profile_file.sh"
-#include "./lib/gpp-bashful-profile/gpp-interactive.sh"
-#include "./lib/gpp-bashful-profile/gpp-input.sh"
-#include "./lib/gpp-bashful-profile/gpp-info.sh"
-#include "./lib/gpp-bashful-profile/gpp-flatten.sh"
-#include "./lib/gpp-bashful-profile/gpp-error.sh"
-#include "./lib/gpp-bashful-profile/gpp-editor.sh"
-#ifndeff PROFILE_CREATE
+#ifndef PROFILE_CREATE
 #define PROFILE_CREATE
 profile_create() #{{{1
 {

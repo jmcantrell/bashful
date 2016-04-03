@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-trim.sh"
-#ifndeff SPLIT_STRING
+#ifndef SPLIT_STRING
 #define SPLIT_STRING
 split_string() #{{{1
 {

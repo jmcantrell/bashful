@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-profile/gpp-profile_file.sh"
-#include "./lib/gpp-bashful-profile/gpp-error.sh"
-#ifndeff PROFILE_VERIFY
+#ifndef PROFILE_VERIFY
 #define PROFILE_VERIFY
 profile_verify() #{{{1
 {

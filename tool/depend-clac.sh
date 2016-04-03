@@ -107,6 +107,11 @@ add_include_macros "./$temp_dir/*"
 for file in $file_glob;do
   file_basename=$(basename $file)
   file_dirname=$(dirname $file)
-  mv "$temp_dir/$file_basename" "$file"
-  sed -i '' "s:$temp_dir:$file_dirname:g" "$file"
+  lib_include_basename=$(basename "$file_dirname")
+  #mv "$temp_dir/$file_basename" "$file"
+  #sed -i '' "s:$temp_dir:$lib_include_basename:g" "$file"
+  sed -i '' "s:$temp_dir/::g" "$temp_dir/$file_basename"
 done
+
+mv "$temp_dir" bashful
+#rm -rf "$temp_dir"

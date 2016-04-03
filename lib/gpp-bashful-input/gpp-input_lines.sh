@@ -1,7 +1,4 @@
-#include "./lib/gpp-bashful-input/gpp-truth.sh"
-#include "./lib/gpp-bashful-input/gpp-interactive.sh"
-#include "./lib/gpp-bashful-input/gpp-input.sh"
-#ifndeff INPUT_LINES
+#ifndef INPUT_LINES
 #define INPUT_LINES
 input_lines() #{{{1
 {

@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-upper.sh"
-#include "./lib/gpp-bashful-utils/gpp-detox.sh"
-#ifndeff SNAKE
+#ifndef SNAKE
 #define SNAKE
 snake() #{{{1
 {

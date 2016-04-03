@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-files/gpp-linkrel.sh"
-#include "./lib/gpp-bashful-files/gpp-files.sh"
-#ifndeff STOW
+#ifndef STOW
 #define STOW
 stow() #{{{1
 {

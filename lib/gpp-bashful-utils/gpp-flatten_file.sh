@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-variables.sh"
-#ifndeff FLATTEN_FILE
+#ifndef FLATTEN_FILE
 #define FLATTEN_FILE
 flatten_file() #{{{1
 {

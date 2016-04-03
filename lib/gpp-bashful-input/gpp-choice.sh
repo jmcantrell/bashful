@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-input/gpp-truth.sh"
-#include "./lib/gpp-bashful-input/gpp-interactive.sh"
-#ifndeff CHOICE
+#ifndef CHOICE
 #define CHOICE
 choice() #{{{1
 {

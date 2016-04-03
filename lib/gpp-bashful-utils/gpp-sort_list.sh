@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-trim.sh"
-#ifndeff SORT_LIST
+#ifndef SORT_LIST
 #define SORT_LIST
 sort_list() #{{{1
 {

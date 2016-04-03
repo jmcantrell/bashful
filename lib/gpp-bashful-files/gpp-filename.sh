@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-files/gpp-extname.sh"
-#ifndeff FILENAME
+#ifndef FILENAME
 #define FILENAME
 filename() #{{{1
 {

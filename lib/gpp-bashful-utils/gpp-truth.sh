@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-lower.sh"
-#ifndeff TRUTH
+#ifndef TRUTH
 #define TRUTH
 truth() #{{{1
 {

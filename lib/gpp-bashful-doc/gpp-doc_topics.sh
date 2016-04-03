@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-doc/gpp-doc.sh"
-#ifndeff DOC_TOPICS
+#ifndef DOC_TOPICS
 #define DOC_TOPICS
 doc_topics() #{{{1
 {

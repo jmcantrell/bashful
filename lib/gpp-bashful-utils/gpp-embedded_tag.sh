@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-embedded_range.sh"
-#ifndeff EMBEDDED_TAG
+#ifndef EMBEDDED_TAG
 #define EMBEDDED_TAG
 embedded_tag() #{{{1
 {

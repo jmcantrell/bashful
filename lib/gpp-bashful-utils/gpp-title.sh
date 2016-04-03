@@ -1,6 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-upper.sh"
-#include "./lib/gpp-bashful-utils/gpp-lower.sh"
-#ifndeff TITLE
+#ifndef TITLE
 #define TITLE
 title() #{{{1
 {

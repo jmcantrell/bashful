@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-embedded_tag.sh"
-#ifndeff EVAL_EMBEDDED
+#ifndef EVAL_EMBEDDED
 #define EVAL_EMBEDDED
 eval_embedded() #{{{1
 {

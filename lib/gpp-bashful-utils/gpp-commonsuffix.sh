@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-utils/gpp-commonprefix.sh"
-#ifndeff COMMONSUFFIX
+#ifndef COMMONSUFFIX
 #define COMMONSUFFIX
 commonsuffix() #{{{1
 {

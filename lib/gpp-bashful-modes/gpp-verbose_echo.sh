@@ -1,5 +1,4 @@
-#include "./lib/gpp-bashful-modes/gpp-truth_echo.sh"
-#ifndeff VERBOSE_ECHO
+#ifndef VERBOSE_ECHO
 #define VERBOSE_ECHO
 verbose_echo() #{{{1
 {
