@@ -1,6 +1,6 @@
 #!/bin/bash
 shopt -s extglob
-source ../../../bin/bashful
+source ../bin/bashful
 
 function cat_betwen(){
   local file start_line end_line
@@ -80,26 +80,17 @@ cp ../gpp-bashful-*/* ./tmp/
 
 #find_files_that_use_func ./tmp/gpp-verbose.sh "./tmp/!(gpp-verbose.sh)"
 
-for source_file in $file_glob;do
-  source_file_basename=$(basename "$source_file")
-  echo "source_file_basename: $source_file_basename"
-  need_include=$(find_files_that_use_func "$source_file" "./tmp/!($source_file_basename)")
-  #find_files_that_use_func "$source_file" "./tmp/!($source_file_basename)"
-  #echo "need_include"
-  for file in $(echo "$need_include");do
-    include_path=$(relpath "$source_file")
-    echo "    $file needs $include_path"
-    prepend_to_file "$file" "#include \"$include_path\""
-   done
-done
-  
-##for file in $file_glob;do
-  ##find_files_that_use_func "$file" "$file_glob"
-  ##func=$(functions "$file")
-  ##echo "found $upper_func"
-  ##who_use_func=$(grep -w "$func" ./tmp/!(`basename "$file"`)| cut -d ':' -f 1 | uniq)
-  ##for found_in in $(echo "$who_use_func");do
-    ##echo "   $wat"
-    ##prepend_to_file "$found_in" "#include $file" 
-   ##done
-##done
+function add_include_macros(){
+  for source_file in $file_glob;do
+    source_file_basename=$(basename "$source_file")
+    echo "source_file_basename: $source_file_basename"
+    need_include=$(find_files_that_use_func "$source_file" "./tmp/!($source_file_basename)")
+    #find_files_that_use_func "$source_file" "./tmp/!($source_file_basename)"
+    #echo "need_include"
+    for file in $(echo "$need_include");do
+      include_path=$(relpath "$source_file")
+      echo "    $file needs $include_path"
+      prepend_to_file "$file" "#include \"$include_path\""
+     done
+  done
+}

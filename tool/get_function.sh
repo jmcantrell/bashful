@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source ../../bin/bashful
+source bin/bashful
+shopt -s extglob
 #DEBUG=true
 
 debug_log(){
@@ -47,9 +48,10 @@ function macro_maker(){
   local file="$1"
   local func_name="$2"
   local source_file="$3"
+  local output_dir_base="$4"
 
   local source_file_dir_name=$(filename "$source_file");
-  local output_dir="gpp-${source_file_dir_name}"
+  local output_dir="${output_dir_base}/gpp-${source_file_dir_name}"
 
   local func_name_upper=$(echo $func_name |upper)
 
@@ -67,6 +69,7 @@ function get_func_file(){
   debug_log "calling func get_func_file"
   local file="$1"
   local func="$2"
+  local output_dir_base="$3"
   # get the function 
 
   # get the start line 
@@ -87,7 +90,7 @@ function get_func_file(){
   # remove the tmp files
   rm "$func_tmp_file"
 
-  macro_maker "$func_file" "$func" "$file"
+  macro_maker "$func_file" "$func" "$file" "$output_dir_base"
   rm "$func_file"
 }
 
@@ -98,12 +101,15 @@ function clean_func_files(){
 
 function extract_functions_for_gpp(){
   loop_target="$1"
-  for file in $loop_target ;do
+  output_dir_base=$(relpath "$2")
+  echo "loop_target" $loop_target
+  for file in $(echo $loop_target);do
+    echo "$file"
     for func in $(functions "$file");do
       echo "found function: ${func}"
-      get_func_file "$file" "$func"
+      get_func_file "$file" "$func" "$output_dir_base"
     done
   done
 }
 
-extract_functions_for_gpp "./bashful-*"
+extract_functions_for_gpp "$1" "$2"
