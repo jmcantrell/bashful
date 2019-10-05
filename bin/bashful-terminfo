@@ -5,7 +5,7 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Tue 2011-07-05 00:58:02 (-0400)
 
-# <doc:bashful-terminfo> {{{
+# <doc:bashful-terminfo>
 #
 # The terminfo library provides variables for altering the appearance of
 # terminal output (bold, standout, underline, colors, etc).
@@ -58,7 +58,7 @@
 # right TERM setting. My best advice is to use xterm and set TERM to
 # xterm-256color.
 #
-# </doc:bashful-terminfo> }}}
+# </doc:bashful-terminfo>
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc

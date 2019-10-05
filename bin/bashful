@@ -5,7 +5,7 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Tue 2011-07-05 19:38:57 (-0400)
 
-# <doc:bashful> {{{
+# <doc:bashful>
 #
 # Bashful is a collection of libraries to simplify writing bash scripts.
 #
@@ -27,7 +27,7 @@
 #
 #     $ bashful-input help
 #
-# </doc:bashful> }}}
+# </doc:bashful>
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc

@@ -5,13 +5,13 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Tue 2011-07-05 19:38:58 (-0400)
 
-# <doc:shdoc> {{{
+# <doc:shdoc>
 #
 # Extracts documentation from shell scripts.
 #
 # Usage: shdoc [OPTIONS] COMMAND [SECTION]
 #
-# </doc:shdoc> }}}
+# </doc:shdoc>
 
 source bashful-doc
 source bashful-messages

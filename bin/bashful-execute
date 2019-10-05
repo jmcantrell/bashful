@@ -5,11 +5,11 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Wed 2012-03-28 22:33:16 (-0400)
 
-# <doc:bashful-execute> {{{
+# <doc:bashful-execute>
 #
 # The execute library provides functions for building and executing commands.
 #
-# </doc:bashful-execute> }}}
+# </doc:bashful-execute>
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -19,28 +19,28 @@ fi
 
 [[ $BASHFUL_EXECUTE_LOADED ]] && return
 
-execute() #{{{1
+execute()
 {
-    # <doc:execute> {{{
+    # <doc:execute>
     #
     # Execute a given command or stored command.
     #
     # Usage: execute [ARGUMENT...]
     #
-    # </doc:execute> }}}
+    # </doc:execute>
 
     "${EXECUTE_CMD[@]}" "$@"
 }
 
-execute_in() #{{{1
+execute_in()
 {
-    # <doc:execute_in> {{{
+    # <doc:execute_in>
     #
     # Execute a command in a given directory.
     #
     # Usage: execute_in DIRECTORY [COMMAND...]
     #
-    # </doc:execute_in> }}}
+    # </doc:execute_in>
 
     local OPWD=$PWD; cd "$1"; shift
     execute "$@"; error=$?
@@ -48,28 +48,28 @@ execute_in() #{{{1
     return $error
 }
 
-execute_push() #{{{1
+execute_push()
 {
-    # <doc:execute_push> {{{
+    # <doc:execute_push>
     #
     # Add an argument to the stored command.
     #
     # Usage: execute_push [ARGUMENT...]
     #
-    # </doc:execute_push> }}}
+    # </doc:execute_push>
 
     EXECUTE_CMD+=("$@")
 }
 
-execute_pop() #{{{1
+execute_pop()
 {
-    # <doc:execute_pop> {{{
+    # <doc:execute_pop>
     #
     # Remove the last (or given number) argument for the stored command.
     #
     # Usage: execute_pop [NUM_OF_ARGS]
     #
-    # </doc:execute_pop> }}}
+    # </doc:execute_pop>
 
     local i
     for (( i=0; i<${1:-1}; i++ )); do
@@ -77,19 +77,17 @@ execute_pop() #{{{1
     done
 }
 
-execute_clear() #{{{1
+execute_clear()
 {
-    # <doc:execute_clear> {{{
+    # <doc:execute_clear>
     #
     # Clear stored commands.
     #
     # Usage: execute_clear
     #
-    # </doc:execute_clear> }}}
+    # </doc:execute_clear>
 
     unset EXECUTE_CMD
 }
-
-#}}}1
 
 BASHFUL_EXECUTE_LOADED=1

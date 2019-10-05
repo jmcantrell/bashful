@@ -5,7 +5,7 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Tue 2011-07-05 19:38:57 (-0400)
 
-# <doc:bashful-input> {{{
+# <doc:bashful-input>
 #
 # The input library provides functions for taking user input.
 #
@@ -16,7 +16,7 @@
 # The INTERACTIVE variable only matters if the function is used with the
 # interactive mode check option (-c).
 #
-# </doc:bashful-input> }}}
+# </doc:bashful-input>
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -30,9 +30,9 @@ source bashful-messages
 source bashful-modes
 source bashful-utils
 
-input() #{{{1
+input()
 {
-    # <doc:input> {{{
+    # <doc:input>
     #
     # Prompts the user to input text.
     #
@@ -49,7 +49,7 @@ input() #{{{1
     # Input will be hidden:
     #     input -s -p "Enter password"
     #
-    # </doc:input> }}}
+    # </doc:input>
 
     local p="Enter value"
     local d c s reply
@@ -81,15 +81,15 @@ input() #{{{1
     echo "${reply:-$d}"
 }
 
-input_lines() #{{{1
+input_lines()
 {
-    # <doc:input_lines> {{{
+    # <doc:input_lines>
     #
     # Prompts the user to input text lists.
     #
     # Usage: input_lines [-c] [-p PROMPT]
     #
-    # </doc:input_lines> }}}
+    # </doc:input_lines>
 
     local p="Enter values"
     local c reply
@@ -115,9 +115,9 @@ input_lines() #{{{1
     cat  # Accept input until EOF (ctrl-d)
 }
 
-question() #{{{1
+question()
 {
-    # <doc:question> {{{
+    # <doc:question>
     #
     # Prompts the user with a yes/no question.
     # The default value can be anything that evaluates to true/false.
@@ -133,7 +133,7 @@ question() #{{{1
     # User will only be prompted if interactive mode is enabled:
     #     question -c -p "Continue?"
     #
-    # </doc:question> }}}
+    # </doc:question>
 
     local p="Are you sure you want to proceed?"
     local d c reply choice
@@ -159,9 +159,9 @@ question() #{{{1
     truth $(input -d $d -p "$p")
 }
 
-choice() #{{{1
+choice()
 {
-    # <doc:choice> {{{
+    # <doc:choice>
     #
     # Prompts the user to choose from a set of choices.
     # If there is only one choice, it will be returned immediately.
@@ -171,7 +171,7 @@ choice() #{{{1
     # Usage examples:
     #     choice -p "Choose your favorite color" red green blue
     #
-    # </doc:choice> }}}
+    # </doc:choice>
 
     local p="Select from these choices"
     local c
@@ -205,15 +205,15 @@ choice() #{{{1
     done
 }
 
-pause() #{{{1
+pause()
 {
-    # <doc:pause> {{{
+    # <doc:pause>
     #
     # Pause and wait for user interaction.
     #
     # Usage: pause [OPTIONS]
     #
-    # </doc:pause> }}}
+    # </doc:pause>
 
     local p="Press any key to continue..."
     local c
@@ -232,7 +232,5 @@ pause() #{{{1
 
     read -s -p "$p" -n1 && echo >&2
 }
-
-#}}}1
 
 BASHFUL_INPUT_LOADED=1

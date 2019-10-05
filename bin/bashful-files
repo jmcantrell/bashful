@@ -5,11 +5,11 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Fri 2012-07-06 21:47:54 (-0400)
 
-# <doc:bashful-files> {{{
+# <doc:bashful-files>
 #
 # The files library provides functions for working with files/directories.
 #
-# </doc:bashful-files> }}}
+# </doc:bashful-files>
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -23,16 +23,16 @@ source bashful-messages
 source bashful-modes
 source bashful-utils
 
-commonpath() #{{{1
+commonpath()
 {
-    # <doc:commonpath> {{{
+    # <doc:commonpath>
     #
     # Gets the common path of the paths passed on stdin.
     # Alternatively, paths can be passed as arguments.
     #
     # Usage: commonpath [PATH...]
     #
-    # </doc:commonpath> }}}
+    # </doc:commonpath>
 
     local path
 
@@ -63,9 +63,9 @@ commonpath() #{{{1
     echo "$prefix"
 }
 
-commontail() #{{{1
+commontail()
 {
-    # <doc:commontail> {{{
+    # <doc:commontail>
     #
     # Gets the common tails of the paths passed on stdin.
     # Alternatively, paths can be passed as arguments.
@@ -76,7 +76,7 @@ commontail() #{{{1
     #     commontail /foo/bar /boo/bar  #==> bar
     #     commontail /foo/bar /boo/far  #==>
     #
-    # </doc:commontail> }}}
+    # </doc:commontail>
 
     local path
 
@@ -97,9 +97,9 @@ commontail() #{{{1
     echo "${suffix#*/}"
 }
 
-extname() #{{{1
+extname()
 {
-    # <doc:extname> {{{
+    # <doc:extname>
     #
     # Get the extension of the given filename.
     #
@@ -111,7 +111,7 @@ extname() #{{{1
     #     extname     foo.tar.gz  #==> .tar.gz
     #     extname -n1 foo.tar.gz  #==> .gz
     #
-    # </doc:extname> }}}
+    # </doc:extname>
 
     local levels
 
@@ -148,9 +148,9 @@ extname() #{{{1
     echo "$exts"
 }
 
-filename() #{{{1
+filename()
 {
-    # <doc:filename> {{{
+    # <doc:filename>
     #
     # Gets the filename of the given path.
     #
@@ -162,14 +162,14 @@ filename() #{{{1
     #     filename     /path/to/file.tar.gz  #==> file
     #     filename -n1 /path/to/file.tar.gz  #==> file.tar
     #
-    # </doc:filename> }}}
+    # </doc:filename>
 
     basename "$1" $(extname "$@")
 }
 
-increment() #{{{1
+increment()
 {
-    # <doc:increment> {{{
+    # <doc:increment>
     #
     # Get the next filename in line for the given file.
     #
@@ -180,7 +180,7 @@ increment() #{{{1
     #     increment does_exist      #==> does_exist (1)
     #     increment does_exist      #==> does_exist (2)
     #
-    # </doc:increment> }}}
+    # </doc:increment>
 
     local file=$1
     local count=1
@@ -193,24 +193,24 @@ increment() #{{{1
     echo "$file"
 }
 
-listdir() #{{{1
+listdir()
 {
-    # <doc:listdir> {{{
+    # <doc:listdir>
     #
     # List the files in the given directory (1 level deep).
     # Accepts the same options as the find command.
     #
     # Usage: listdir DIR [OPTIONS]
     #
-    # </doc:listdir> }}}
+    # </doc:listdir>
 
     local dir=$1; shift
     find "$dir" -maxdepth 1 -mindepth 1 "$@"
 }
 
-files() #{{{1
+files()
 {
-    # <doc:files> {{{
+    # <doc:files>
     #
     # List all the files in the given directory (recursively).
     # Will not display hidden files.
@@ -218,15 +218,15 @@ files() #{{{1
     #
     # Usage: files DIR [OPTIONS]
     #
-    # </doc:files> }}}
+    # </doc:files>
 
     local dir=$1; shift
     find "$dir" \( -type f -o -type l \) \! -wholename "*/.*" "$@"
 }
 
-abspath() #{{{1
+abspath()
 {
-    # <doc:abspath> {{{
+    # <doc:abspath>
     #
     # Gets the absolute path of the given path.
     # Will resolve paths that contain '.' and '..'.
@@ -234,7 +234,7 @@ abspath() #{{{1
     #
     # Usage: abspath [PATH]
     #
-    # </doc:abspath> }}}
+    # </doc:abspath>
 
     local path=${1:-$PWD}
 
@@ -271,9 +271,9 @@ abspath() #{{{1
     IFS=$OIFS
 }
 
-relpath() #{{{1
+relpath()
 {
-    # <doc:relpath> {{{
+    # <doc:relpath>
     #
     # Gets the relative path from SOURCE to DESTINATION.
     # Output should mirror the python function os.path.relpath().
@@ -289,7 +289,7 @@ relpath() #{{{1
     #     relpath /home/user     /home/user      #==> .
     #     relpath                                #==> .
     #
-    # </doc:relpath> }}}
+    # </doc:relpath>
 
     local dst=$(abspath "$1")
     local src=$(abspath "$2")
@@ -320,15 +320,15 @@ relpath() #{{{1
     echo "$rel"
 }
 
-link() #{{{1
+link()
 {
-    # <doc:link> {{{
+    # <doc:link>
     #
     # Version of ln that respects the interactive/verbose settings.
     #
     # Usage: link SOURCE [DESTINATION]
     #
-    # </doc:link> }}}
+    # </doc:link>
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -336,29 +336,29 @@ link() #{{{1
     $SUDO ln -snT $(interactive_option) $(verbose_echo -v) "$@"
 }
 
-linkrel() #{{{1
+linkrel()
 {
-    # <doc:linkrel> {{{
+    # <doc:linkrel>
     #
     # Like link, but uses relpath to make the paths relative.
     #
     # Usage: linkrel SOURCE [DESTINATION]
     #
-    # </doc:link> }}}
+    # </doc:link>
 
     local dir=$(relpath "${@%/*}")/
     dir=${dir##./}
     link "${dir}${1##*/}" "$2"
 }
 
-move() #{{{1
+move()
 {
-    # <doc:move> {{{
+    # <doc:move>
     #
     # Version of mv that respects the interactive/verbose settings.
     # Accepts the same options/arguments as mv.
     #
-    # </doc:name> }}}
+    # </doc:name>
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -366,14 +366,14 @@ move() #{{{1
     $SUDO mv -T $(interactive_option) $(verbose_echo -v) "$@"
 }
 
-copy() #{{{1
+copy()
 {
-    # <doc:copy> {{{
+    # <doc:copy>
     #
     # Version of cp that respects the interactive/verbose settings.
     # Accepts the same options/arguments as cp.
     #
-    # </doc:copy> }}}
+    # </doc:copy>
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -381,13 +381,13 @@ copy() #{{{1
     $SUDO cp -Tr $(interactive_option) $(verbose_echo -v) "$@"
 }
 
-stow() #{{{1
+stow()
 {
-    # <doc:stow> {{{
+    # <doc:stow>
     #
     # Replicate a directory tree and link regular files.
     #
-    # </doc:stow> }}}
+    # </doc:stow>
 
     local src=$1
     local dst=${2:-$PWD}
@@ -401,14 +401,14 @@ stow() #{{{1
     done
 }
 
-remove() #{{{1
+remove()
 {
-    # <doc:remove> {{{
+    # <doc:remove>
     #
     # Version of rm that respects the interactive/verbose settings.
     # Accepts the same options/arguments as rm.
     #
-    # </doc:remove> }}}
+    # </doc:remove>
 
     interactive ${INTERACTIVE:-1}
     verbose     ${VERBOSE:-1}
@@ -416,30 +416,30 @@ remove() #{{{1
     $SUDO rm -r $(interactive_option) $(verbose_echo -v) "$@"
 }
 
-cleanup() #{{{1
+cleanup()
 {
-    # <doc:cleanup> {{{
+    # <doc:cleanup>
     #
     # Cleans up any temp files lying around.
     # Intended to be used alongside tempfile() and not to be called directly.
     #
-    # </doc:cleanup> }}}
+    # </doc:cleanup>
 
     for file in "${CLEANUP_FILES[@]}"; do
         $SUDO rm -rf "$file"
     done
 }
 
-tempfile() #{{{1
+tempfile()
 {
-    # <doc:tempfile> {{{
+    # <doc:tempfile>
     #
     # Creates and keeps track of temp files.
     #
     # Usage examples:
     #     tempfile    # $TEMPFILE is now a regular file
     #
-    # </doc:tempfile> }}}
+    # </doc:tempfile>
 
     TEMPFILE=$(mktemp "$@")
     if [[ ! $TEMPFILE ]]; then
@@ -450,24 +450,24 @@ tempfile() #{{{1
     trap cleanup INT TERM EXIT
 }
 
-tempdir() #{{{1
+tempdir()
 {
-    # <doc:tempdir> {{{
+    # <doc:tempdir>
     #
     # Creates and keeps track of temp directories.
     #
     # Usage examples:
     #     tempdir    # $TEMPDIR is now a directory
     #
-    # </doc:tempdir> }}}
+    # </doc:tempdir>
 
     tempfile -d -t "$(basename "$0").XXXXXX"
     TEMPDIR=$TEMPFILE
 }
 
-truncate() #{{{1
+truncate()
 {
-    # <doc:truncate> {{{
+    # <doc:truncate>
     #
     # Removes all similar unused files.
     # The only assumption is that the prefix is separated from the identifier
@@ -505,7 +505,7 @@ truncate() #{{{1
     #
     #     truncate file .txt file-foo file-bar
     #
-    # </doc:truncate> }}}
+    # </doc:truncate>
 
     local prefix=$1; shift
     local suffix=$1; shift
@@ -541,22 +541,20 @@ truncate() #{{{1
     done
 }
 
-backup() #{{{1
+backup()
 {
-    # <doc:backup> {{{
+    # <doc:backup>
     #
     # Backup a file/directory with a timestamp.
     #
     # Usage: backup PATH [DIRECTORY]
     #
-    # </doc:backup> }}}
+    # </doc:backup>
 
     local f=$1; [[ -z $f || ! -f $f ]] && return 1
     local d=$2; [[ -z $d ]] && d=$(dirname "$f")
     mkdir -p "$d"
     copy "$f" "$d/$TIMESTAMP/$(basename "$f")"
 }
-
-#}}}1
 
 BASHFUL_FILES_LOADED=1

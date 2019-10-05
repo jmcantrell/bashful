@@ -5,7 +5,7 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Tue 2011-07-05 19:38:57 (-0400)
 
-# <doc:bashful-messages> {{{
+# <doc:bashful-messages>
 #
 # The messages library provides functions for notifying the user.
 #
@@ -16,7 +16,7 @@
 # The VERBOSE variable only matters if the function is used with the verbose
 # mode check option (-c).
 #
-# </doc:bashful-messages> }}}
+# </doc:bashful-messages>
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -30,9 +30,9 @@ source bashful-modes
 source bashful-terminfo
 source bashful-utils
 
-usage() #{{{1
+usage()
 {
-    # <doc:usage> {{{
+    # <doc:usage>
     #
     # Display usage information and exit with the given error code.
     # Will automatically populate certain sections if things like verbose or
@@ -52,7 +52,7 @@ usage() #{{{1
     #     SCRIPT_OPTIONS
     #     SCRIPT_USAGE
     #
-    # </doc:usage> }}}
+    # </doc:usage>
 
     if [[ $SCRIPT_NAME ]]; then
         local p="    "
@@ -101,28 +101,28 @@ usage() #{{{1
     exit ${1:-0}
 }
 
-die() #{{{1
+die()
 {
-    # <doc:die> {{{
+    # <doc:die>
     #
     # Displays an error message and exits with the given error code.
     #
     # Usage: die [MESSAGE] [ERROR]
     #
-    # </doc:die> }}}
+    # </doc:die>
 
     error "$1"; exit ${2:-1}
 }
 
-info() #{{{1
+info()
 {
-    # <doc:info> {{{
+    # <doc:info>
     #
     # Displays a colorized (if available) informational message.
     #
     # Usage: info [-c] [MESSAGE]
     #
-    # </doc:info> }}}
+    # </doc:info>
 
     local c
 
@@ -145,15 +145,15 @@ info() #{{{1
     echo -e "${term_bold}${term_fg_blue}==> ${term_fg_white}${msg}${term_reset}" >&2
 }
 
-warn() #{{{1
+warn()
 {
-    # <doc:warn> {{{
+    # <doc:warn>
     #
     # Displays a colorized (if available) warning message.
     #
     # Usage: warn [-c] [MESSAGE]
     #
-    # </doc:warn> }}}
+    # </doc:warn>
 
     local c
 
@@ -176,15 +176,15 @@ warn() #{{{1
     echo -e "${term_bold}${term_fg_yellow}WARNING: ${term_fg_white}${msg}${term_reset}" >&2
 }
 
-error() #{{{1
+error()
 {
-    # <doc:error> {{{
+    # <doc:error>
     #
     # Displays a colorized (if available) error message.
     #
     # Usage: error [-c] [MESSAGE]
     #
-    # </doc:error> }}}
+    # </doc:error>
 
     local c
 
@@ -206,7 +206,5 @@ error() #{{{1
 
     echo -e "${term_bold}${term_fg_red}ERROR: ${term_fg_white}${msg}${term_reset}" >&2
 }
-
-#}}}
 
 BASHFUL_MESSAGES_LOADED=1

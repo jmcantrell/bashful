@@ -5,7 +5,7 @@
 # Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
 # Last Modified: Tue 2011-07-05 00:56:08 (-0400)
 
-# <doc:bashful-doc> {{{
+# <doc:bashful-doc>
 #
 # The doc library provides a way to extract documentation from scripts.
 #
@@ -21,7 +21,7 @@
 #     #
 #     # </doc:NAME>
 #
-# </doc:bashful-doc> }}}
+# </doc:bashful-doc>
 
 if (( ${BASH_LINENO:-0} == 0 )); then
     source bashful-doc
@@ -33,29 +33,29 @@ fi
 
 source bashful-utils
 
-doc() #{{{1
+doc()
 {
-    # <doc:doc> {{{
+    # <doc:doc>
     #
     # Retrieve embedded documentation from scripts.
     #
     # Usage: doc NAME [FILE...]
     #
-    # </doc:doc> }}}
+    # </doc:doc>
 
     local name=$1; shift
     embedded_tag "doc:$name" "$@"
 }
 
-doc_help() #{{{1
+doc_help()
 {
-    # <doc:doc_help> {{{
+    # <doc:doc_help>
     #
     # Display full documentation for a given script/topic.
     #
     # Usage: doc_help SCRIPT [TOPIC]
     #
-    # </doc:doc_help> }}}
+    # </doc:doc_help>
 
     local src=$(type -p "$1")
     local cmd=$2
@@ -75,9 +75,9 @@ doc_help() #{{{1
     } | pager
 }
 
-doc_execute() #{{{1
+doc_execute()
 {
-    # <doc:doc_execute> {{{
+    # <doc:doc_execute>
     #
     # Display the documentation for a given script if there are no arguments
     # or the only argument is "help".
@@ -93,7 +93,7 @@ doc_execute() #{{{1
     #     doc_execute SCRIPT help [TOPIC]
     #     doc_execute SCRIPT [TOPIC/COMMAND] [OPTIONS] [ARGUMENTS]
     #
-    # </doc:doc_execute> }}}
+    # </doc:doc_execute>
 
     local src=$(type -p "$1"); shift
 
@@ -105,15 +105,15 @@ doc_execute() #{{{1
     fi
 }
 
-doc_topics() #{{{1
+doc_topics()
 {
-    # <doc:doc_topics> {{{
+    # <doc:doc_topics>
     #
     # Show all doc tags in given files.
     #
     # Usage: doc_topics [FILE...]
     #
-    # </doc:doc_topics> }}}
+    # </doc:doc_topics>
 
     local src=$(type -p "$1")
     local t="doc"
@@ -124,7 +124,5 @@ doc_topics() #{{{1
     sed "s/$c$n.*$/\1/" | sort -u |
     grep -v "^$(basename "$src")$"
 }
-
-#}}}1
 
 BASHFUL_DOC_LOADED=1
